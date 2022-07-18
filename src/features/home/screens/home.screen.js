@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components/native";
 import BackgroundView from "../components/BackgroundView";
 import SafeAreaView from "../../../components/SafeAreaView";
-import { Text } from "react-native";
 
 const TextView = styled.View`
   flex: 1;
@@ -12,7 +11,8 @@ const TextView = styled.View`
 
 const MainText = styled.Text`
   color: white;
-  font-size: 30px;
+  font-size: 60px;
+  font-family: FuturaPT;
 `;
 
 const HomeScreen = () => {
@@ -20,14 +20,7 @@ const HomeScreen = () => {
     <BackgroundView>
       <SafeAreaView>
         <TextView>
-          <Text
-            style={{
-              fontFamily: "Futura-Bold",
-              color: "white",
-              fontSize: 30,
-            }}
-          ></Text>
-          <MainText></MainText>
+          <MainText>Email</MainText>
         </TextView>
       </SafeAreaView>
     </BackgroundView>
