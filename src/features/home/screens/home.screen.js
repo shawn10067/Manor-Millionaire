@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components/native";
 import BackgroundView from "../components/BackgroundView";
 import SafeAreaView from "../../../components/SafeAreaView";
+import { Text } from "react-native";
 
 const TextView = styled.View`
   flex: 1;
@@ -11,7 +12,7 @@ const TextView = styled.View`
 
 const MainText = styled.Text`
   color: white;
-  font-family: "Futura";
+  font-size: 30px;
 `;
 
 const HomeScreen = () => {
@@ -19,7 +20,12 @@ const HomeScreen = () => {
     <BackgroundView>
       <SafeAreaView>
         <TextView>
-          <MainText>Hello Millionaires!</MainText>
+          <Text
+            style={{ fontFamily: "Futura-Bold", color: "white", fontSize: 30 }}
+          >
+            Sup Batches
+          </Text>
+          <MainText> Hello Millionaires!</MainText>
         </TextView>
       </SafeAreaView>
     </BackgroundView>
