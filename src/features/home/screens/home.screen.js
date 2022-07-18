@@ -21,11 +21,13 @@ const HomeScreen = () => {
       <SafeAreaView>
         <TextView>
           <Text
-            style={{ fontFamily: "Futura-Bold", color: "white", fontSize: 30 }}
-          >
-            Sup Batches
-          </Text>
-          <MainText> Hello Millionaires!</MainText>
+            style={{
+              fontFamily: "Futura-Bold",
+              color: "white",
+              fontSize: 30,
+            }}
+          ></Text>
+          <MainText></MainText>
         </TextView>
       </SafeAreaView>
     </BackgroundView>
