@@ -1,11 +1,27 @@
 import React from "react";
-import { Text } from "react-native";
+import styled from "styled-components/native";
 import BackgroundView from "../components/BackgroundView";
+import SafeAreaView from "../../../components/SafeAreaView";
+
+const TextView = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+const MainText = styled.Text`
+  color: white;
+  font-family: "Futura";
+`;
 
 const HomeScreen = () => {
   return (
     <BackgroundView>
-      <Text>Hello Millionaires!</Text>
+      <SafeAreaView>
+        <TextView>
+          <MainText>Hello Millionaires!</MainText>
+        </TextView>
+      </SafeAreaView>
     </BackgroundView>
   );
 };
