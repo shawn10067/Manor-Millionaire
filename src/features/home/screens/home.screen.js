@@ -19,7 +19,7 @@ const WideRoundButton = styled(RoundedButton)`
 const property = {
   country: "Spain",
   address: "17 Spring Dr",
-  image: "somelink.com",
+  image: "../../../../assets/castle.jpg",
   price: 24000000,
   rent: {
     alone: 4000000,
@@ -38,7 +38,7 @@ const HomeScreen = () => {
     <BackgroundView>
       <SafeAreaView>
         <CenterView>
-          <Card />
+          <Card property={property} />
         </CenterView>
       </SafeAreaView>
     </BackgroundView>

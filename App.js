@@ -6,7 +6,8 @@ import { useFonts } from "expo-font";
 
 const App = () => {
   const [fontLoaded, fontError] = useFonts({
-    FuturaPT: require("./assets/fonts/FuturaPTBold.otf"),
+    FuturaPTHeavy: require("./assets/fonts/FuturaPTHeavy.otf"),
+    FuturaPTMedium: require("./assets/fonts/FuturaPTMedium.otf"),
   });
 
   if (!fontLoaded) {
