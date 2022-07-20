@@ -1,12 +1,16 @@
+import { LinearGradient } from "expo-linear-gradient";
 import { Image, ImageBackground } from "react-native";
 import styled from "styled-components/native";
 
 //various views
-export const BaseCardView = styled.View`
+export const BaseCardView = styled(LinearGradient).attrs({
+  colors: ["#03001e", "#7303c0", "#ec38bc", "#fdeff9"],
+})`
   width: 90%;
   height: 82%;
-  background-color: ${({ theme }) => theme.colours.main.white};
-  border: 5px solid #ffbb00;
+  border-width: 2px;
+  border-radius: 5px;
+  border-color: ${({ theme }) => theme.colours.main.white};
 `;
 
 export const ContentView = styled.View`
@@ -15,19 +19,20 @@ export const ContentView = styled.View`
 `;
 
 export const HeaderView = styled.View`
-  flex: 0.12;
-  margin-left: 5px;
-  margin-right: 5px;
-  border: 5px solid #ffbb00;
+  flex: 0.095;
 `;
 
 export const PictureView = styled.View`
-  flex: 0.36;
+  flex: 0.38;
   margin-left: 5px;
   margin-right: 5px;
   margin-top: 10px;
-  border: 5px solid #ffbb00;
-  border-radius: 2px;
+`;
+
+export const WhiteLine = styled.View`
+  width: 100%;
+  height: 2px;
+  background-color: ${({ theme }) => theme.colours.main.white};
 `;
 
 export const InformationView = styled.View`
@@ -62,26 +67,25 @@ export const CardHeadingText = styled.Text`
 `;
 
 export const PriceHeadingText = styled.Text`
-  color: ${({ theme }) => theme.colours.main.grey};
+  color: ${({ theme }) => theme.colours.main.white};
   font-size: 27px;
   font-family: FuturaPTHeavy;
-  text-decoration: underline;
 `;
 
 export const PropertyPriceText = styled.Text`
-  color: ${({ theme }) => theme.colours.main.grey};
+  color: ${({ theme }) => theme.colours.main.white};
   font-size: 28px;
   font-family: FuturaPTMedium;
 `;
 
 export const RentText = styled.Text`
-  color: ${({ theme }) => theme.colours.main.grey};
+  color: ${({ theme }) => theme.colours.main.white};
   font-size: 25px;
   font-family: FuturaPTMedium;
 `;
 
 export const SubRentText = styled.Text`
-  color: ${({ theme }) => theme.colours.main.grey};
+  color: ${({ theme }) => theme.colours.main.white};
   font-size: 23px;
   font-family: FuturaPTMedium;
 `;
@@ -90,15 +94,16 @@ export const SubRentText = styled.Text`
 export const HouseImage = styled(Image)`
   width: 100%;
   height: 100%;
+  border-radius: 5px;
 `;
 
 export const HeaderImage = styled(ImageBackground)`
   height: 100%;
 `;
 
-export const HeaderForeground = styled.View`
+export const TintForeground = styled.View`
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.3);
   justify-content: center;
 `;

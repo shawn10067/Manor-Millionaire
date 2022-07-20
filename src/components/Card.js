@@ -1,12 +1,9 @@
 import React from "react";
-import { Image } from "react-native";
 import { toMoneyString } from "../utils/money";
 import {
   BaseCardView,
   CardHeadingText,
   ContentView,
-  HeaderForeground,
-  HeaderImage,
   HeaderView,
   HouseImage,
   InformationView,
@@ -17,16 +14,18 @@ import {
   PropertyPriceText,
   RentText,
   SubRentText,
+  TintForeground,
+  WhiteLine,
 } from "./styles/styles";
 
 PictureView;
 InformationView;
 PairContainer;
 const Card = ({ property }) => {
-  const { country, address, image, price, rent, propertyValue, cost } =
+  const { country, address, image, price, rent, propertyValue, cost, rarity } =
     property;
   const { alone, set, house, hotel } = rent;
-  const { housePrice, hotelPrice } = cost;
+  const { level1, level2 } = cost;
   const priceString = toMoneyString(price);
   const aloneRentString = toMoneyString(alone);
   const rentSetString = toMoneyString(set);
@@ -34,47 +33,43 @@ const Card = ({ property }) => {
   const hotelRentString = toMoneyString(hotel);
   return (
     <BaseCardView>
-      <ContentView>
-        <HeaderView>
-          <HeaderImage
-            source={{
-              uri: "https://media.timeout.com/images/105299605/750/422/image.jpg",
-            }}
-          >
-            <HeaderForeground>
-              <MainPairContainer>
-                <CardHeadingText>{address}</CardHeadingText>
-                <CardHeadingText>🇪🇸</CardHeadingText>
-              </MainPairContainer>
-            </HeaderForeground>
-          </HeaderImage>
-        </HeaderView>
-        <PictureView>
-          <HouseImage source={require("../../assets/castle.jpg")} />
-        </PictureView>
-        <InformationView>
-          <MainPairContainer>
-            <PriceHeadingText>Price</PriceHeadingText>
-            <PropertyPriceText>${priceString}</PropertyPriceText>
-          </MainPairContainer>
-          <MainPairContainer>
-            <PriceHeadingText>Rent</PriceHeadingText>
-            <RentText>${aloneRentString}</RentText>
-          </MainPairContainer>
-          <PairContainer>
-            <SubRentText>With Set</SubRentText>
-            <SubRentText>${rentSetString}</SubRentText>
-          </PairContainer>
-          <PairContainer>
-            <SubRentText>With 🏠</SubRentText>
-            <SubRentText>${houseRentString}</SubRentText>
-          </PairContainer>
-          <PairContainer>
-            <SubRentText>With 🏨</SubRentText>
-            <SubRentText>${hotelRentString}</SubRentText>
-          </PairContainer>
-        </InformationView>
-      </ContentView>
+      <TintForeground>
+        <ContentView>
+          <HeaderView>
+            <MainPairContainer>
+              <CardHeadingText>{address}</CardHeadingText>
+              <CardHeadingText>🇪🇸</CardHeadingText>
+            </MainPairContainer>
+          </HeaderView>
+          <WhiteLine />
+          <PictureView>
+            <HouseImage source={require("../../assets/castle.jpg")} />
+          </PictureView>
+          <InformationView>
+            <WhiteLine />
+            <MainPairContainer>
+              <PriceHeadingText>Price</PriceHeadingText>
+              <PropertyPriceText>${priceString}</PropertyPriceText>
+            </MainPairContainer>
+            <MainPairContainer>
+              <PriceHeadingText>Rent</PriceHeadingText>
+              <RentText>${aloneRentString}</RentText>
+            </MainPairContainer>
+            <PairContainer>
+              <SubRentText>With Set</SubRentText>
+              <SubRentText>${rentSetString}</SubRentText>
+            </PairContainer>
+            <PairContainer>
+              <SubRentText>With 🏠</SubRentText>
+              <SubRentText>${houseRentString}</SubRentText>
+            </PairContainer>
+            <PairContainer>
+              <SubRentText>With 🏨</SubRentText>
+              <SubRentText>${hotelRentString}</SubRentText>
+            </PairContainer>
+          </InformationView>
+        </ContentView>
+      </TintForeground>
     </BaseCardView>
   );
 };
