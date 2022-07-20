@@ -1,10 +1,14 @@
 import React from "react";
 import { toMoneyString } from "../utils/money";
 import {
+  ArrowView,
   BaseCardView,
   CardHeadingText,
   ContentView,
+  DisclaimerText,
+  HeaderImage,
   HeaderView,
+  HeadingPairContainer,
   HouseImage,
   InformationView,
   MainPairContainer,
@@ -22,54 +26,64 @@ PictureView;
 InformationView;
 PairContainer;
 const Card = ({ property }) => {
-  const { country, address, image, price, rent, propertyValue, cost, rarity } =
+  const { country, address, image, price, income, propertyValue, cost } =
     property;
-  const { alone, set, house, hotel } = rent;
-  const { level1, level2 } = cost;
+  const { alone, set, tier1, tier2 } = income;
+  const { tier1Cost, tier2Cost } = cost;
   const priceString = toMoneyString(price);
   const aloneRentString = toMoneyString(alone);
   const rentSetString = toMoneyString(set);
-  const houseRentString = toMoneyString(house);
-  const hotelRentString = toMoneyString(hotel);
+  const tier1RentString = toMoneyString(tier1);
+  const tier2RentString = toMoneyString(tier2);
+  const tier1CostString = toMoneyString(tier1Cost);
+  const tier2CostString = toMoneyString(tier2Cost);
+  const propertyValueString = toMoneyString(propertyValue);
   return (
     <BaseCardView>
-      <TintForeground>
-        <ContentView>
-          <HeaderView>
-            <MainPairContainer>
-              <CardHeadingText>{address}</CardHeadingText>
-              <CardHeadingText>🇪🇸</CardHeadingText>
-            </MainPairContainer>
-          </HeaderView>
-          <WhiteLine />
-          <PictureView>
-            <HouseImage source={require("../../assets/castle.jpg")} />
-          </PictureView>
-          <InformationView>
-            <WhiteLine />
-            <MainPairContainer>
-              <PriceHeadingText>Price</PriceHeadingText>
-              <PropertyPriceText>${priceString}</PropertyPriceText>
-            </MainPairContainer>
-            <MainPairContainer>
-              <PriceHeadingText>Rent</PriceHeadingText>
-              <RentText>${aloneRentString}</RentText>
-            </MainPairContainer>
-            <PairContainer>
-              <SubRentText>With Set</SubRentText>
-              <SubRentText>${rentSetString}</SubRentText>
-            </PairContainer>
-            <PairContainer>
-              <SubRentText>With 🏠</SubRentText>
-              <SubRentText>${houseRentString}</SubRentText>
-            </PairContainer>
-            <PairContainer>
-              <SubRentText>With 🏨</SubRentText>
-              <SubRentText>${hotelRentString}</SubRentText>
-            </PairContainer>
-          </InformationView>
-        </ContentView>
-      </TintForeground>
+      <ContentView>
+        <HeaderView>
+          <HeaderImage source={require("../../assets/castle.jpg")}>
+            <TintForeground>
+              <MainPairContainer>
+                <CardHeadingText>{address}</CardHeadingText>
+                <CardHeadingText>🇪🇸</CardHeadingText>
+              </MainPairContainer>
+            </TintForeground>
+          </HeaderImage>
+        </HeaderView>
+        <PictureView>
+          <HouseImage source={require("../../assets/castle.jpg")} />
+        </PictureView>
+        <InformationView>
+          <MainPairContainer>
+            <PriceHeadingText>Price</PriceHeadingText>
+            <PropertyPriceText>${priceString}</PropertyPriceText>
+          </MainPairContainer>
+          <MainPairContainer>
+            <PriceHeadingText>Income️</PriceHeadingText>
+            <RentText>${aloneRentString}</RentText>
+          </MainPairContainer>
+          <PairContainer>
+            <SubRentText>With Set</SubRentText>
+            <SubRentText>${rentSetString}</SubRentText>
+          </PairContainer>
+          <PairContainer>
+            <SubRentText>With tier 1️⃣</SubRentText>
+            <SubRentText>${tier1RentString}</SubRentText>
+          </PairContainer>
+          <PairContainer>
+            <SubRentText>With tier 2️⃣</SubRentText>
+            <SubRentText>${tier2RentString}</SubRentText>
+          </PairContainer>
+        </InformationView>
+        <ArrowView>
+          <DisclaimerText>
+            *The property value is ${propertyValueString}
+          </DisclaimerText>
+          <DisclaimerText>*Tier 1️⃣ costs ${tier1CostString}</DisclaimerText>
+          <DisclaimerText>*Tier 2️⃣ costs ${tier2CostString}</DisclaimerText>
+        </ArrowView>
+      </ContentView>
     </BaseCardView>
   );
 };
