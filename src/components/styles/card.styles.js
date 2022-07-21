@@ -4,8 +4,8 @@ import styled from "styled-components/native";
 
 //various views
 export const BaseCardView = styled.View`
-  width: 90%;
-  height: 82%;
+  width: 100%;
+  height: 100%;
   border-width: 2px;
   border: 5px solid #ffbb00;
   background-color: ${({ theme }) => theme.colours.main.white};
