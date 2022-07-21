@@ -8,7 +8,6 @@ import {
   DisclaimerText,
   HeaderImage,
   HeaderView,
-  HeadingPairContainer,
   HouseImage,
   InformationView,
   MainPairContainer,
@@ -19,7 +18,6 @@ import {
   RentText,
   SubRentText,
   TintForeground,
-  WhiteLine,
 } from "./styles/card.styles";
 import SwipeView from "./SwipeView";
 
@@ -40,7 +38,10 @@ const Card = ({ property }) => {
   const tier2CostString = toMoneyString(tier2Cost);
   const propertyValueString = toMoneyString(propertyValue);
   return (
-    <SwipeView>
+    <SwipeView
+      onSwipeDown={() => console.log("swiped down")}
+      onSwipeUp={() => console.log("swiped up")}
+    >
       <BaseCardView>
         <ContentView>
           <HeaderView>
