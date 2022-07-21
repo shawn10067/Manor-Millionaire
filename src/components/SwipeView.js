@@ -1,6 +1,7 @@
 import { Dimensions } from "react-native";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated, {
+  runOnJS,
   useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
@@ -13,12 +14,12 @@ const SwipeView = ({ children, onSwipeDown, onSwipeUp }) => {
   const { height } = Dimensions.get("window");
 
   const swipeUp = () => {
-    "worklet";
+    console.log("swiped up");
     onSwipeUp();
   };
 
   const swipeDown = () => {
-    "worklet";
+    console.log("swiped down");
     onSwipeDown();
   };
 
@@ -32,29 +33,30 @@ const SwipeView = ({ children, onSwipeDown, onSwipeUp }) => {
   const onGestureEvent = useAnimatedGestureHandler({
     // holding the context when beggining the gesture to only move from 'that' position
     onStart: (_, ctx) => {
-      // ctx.x = x.value;
       ctx.y = y.value;
     },
-    //
+
     // getting the translation to add to the context so it doesn't get laggy
-    onActive: ({ translationX, translationY }, ctx) => {
-      // x.value = ctx.x + translationX;
+    onActive: ({ translationY }, ctx) => {
       y.value = ctx.y + translationY;
     },
+
     // determining what point to snap to, and what to call when the 'up' and 'down' snap points are held onto
     onEnd: ({ velocityY }) => {
+      // getting snap destination
       const dest = snapPoint(y.value, velocityY / 2.65, SNAP_POINTS);
       y.value = withSpring(dest, { velocity: velocityY });
 
       // determining what to call
       if (dest === SNAP_POINTS[0]) {
-        swipeUp();
+        runOnJS(swipeUp);
       } else if (dest === SNAP_POINTS[2]) {
-        swipeDown();
+        runOnJS(swipeDown);
       }
     },
   });
 
+  // styling the animation
   const style = useAnimatedStyle(() => {
     return {
       transform: [{ translateX: x.value }, { translateY: y.value }],
