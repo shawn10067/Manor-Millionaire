@@ -11,7 +11,8 @@ const App = () => {
     FuturaPTMedium: require("./assets/fonts/FuturaPTMedium.otf"),
   });
 
-  if (!fontLoaded) {
+  if (!fontLoaded || fontError) {
+    console.log("There was an error loading fonts.");
     return null;
   }
 
