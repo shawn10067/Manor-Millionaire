@@ -1,4 +1,5 @@
 import React from "react";
+import { runOnJS } from "react-native-reanimated";
 import { toMoneyString } from "../utils/money";
 import {
   ArrowView,
@@ -37,10 +38,17 @@ const Card = ({ property }) => {
   const tier1CostString = toMoneyString(tier1Cost);
   const tier2CostString = toMoneyString(tier2Cost);
   const propertyValueString = toMoneyString(propertyValue);
+
   return (
     <SwipeView
-      onSwipeDown={() => console.log("swiped down")}
-      onSwipeUp={() => console.log("swiped up")}
+      onSwipeUp={() => {
+        // swiping up callback
+        console.log("swiped up");
+      }}
+      onSwipeDown={() => {
+        // swiping down callback
+        console.log("swiped down");
+      }}
     >
       <BaseCardView>
         <ContentView>

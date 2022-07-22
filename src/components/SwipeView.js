@@ -13,16 +13,6 @@ const SwipeView = ({ children, onSwipeDown, onSwipeUp }) => {
   // getting height of window
   const { height } = Dimensions.get("window");
 
-  const swipeUp = () => {
-    console.log("swiped up");
-    onSwipeUp();
-  };
-
-  const swipeDown = () => {
-    console.log("swiped down");
-    onSwipeDown();
-  };
-
   // snap points to snap to based on velocity
   const SNAP_POINTS = [-height, 0, height];
   // holding the values of x and y
@@ -49,9 +39,9 @@ const SwipeView = ({ children, onSwipeDown, onSwipeUp }) => {
 
       // determining what to call
       if (dest === SNAP_POINTS[0]) {
-        runOnJS(swipeUp);
+        runOnJS(onSwipeUp)();
       } else if (dest === SNAP_POINTS[2]) {
-        runOnJS(swipeDown);
+        runOnJS(onSwipeDown)();
       }
     },
   });
