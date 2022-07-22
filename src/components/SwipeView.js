@@ -1,5 +1,8 @@
 import { Dimensions } from "react-native";
-import { PanGestureHandler } from "react-native-gesture-handler";
+import {
+  GestureHandlerRootView,
+  PanGestureHandler,
+} from "react-native-gesture-handler";
 import Animated, {
   runOnJS,
   useAnimatedGestureHandler,
@@ -54,8 +57,7 @@ const SwipeView = ({ children, onSwipeDown, onSwipeUp }) => {
   });
 
   return (
-    <PanGestureHandler
-      onGestureEvent={onGestureEvent}
+    <GestureHandlerRootView
       style={{
         width: "90%",
         height: "82%",
@@ -63,20 +65,33 @@ const SwipeView = ({ children, onSwipeDown, onSwipeUp }) => {
         alignItems: "center",
       }}
     >
-      <Animated.View
+      <PanGestureHandler
+        onGestureEvent={onGestureEvent}
         style={[
           {
-            width: "90%",
-            height: "82%",
-            justifyContent: "center",
-            alignItems: "center",
+            width: "100%",
+            height: "100%",
+            justifycontent: "center",
+            alignitems: "center",
           },
-          style,
         ]}
       >
-        {children}
-      </Animated.View>
-    </PanGestureHandler>
+        <Animated.View
+          style={[
+            {
+              width: "100%",
+              height: "100%",
+              justifycontent: "center",
+              alignitems: "center",
+            },
+            style,
+          ]}
+          testID="yur poop"
+        >
+          {children}
+        </Animated.View>
+      </PanGestureHandler>
+    </GestureHandlerRootView>
   );
 };
 

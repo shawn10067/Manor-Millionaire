@@ -1,5 +1,4 @@
 import React from "react";
-import { runOnJS } from "react-native-reanimated";
 import { toMoneyString } from "../utils/money";
 import {
   ArrowView,
