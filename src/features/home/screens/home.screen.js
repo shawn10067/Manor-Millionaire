@@ -1,20 +1,10 @@
 import React from "react";
 import styled from "styled-components/native";
-import BackgroundView from "../components/BackgroundView";
+import BackgroundView from "../../../components/BackgroundView";
 import SafeAreaView from "../../../components/SafeAreaView";
 import RoundedButton from "../../../components/RoundedButton";
 import LottieAnimation from "../../../components/LottieAnimation";
-
-const CenterView = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
-
-const WideRoundButton = styled(RoundedButton)`
-  width: 30%;
-  height: 50px;
-`;
+import { CenterView } from "../components/home.screen.styles";
 
 const property = {
   country: "Spain",
