@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 import BackgroundView from "../components/BackgroundView";
 import SafeAreaView from "../../../components/SafeAreaView";
 import RoundedButton from "../../../components/RoundedButton";
-import Card from "../../../components/Card";
+import LottieAnimation from "../../../components/LottieAnimation";
 
 const CenterView = styled.View`
   flex: 1;
@@ -33,12 +33,21 @@ const property = {
     tier2Cost: 30000000,
   },
 };
+
+const NewLottie = styled(LottieAnimation)`
+  height: 300px;
+  width: 300px;
+`;
+
 const HomeScreen = () => {
   return (
     <BackgroundView>
       <SafeAreaView>
         <CenterView>
-          <Card property={property} />
+          <NewLottie
+            source={require("../../../../assets/earth.json")}
+            speed={0.7}
+          />
         </CenterView>
       </SafeAreaView>
     </BackgroundView>
