@@ -4,7 +4,9 @@ import styled from "styled-components/native";
 import { View } from "react-native";
 
 const FullLottieView = styled(LottieView)`
+  position: absolute;
   width: 100%;
+  z-index: -1;
   height: 100%;
 `;
 
@@ -22,9 +24,13 @@ const LottieAnimation = ({ style, children, source, speed = 1 }) => {
 
   return (
     <View style={style}>
-      <FullLottieView source={source} ref={lottieRef} loop={true} speed={speed}>
-        {children}
-      </FullLottieView>
+      <FullLottieView
+        source={source}
+        ref={lottieRef}
+        loop={true}
+        speed={speed}
+      />
+      {children}
     </View>
   );
 };

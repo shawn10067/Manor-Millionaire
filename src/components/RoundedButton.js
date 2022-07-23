@@ -37,7 +37,7 @@ const RoundedButton = ({
 
   // text styling
   const Text = styled.Text`
-    font-family: FuturaPT;
+    font-family: FuturaPTHeavy;
     font-size: ${fontSize}px;
     color: ${({ theme }) =>
       theme.colours.main[colour] ? theme.colours.main[colour] : colour};

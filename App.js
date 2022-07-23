@@ -4,6 +4,7 @@ import HomeScreen from "./src/features/home/screens/home.screen";
 import theme from "./src/infrastructure/theme";
 import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
+import Navigation from "./src/infrastructure/navigation";
 
 const App = () => {
   const [fontLoaded, fontError] = useFonts({
@@ -19,7 +20,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <ThemeProvider theme={theme}>
-        <HomeScreen />
+        <Navigation />
         <StatusBar style="light" />
       </ThemeProvider>
     </NavigationContainer>
