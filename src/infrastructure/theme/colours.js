@@ -1,6 +1,6 @@
 const colours = {
   main: {
-    grey: "#292F36",
+    grey: "#292F38",
     red: "#A31621",
     green: "#069E2D",
     white: "#FCF7F8",

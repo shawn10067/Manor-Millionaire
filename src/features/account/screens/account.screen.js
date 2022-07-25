@@ -2,16 +2,25 @@ import React from "react";
 import BackgroundView from "../../../components/BackgroundView";
 import RoundedButton from "../../../components/RoundedButton";
 import SafeAreaView from "../../../components/SafeAreaView";
-import { CenterView } from "../../home/components/home.screen.styles";
+import {
+  AccountOptionsView,
+  GlobeView,
+  LoginButton,
+  LogoView,
+  PlaneView,
+  SignUpButton,
+} from "../components/account.screen.styles";
 
 const AccountScreen = () => {
   return (
     <BackgroundView>
-      <SafeAreaView>
-        <CenterView>
-          <RoundedButton text={"Hello World"} colour="blue" fontSize={30} />
-        </CenterView>
-      </SafeAreaView>
+      <LogoView />
+      <GlobeView />
+      <PlaneView />
+      <AccountOptionsView>
+        <LoginButton />
+        <SignUpButton />
+      </AccountOptionsView>
     </BackgroundView>
   );
 };
