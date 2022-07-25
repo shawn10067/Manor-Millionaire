@@ -1,6 +1,5 @@
 import React from "react";
-import BackgroundView from "../../../components/BackgroundView";
-import RoundedButton from "../../../components/RoundedButton";
+import SafeAreaAccountView from "../../../components/SafeAreaAccountView";
 import SafeAreaView from "../../../components/SafeAreaView";
 import {
   AccountOptionsView,
@@ -13,7 +12,7 @@ import {
 
 const AccountScreen = () => {
   return (
-    <BackgroundView>
+    <SafeAreaAccountView>
       <LogoView />
       <GlobeView />
       <PlaneView />
@@ -21,7 +20,7 @@ const AccountScreen = () => {
         <LoginButton />
         <SignUpButton />
       </AccountOptionsView>
-    </BackgroundView>
+    </SafeAreaAccountView>
   );
 };
 
