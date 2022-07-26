@@ -2,6 +2,7 @@ import { Image } from "react-native";
 import styled from "styled-components/native";
 import LottieAnimation from "../../../components/LottieAnimation";
 import RoundedButton from "../../../components/RoundedButton";
+import RoundedButtonContainer from "../../../components/RoundedButtonContainer";
 
 export const LogoView = styled.View`
   flex: 0.25;
@@ -80,4 +81,25 @@ export const CoinsLottie = styled(LottieAnimation).attrs({
 })`
   height: 100%;
   width: 100%;
+`;
+
+export const LoginButtonApple = styled(RoundedButtonContainer).attrs({
+  normalBackgroundColor: "grey",
+  pressedBackgroundColor: "white",
+  fontSize: 47,
+})`
+  width: 275px;
+  height: 85px;
+  margin: 10px;
+`;
+
+export const LoginEmailButton = styled(RoundedButton).attrs({
+  text: "Email",
+  normalBackgroundColor: "grey",
+  pressedBackgroundColor: "white",
+  fontSize: 47,
+})`
+  width: 275px;
+  height: 85px;
+  margin: 10px;
 `;
