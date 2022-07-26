@@ -1,11 +1,14 @@
 import React from "react";
 import SafeAreaAccountView from "../../../components/SafeAreaAccountView";
-import SafeAreaView from "../../../components/SafeAreaView";
 import {
   AccountOptionsView,
+  CoinsLottie,
+  GlobeLottie,
   GlobeView,
   LoginButton,
+  LogoImage,
   LogoView,
+  PlaneLottie,
   PlaneView,
   SignUpButton,
 } from "../components/account.screen.styles";
@@ -13,9 +16,18 @@ import {
 const AccountScreen = () => {
   return (
     <SafeAreaAccountView>
-      <LogoView />
-      <GlobeView />
-      <PlaneView />
+      <LogoView>
+        <LogoImage />
+      </LogoView>
+      <GlobeView>
+        <GlobeLottie>
+          <PlaneView>
+            <PlaneLottie>
+              <CoinsLottie />
+            </PlaneLottie>
+          </PlaneView>
+        </GlobeLottie>
+      </GlobeView>
       <AccountOptionsView>
         <LoginButton />
         <SignUpButton />
