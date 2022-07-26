@@ -2,15 +2,18 @@ import styled from "styled-components/native";
 import RoundedButton from "../../../components/RoundedButton";
 
 export const LogoView = styled.View`
+  background-color: ${({ theme }) => theme.colours.main.blue};
   flex: 0.25;
 `;
 
 export const GlobeView = styled.View`
+  background-color: ${({ theme }) => theme.colours.main.green};
   flex: 0.28;
 `;
 
 export const PlaneView = styled.View`
   flex: 0.12;
+  background-color: ${({ theme }) => theme.colours.main.red};
 `;
 
 export const AccountOptionsView = styled.View`

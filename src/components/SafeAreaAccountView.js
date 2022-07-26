@@ -1,5 +1,7 @@
 import { Platform, SafeAreaView as SafeArea, StatusBar } from "react-native";
 import styled from "styled-components/native";
+import BackgroundView from "../components/BackgroundView";
+import SafeAreaView from "./SafeAreaView";
 
 const isAndroid = Platform.OS === "android";
 const SafeAreaViewGrey = styled(SafeArea)`
@@ -13,6 +15,13 @@ const SafeAreaViewWhite = styled(SafeArea)`
 `;
 
 const SafeAreaAccountView = ({ children }) => {
+  if (isAndroid) {
+    return (
+      <BackgroundView>
+        <SafeAreaView>{children}</SafeAreaView>
+      </BackgroundView>
+    );
+  }
   return (
     <>
       <SafeAreaViewGrey>{children}</SafeAreaViewGrey>
