@@ -23,7 +23,7 @@ const AppleImage = styled(Image).attrs({
   width: 50px;
 `;
 
-const LoginScreenApple = () => {
+const LoginScreenApple = ({ navigation }) => {
   return (
     <SafeAreaAccountView>
       <LogoView>
@@ -42,7 +42,7 @@ const LoginScreenApple = () => {
         <LoginButtonApple>
           <AppleImage />
         </LoginButtonApple>
-        <LoginEmailButton />
+        <LoginEmailButton onPress={() => navigation.navigate("Email Login")} />
       </AccountOptionsView>
     </SafeAreaAccountView>
   );

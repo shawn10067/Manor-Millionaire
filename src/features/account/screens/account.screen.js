@@ -32,11 +32,7 @@ const AccountScreen = ({ navigation }) => {
       <AccountOptionsView>
         <LoginButton
           onPress={() => {
-            if (Platform.OS === "ios") {
-              navigation.navigate("Login Apple");
-            } else {
-              navigation.navigate("Login Android");
-            }
+            navigation.navigate("Apple Login");
           }}
         />
         <SignUpButton />
