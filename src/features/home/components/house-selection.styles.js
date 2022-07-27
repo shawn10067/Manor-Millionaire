@@ -1,20 +1,5 @@
-import { Text } from "react-native";
 import styled from "styled-components/native";
 import LottieAnimation from "../../../components/LottieAnimation";
-
-export const TravelTextView = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const TravelText = styled(Text)`
-  color: ${({ theme }) => theme.colours.main.white};
-  font-size: 30px;
-  font-family: FuturaPTHeavy;
-  text-align: center;
-  width: 90%;
-`;
 
 export const TravelAnimationView = styled.View`
   flex: 1;

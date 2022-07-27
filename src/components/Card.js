@@ -21,10 +21,15 @@ import {
 } from "./styles/card.styles";
 import SwipeView from "./SwipeView";
 
-PictureView;
-InformationView;
-PairContainer;
-const Card = ({ property }) => {
+const Card = ({
+  property,
+  onSwipeUp,
+  onSwipeDown,
+  swipeUp,
+  swipeDown,
+  upMessage = "buy",
+  downMessage = "decline",
+}) => {
   const { country, address, image, price, income, propertyValue, cost } =
     property;
   const { alone, set, tier1, tier2 } = income;
@@ -40,14 +45,10 @@ const Card = ({ property }) => {
 
   return (
     <SwipeView
-      onSwipeUp={() => {
-        // swiping up callback
-        console.log("swiped up");
-      }}
-      onSwipeDown={() => {
-        // swiping down callback
-        console.log("swiped down");
-      }}
+      onSwipeUp={onSwipeUp}
+      onSwipeDown={onSwipeDown}
+      swipeUp={swipeUp}
+      swipeDown={swipeDown}
     >
       <BaseCardView>
         <ContentView>
@@ -74,7 +75,7 @@ const Card = ({ property }) => {
               <RentText>${aloneRentString}</RentText>
             </MainPairContainer>
             <PairContainer>
-              <SubRentText>With Set</SubRentText>
+              <SubRentText>With set</SubRentText>
               <SubRentText>${rentSetString}</SubRentText>
             </PairContainer>
             <PairContainer>

@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import BackgroundView from "../../../components/BackgroundView";
-import RoundedButton from "../../../components/RoundedButton";
+import CardSwipeView from "../../../components/CardSwipeView";
 import SafeAreaView from "../../../components/SafeAreaView";
 import {
   SparksLottie,
   TravelAnimationView,
   TravelLottie,
-  TravelText,
-  TravelTextView,
 } from "../components/house-selection.styles";
 
 const HouseSelectionScreen = () => {
@@ -22,18 +20,22 @@ const HouseSelectionScreen = () => {
   }, 3000);
 
   return cardFound ? (
-    <BackgroundView>
-      <SafeAreaView>
-        {animationDone ? (
-          <TravelTextView>
-            <RoundedButton text={"Yur"} />
-            <TravelText>Found card</TravelText>
-          </TravelTextView>
-        ) : (
-          <SparksLottie onTop={true} loopStatus={false} speed={0.5} />
-        )}
-      </SafeAreaView>
-    </BackgroundView>
+    <>
+      {animationDone ? (
+        <>
+          <CardSwipeView
+            onSwipeUp={() => setCardFound(true)}
+            swipeDown={false}
+          />
+        </>
+      ) : (
+        <BackgroundView>
+          <SafeAreaView>
+            <SparksLottie onTop={true} loopStatus={false} speed={0.5} />
+          </SafeAreaView>
+        </BackgroundView>
+      )}
+    </>
   ) : (
     <BackgroundView>
       <SafeAreaView>

@@ -12,12 +12,29 @@ import Animated, {
 } from "react-native-reanimated";
 import { snapPoint } from "react-native-redash";
 
-const SwipeView = ({ children, onSwipeDown, onSwipeUp }) => {
+const SwipeView = ({
+  children,
+  onSwipeDown,
+  onSwipeUp,
+  swipeUp,
+  swipeDown,
+  upMessage,
+  downMessage,
+}) => {
   // getting height of window
   const { height } = Dimensions.get("window");
 
   // snap points to snap to based on velocity
   const SNAP_POINTS = [-height, 0, height];
+
+  // swipe snap points
+  if (!swipeUp) {
+    SNAP_POINTS[0] = 0;
+  }
+  if (!swipeDown) {
+    SNAP_POINTS[2] = 0;
+  }
+
   // holding the values of x and y
   const x = useSharedValue(0);
   const y = useSharedValue(0);
@@ -38,12 +55,12 @@ const SwipeView = ({ children, onSwipeDown, onSwipeUp }) => {
     onEnd: ({ velocityY }) => {
       // getting snap destination
       const dest = snapPoint(y.value, velocityY / 2.65, SNAP_POINTS);
-      y.value = withSpring(dest, { velocity: velocityY });
+      y.value = withSpring(dest, { velocity: velocityY / 3 });
 
       // determining what to call
-      if (dest === SNAP_POINTS[0]) {
+      if (swipeUp && dest === SNAP_POINTS[0]) {
         runOnJS(onSwipeUp)();
-      } else if (dest === SNAP_POINTS[2]) {
+      } else if (swipeDown && dest === SNAP_POINTS[2]) {
         runOnJS(onSwipeDown)();
       }
     },
@@ -63,6 +80,7 @@ const SwipeView = ({ children, onSwipeDown, onSwipeUp }) => {
         height: "82%",
         justifyContent: "center",
         alignItems: "center",
+        zIndex: 500,
       }}
     >
       <PanGestureHandler

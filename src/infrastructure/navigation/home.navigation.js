@@ -29,6 +29,9 @@ const HomeNavigator = () => {
       <HomeStack.Screen
         name="House Selection"
         component={HouseSelectionScreen}
+        options={{
+          gestureEnabled: false,
+        }}
       />
     </HomeStack.Navigator>
   );
