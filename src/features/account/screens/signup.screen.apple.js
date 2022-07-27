@@ -1,20 +1,28 @@
 import React from "react";
-import { Platform } from "react-native";
+import { Image } from "react-native";
+import styled from "styled-components";
 import SafeAreaAccountView from "../../../components/SafeAreaAccountView";
 import {
   AccountOptionsView,
   CoinsLottie,
   GlobeLottie,
   GlobeView,
-  LoginButton,
+  LoginButtonApple,
+  LoginEmailButton,
   LogoImage,
   LogoView,
   PlaneLottie,
   PlaneView,
-  SignUpButton,
 } from "../components/account.screen.styles";
 
-const AccountScreen = ({ navigation }) => {
+const AppleImage = styled(Image).attrs({
+  source: require("../../../../assets/apple-logo.png"),
+})`
+  height: 50px;
+  width: 50px;
+`;
+
+const SignUpScreenApple = ({ navigation }) => {
   return (
     <SafeAreaAccountView>
       <LogoView>
@@ -30,27 +38,13 @@ const AccountScreen = ({ navigation }) => {
         </GlobeLottie>
       </GlobeView>
       <AccountOptionsView>
-        <LoginButton
-          onPress={() => {
-            if (Platform.OS === "ios") {
-              navigation.navigate("Apple Login");
-            } else {
-              navigation.navigate("Email Login");
-            }
-          }}
-        />
-        <SignUpButton
-          onPress={() => {
-            if (Platform.OS === "ios") {
-              navigation.navigate("Apple Signup");
-            } else {
-              navigation.navigate("Email Signup");
-            }
-          }}
-        />
+        <LoginButtonApple>
+          <AppleImage />
+        </LoginButtonApple>
+        <LoginEmailButton onPress={() => navigation.navigate("Email Signup")} />
       </AccountOptionsView>
     </SafeAreaAccountView>
   );
 };
 
-export default AccountScreen;
+export default SignUpScreenApple;
