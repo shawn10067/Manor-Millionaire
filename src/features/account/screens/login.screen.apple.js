@@ -13,7 +13,6 @@ import {
   LogoView,
   PlaneLottie,
   PlaneView,
-  SignUpButton,
 } from "../components/account.screen.styles";
 
 const AppleImage = styled(Image).attrs({

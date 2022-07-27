@@ -50,7 +50,7 @@ export const LogoImage = styled(Image).attrs({
   source: require("../../../../assets/logo.png"),
 })`
   height: 85%;
-  width: 85%;
+  width: 100%;
 `;
 
 export const GlobeLottie = styled(LottieAnimation).attrs({

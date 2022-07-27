@@ -5,6 +5,7 @@ import theme from "./src/infrastructure/theme";
 import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import Navigation from "./src/infrastructure/navigation";
+import { UserContextProvider } from "./src/services/user/user.context";
 
 const App = () => {
   const [fontLoaded, fontError] = useFonts({
@@ -18,12 +19,14 @@ const App = () => {
   }
 
   return (
-    <NavigationContainer>
-      <ThemeProvider theme={theme}>
-        <Navigation />
-        <StatusBar style="light" />
-      </ThemeProvider>
-    </NavigationContainer>
+    <UserContextProvider>
+      <NavigationContainer>
+        <ThemeProvider theme={theme}>
+          <Navigation />
+          <StatusBar style="light" />
+        </ThemeProvider>
+      </NavigationContainer>
+    </UserContextProvider>
   );
 };
 export default App;

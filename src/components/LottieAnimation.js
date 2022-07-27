@@ -10,7 +10,13 @@ const FullLottieView = styled(LottieView)`
   height: 100%;
 `;
 
-const LottieAnimation = ({ style, children, source, speed = 1 }) => {
+const LottieAnimation = ({
+  style,
+  children,
+  source,
+  speed = 1,
+  loopStatus = true,
+}) => {
   const lottieRef = useRef(null);
 
   useEffect(() => {
@@ -27,8 +33,8 @@ const LottieAnimation = ({ style, children, source, speed = 1 }) => {
       <FullLottieView
         source={source}
         ref={lottieRef}
-        loop={true}
         speed={speed}
+        loop={loopStatus}
       />
       {children}
     </View>
