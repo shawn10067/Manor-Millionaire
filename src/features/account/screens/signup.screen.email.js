@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import BackgroundView from "../../../components/BackgroundView";
+import RoundedTextInput from "../../../components/RoundedTextInput";
 import SafeAreaView from "../../../components/SafeAreaView";
 import { UserContext } from "../../../services/user/user.context";
 import { LogoImage } from "../components/account.screen.styles";
@@ -9,10 +10,9 @@ import {
   LoginButtonSubmit,
   LoginErrorText,
   LogoView,
-  RoundedTextInput,
 } from "../components/login.email.screen.styles";
 
-const SignUpEmailScreen = () => {
+const SignUpEmailScreen = ({ navigation }) => {
   const [error, setError] = useState("none");
   const { setUser } = useContext(UserContext);
   return (
@@ -33,7 +33,7 @@ const SignUpEmailScreen = () => {
           <LoginButtonSubmit
             onPress={() => {
               setError(null);
-              setUser(true);
+              setUser({ hasUsername: false });
             }}
           />
         </FormView>

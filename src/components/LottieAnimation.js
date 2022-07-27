@@ -3,24 +3,29 @@ import LottieView from "lottie-react-native";
 import styled from "styled-components/native";
 import { View } from "react-native";
 
-const FullLottieView = styled(LottieView)`
-  position: absolute;
-  width: 100%;
-  z-index: -1;
-  height: 100%;
-`;
-
 const LottieAnimation = ({
   style,
   children,
   source,
   speed = 1,
   loopStatus = true,
+  onTop = false,
 }) => {
   const lottieRef = useRef(null);
 
+  const FullLottieView = styled(LottieView)`
+    position: absolute;
+    width: 100%;
+    z-index: ${onTop ? 999 : -1};
+    height: 100%;
+  `;
+
   useEffect(() => {
-    if (lottieRef.current) {
+    if (
+      lottieRef.current &&
+      lottieRef.current.reset &&
+      lottieRef.current.play
+    ) {
       setTimeout(() => {
         lottieRef.current.reset();
         lottieRef.current.play();
