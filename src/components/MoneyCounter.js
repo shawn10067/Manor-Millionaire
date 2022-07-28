@@ -4,7 +4,6 @@ import AnimatedNumbers from "react-native-animated-numbers";
 import styled from "styled-components/native";
 import theme from "../infrastructure/theme";
 import { UserContext } from "../services/user/user.context";
-import SafeAreaView from "./SafeAreaView";
 
 const MoneyView = styled.View`
   width: 195px;
@@ -21,7 +20,7 @@ const MoneyView = styled.View`
 
 const CashText = styled(Text)`
   font-family: "FuturaPTHeavy";
-  font-size: 20;
+  font-size: 20px;
   color: ${({ theme }) => theme.colours.main.green};
 `;
 

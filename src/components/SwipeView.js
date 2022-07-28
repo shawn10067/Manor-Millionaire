@@ -18,8 +18,6 @@ const SwipeView = ({
   onSwipeUp,
   swipeUp,
   swipeDown,
-  upMessage,
-  downMessage,
 }) => {
   // getting height of window
   const { height } = Dimensions.get("window");
@@ -76,11 +74,12 @@ const SwipeView = ({
   return (
     <GestureHandlerRootView
       style={{
-        width: "90%",
-        height: "82%",
+        width: "100%",
+        height: "100%",
         justifyContent: "center",
         alignItems: "center",
         zIndex: 500,
+        backgroundColor: "blue",
       }}
     >
       <PanGestureHandler

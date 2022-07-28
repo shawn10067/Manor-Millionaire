@@ -1,8 +1,11 @@
-import { LinearGradient } from "expo-linear-gradient";
 import { Image, ImageBackground } from "react-native";
 import styled from "styled-components/native";
 
 //various views
+export const MainCardView = styled.View`
+  flex: 1;
+`;
+
 export const BaseCardView = styled.View`
   width: 100%;
   height: 100%;
@@ -71,6 +74,12 @@ export const CardHeadingText = styled.Text`
   font-family: FuturaPTHeavy;
   text-transform: capitalize;
 `;
+export const CardEmojiText = styled.Text`
+  color: ${({ theme }) => theme.colours.main.white};
+  font-size: 40px;
+  font-family: FuturaPTHeavy;
+  text-transform: capitalize;
+`;
 
 export const PriceHeadingText = styled.Text`
   color: ${({ theme }) => theme.colours.main.grey};
@@ -117,6 +126,6 @@ export const HeaderImage = styled(ImageBackground)`
 export const TintForeground = styled.View`
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.4);
   justify-content: center;
 `;

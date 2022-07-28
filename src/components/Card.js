@@ -3,6 +3,7 @@ import { toMoneyString } from "../utils/money";
 import {
   ArrowView,
   BaseCardView,
+  CardEmojiText,
   CardHeadingText,
   ContentView,
   DisclaimerText,
@@ -10,6 +11,7 @@ import {
   HeaderView,
   HouseImage,
   InformationView,
+  MainCardView,
   MainPairContainer,
   PairContainer,
   PictureView,
@@ -20,16 +22,17 @@ import {
   TintForeground,
 } from "./styles/card.styles";
 import SwipeView from "./SwipeView";
+import GestureFlipView from "react-native-gesture-flip-card";
+import styled from "styled-components/native";
+import { Dimensions } from "react-native";
 
-const Card = ({
-  property,
-  onSwipeUp,
-  onSwipeDown,
-  swipeUp,
-  swipeDown,
-  upMessage = "buy",
-  downMessage = "decline",
-}) => {
+// card flip view styling
+const CardFlipView = styled(GestureFlipView)`
+  background-color: aliceblue;
+`;
+
+const Card = ({ property, onSwipeUp, onSwipeDown, swipeUp, swipeDown }) => {
+  const { height, width } = Dimensions.get("screen");
   const { country, address, image, price, income, propertyValue, cost } =
     property;
   const { alone, set, tier1, tier2 } = income;
@@ -43,7 +46,7 @@ const Card = ({
   const tier2CostString = toMoneyString(tier2Cost);
   const propertyValueString = toMoneyString(propertyValue);
 
-  return (
+  const CardFrontSide = () => (
     <SwipeView
       onSwipeUp={onSwipeUp}
       onSwipeDown={onSwipeDown}
@@ -57,7 +60,7 @@ const Card = ({
               <TintForeground>
                 <MainPairContainer>
                   <CardHeadingText>{address}</CardHeadingText>
-                  <CardHeadingText>🇪🇸</CardHeadingText>
+                  <CardEmojiText>🇪🇸</CardEmojiText>
                 </MainPairContainer>
               </TintForeground>
             </HeaderImage>
@@ -97,6 +100,27 @@ const Card = ({
         </ContentView>
       </BaseCardView>
     </SwipeView>
+  );
+
+  const CardBackSide = () => (
+    <SwipeView>
+      <BaseCardView>
+        <ContentView>
+          <DisclaimerText>
+            *The property value is ${propertyValueString}
+          </DisclaimerText>
+          <DisclaimerText>*Tier 1️⃣ costs ${tier1CostString}</DisclaimerText>
+          <DisclaimerText>*Tier 2️⃣ costs ${tier2CostString}</DisclaimerText>
+        </ContentView>
+      </BaseCardView>
+    </SwipeView>
+  );
+
+  return (
+    <CardFlipView height={height * 0.75} width={width}>
+      {CardFrontSide()}
+      {CardBackSide()}
+    </CardFlipView>
   );
 };
 

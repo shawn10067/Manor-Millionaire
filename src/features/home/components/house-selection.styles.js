@@ -53,10 +53,20 @@ export const ConfettiLottie = styled(LottieAnimation).attrs({
   height: 100%;
 `;
 
+export const PaymentFailLottie = styled(LottieAnimation).attrs({
+  source: require("../../../../assets/payment-failed.json"),
+})`
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
 export const LottieText = styled(Text)`
-  font-size: 28px;
+  font-size: 30px;
   font-family: FuturaPTHeavy;
   text-align: center;
   position: absolute;
-  top: 5px;
+  top: 120px;
+  color: ${({ theme }) => theme.colours.main.white};
 `;

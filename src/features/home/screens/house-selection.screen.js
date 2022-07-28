@@ -2,12 +2,14 @@ import React, { useContext, useState } from "react";
 import BackgroundView from "../../../components/BackgroundView";
 import CardSwipeView from "../../../components/CardSwipeView";
 import MoneyCounter from "../../../components/MoneyCounter";
+import SafeAreaAbsoluteView from "../../../components/SafeAreaAbsoluteView";
 import SafeAreaView from "../../../components/SafeAreaView";
 import { UserContext } from "../../../services/user/user.context";
 import {
   ConfettiLottie,
   HouseLottie,
   LottieText,
+  PaymentFailLottie,
   PaymentLottie,
   SparksLottie,
   TravelAnimationView,
@@ -34,39 +36,33 @@ const HouseSelectionScreen = ({ navigation }) => {
       <BackgroundView>
         <SafeAreaView>
           <TravelAnimationView>
-            <PaymentLottie>
-              <LottieText>Error</LottieText>
-            </PaymentLottie>
+            <MoneyCounter />
+            <PaymentFailLottie>
+              <LottieText>Payment Error</LottieText>
+            </PaymentFailLottie>
           </TravelAnimationView>
         </SafeAreaView>
       </BackgroundView>
     );
   }
 
-  if (purchaseConfirmation) {
+  if (transactionLoading || purchaseConfirmation) {
     return (
       <BackgroundView>
         <SafeAreaView>
           <TravelAnimationView>
-            <ConfettiLottie onTop>
-              <HouseLottie>
-                <LottieText>Congratulations!</LottieText>
-              </HouseLottie>
-            </ConfettiLottie>
-          </TravelAnimationView>
-        </SafeAreaView>
-      </BackgroundView>
-    );
-  }
-
-  if (transactionLoading) {
-    return (
-      <BackgroundView>
-        <SafeAreaView>
-          <TravelAnimationView>
-            <PaymentLottie>
-              <LottieText>Confirming Payment</LottieText>
-            </PaymentLottie>
+            <MoneyCounter />
+            {transactionLoading ? (
+              <PaymentLottie>
+                <LottieText>Confirming Payment</LottieText>
+              </PaymentLottie>
+            ) : (
+              <ConfettiLottie onTop>
+                <HouseLottie loopStatus={false}>
+                  <LottieText>Congratulations!</LottieText>
+                </HouseLottie>
+              </ConfettiLottie>
+            )}
           </TravelAnimationView>
         </SafeAreaView>
       </BackgroundView>
@@ -78,24 +74,25 @@ const HouseSelectionScreen = ({ navigation }) => {
       <SafeAreaView>
         {cardFound ? (
           animationDone ? (
-            <SafeAreaView>
+            <SafeAreaAbsoluteView>
               <MoneyCounter />
               <CardSwipeView
                 onSwipeUp={() => {
-                  setUser({ ...user, cash: 130000000000 });
                   setTransactionLoading(true);
                   setTimeout(() => {
-                    setTransactionLoading(true);
+                    setTransactionLoading(false);
                     setPurchaseConfirmation(true);
+                    setUser({ ...user, cash: 130000000000 });
+                    // setTransactionError(true);
+
                     setTimeout(() => {
                       navigation.navigate("Home");
-                    }, 3000);
-                  }, 3000);
+                    }, 8000);
+                  }, 5000);
                 }}
-                swipeDown={false}
                 upMessage="swipe to buy"
               />
-            </SafeAreaView>
+            </SafeAreaAbsoluteView>
           ) : (
             <SparksLottie onTop={true} loopStatus={false} speed={0.5} />
           )
