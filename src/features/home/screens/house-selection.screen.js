@@ -5,6 +5,10 @@ import MoneyCounter from "../../../components/MoneyCounter";
 import SafeAreaView from "../../../components/SafeAreaView";
 import { UserContext } from "../../../services/user/user.context";
 import {
+  ConfettiLottie,
+  HouseLottie,
+  LottieText,
+  PaymentLottie,
   SparksLottie,
   TravelAnimationView,
   TravelLottie,
@@ -15,6 +19,7 @@ const HouseSelectionScreen = ({ navigation }) => {
   const [animationDone, setAnimationDone] = useState(false);
   const [purchaseConfirmation, setPurchaseConfirmation] = useState(false);
   const [transactionLoading, setTransactionLoading] = useState(false);
+  const [transactionError, setTransactionError] = useState(false);
   const { user, setUser } = useContext(UserContext);
 
   setTimeout(() => {
@@ -24,12 +29,44 @@ const HouseSelectionScreen = ({ navigation }) => {
     }, 2500);
   }, 3000);
 
+  if (transactionError) {
+    return (
+      <BackgroundView>
+        <SafeAreaView>
+          <TravelAnimationView>
+            <PaymentLottie>
+              <LottieText>Error</LottieText>
+            </PaymentLottie>
+          </TravelAnimationView>
+        </SafeAreaView>
+      </BackgroundView>
+    );
+  }
+
+  if (purchaseConfirmation) {
+    return (
+      <BackgroundView>
+        <SafeAreaView>
+          <TravelAnimationView>
+            <ConfettiLottie onTop>
+              <HouseLottie>
+                <LottieText>Congratulations!</LottieText>
+              </HouseLottie>
+            </ConfettiLottie>
+          </TravelAnimationView>
+        </SafeAreaView>
+      </BackgroundView>
+    );
+  }
+
   if (transactionLoading) {
     return (
       <BackgroundView>
         <SafeAreaView>
           <TravelAnimationView>
-            <MoneyCounter />
+            <PaymentLottie>
+              <LottieText>Confirming Payment</LottieText>
+            </PaymentLottie>
           </TravelAnimationView>
         </SafeAreaView>
       </BackgroundView>
@@ -46,7 +83,14 @@ const HouseSelectionScreen = ({ navigation }) => {
               <CardSwipeView
                 onSwipeUp={() => {
                   setUser({ ...user, cash: 130000000000 });
-                  navigation.navigate("Home");
+                  setTransactionLoading(true);
+                  setTimeout(() => {
+                    setTransactionLoading(true);
+                    setPurchaseConfirmation(true);
+                    setTimeout(() => {
+                      navigation.navigate("Home");
+                    }, 3000);
+                  }, 3000);
                 }}
                 swipeDown={false}
                 upMessage="swipe to buy"

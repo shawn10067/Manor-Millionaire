@@ -1,3 +1,4 @@
+import { Text } from "react-native";
 import styled from "styled-components/native";
 import LottieAnimation from "../../../components/LottieAnimation";
 
@@ -23,4 +24,39 @@ export const SparksLottie = styled(LottieAnimation).attrs({
   align-items: center;
   width: 100%;
   height: 100%;
+`;
+
+export const PaymentLottie = styled(LottieAnimation).attrs({
+  source: require("../../../../assets/payment.json"),
+})`
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
+export const HouseLottie = styled(LottieAnimation).attrs({
+  source: require("../../../../assets/property-confirmation.json"),
+})`
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
+export const ConfettiLottie = styled(LottieAnimation).attrs({
+  source: require("../../../../assets/confetti.json"),
+})`
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
+export const LottieText = styled(Text)`
+  font-size: 28px;
+  font-family: FuturaPTHeavy;
+  text-align: center;
+  position: absolute;
+  top: 5px;
 `;
