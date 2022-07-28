@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components/native";
 import BackgroundView from "../../../components/BackgroundView";
+import MoneyCounter from "../../../components/MoneyCounter";
 import SafeAreaView from "../../../components/SafeAreaView";
 import {
   CenterView,
@@ -14,6 +15,7 @@ const HomeScreen = () => {
     <BackgroundView>
       <SafeAreaView>
         <MapView>
+          <MoneyCounter />
           <MapLottie source={require("../../../../assets/globe.json")}>
             <CenterView>
               <PropertiesButton

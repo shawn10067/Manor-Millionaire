@@ -31,47 +31,35 @@ const SwipeItemsContainer = styled.View`
 const CardSwipeView = ({
   swipeUp = true,
   swipeDown = true,
-  onSwipeUp = () => console.log("swiped up pussay"),
-  onSwipeDown = () => console.log("swiped down pussay"),
+  onSwipeUp = () => console.log("swiped up"),
+  onSwipeDown = () => console.log("swiped down"),
   upMessage = "buy",
   downMessage = "decline",
 }) => {
   return (
-    <BackgroundView>
-      <SafeAreaView>
-        <CardSwipeContainer>
-          {swipeUp && (
-            <SwipeItemsContainer>
-              <View />
-              <Icon
-                name="arrow-up"
-                color={theme.colours.main.green}
-                size={40}
-              />
-              <CardText>{upMessage}</CardText>
-            </SwipeItemsContainer>
-          )}
-          <Card
-            property={property}
-            swipeUp={swipeUp}
-            swipeDown={swipeDown}
-            onSwipeUp={onSwipeUp}
-            onSwipeDown={onSwipeDown}
-          />
-          {swipeDown && (
-            <SwipeItemsContainer>
-              <View />
-              <Icon
-                name="arrow-down"
-                color={theme.colours.main.red}
-                size={40}
-              />
-              <CardText>{downMessage}</CardText>
-            </SwipeItemsContainer>
-          )}
-        </CardSwipeContainer>
-      </SafeAreaView>
-    </BackgroundView>
+    <CardSwipeContainer>
+      {swipeUp && (
+        <SwipeItemsContainer>
+          <View />
+          <Icon name="arrow-up" color={theme.colours.main.green} size={40} />
+          <CardText>{upMessage}</CardText>
+        </SwipeItemsContainer>
+      )}
+      <Card
+        property={property}
+        swipeUp={swipeUp}
+        swipeDown={swipeDown}
+        onSwipeUp={onSwipeUp}
+        onSwipeDown={onSwipeDown}
+      />
+      {swipeDown && (
+        <SwipeItemsContainer>
+          <View />
+          <Icon name="arrow-down" color={theme.colours.main.red} size={40} />
+          <CardText>{downMessage}</CardText>
+        </SwipeItemsContainer>
+      )}
+    </CardSwipeContainer>
   );
 };
 
