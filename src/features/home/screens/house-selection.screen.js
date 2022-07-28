@@ -8,7 +8,7 @@ import {
   TravelLottie,
 } from "../components/house-selection.styles";
 
-const HouseSelectionScreen = () => {
+const HouseSelectionScreen = ({ navigation }) => {
   const [cardFound, setCardFound] = useState(false);
   const [animationDone, setAnimationDone] = useState(false);
 
@@ -24,8 +24,11 @@ const HouseSelectionScreen = () => {
       {animationDone ? (
         <>
           <CardSwipeView
-            onSwipeUp={() => setCardFound(true)}
+            onSwipeUp={() => {
+              navigation.navigate("Home");
+            }}
             swipeDown={false}
+            upMessage="swipe to buy"
           />
         </>
       ) : (

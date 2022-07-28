@@ -24,7 +24,13 @@ const HomeNavigator = () => {
       }}
       initialRouteName={initialRoute}
     >
-      <HomeStack.Screen name="Home" component={HomeScreen} />
+      <HomeStack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          gestureEnabled: false,
+        }}
+      />
       <HomeStack.Screen name="Username Selection" component={UsernameScreen} />
       <HomeStack.Screen
         name="House Selection"

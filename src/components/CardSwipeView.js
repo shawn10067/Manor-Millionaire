@@ -6,11 +6,26 @@ import { property } from "../services/property/property.service";
 import styled from "styled-components/native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import theme from "../infrastructure/theme";
+import { Text, View } from "react-native";
 
 export const CardSwipeContainer = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
+`;
+
+export const CardText = styled(Text)`
+  font-family: FuturaPTHeavy;
+  font-size: 20px;
+  text-align: center;
+  color: ${({ theme }) => theme.colours.main.white};
+`;
+
+const SwipeItemsContainer = styled.View`
+  flex-direction: row;
+  width: 50%;
+  align-items: center;
+  justify-content: center;
 `;
 
 const CardSwipeView = ({
@@ -26,7 +41,15 @@ const CardSwipeView = ({
       <SafeAreaView>
         <CardSwipeContainer>
           {swipeUp && (
-            <Icon name="arrow-up" color={theme.colours.main.green} size={60} />
+            <SwipeItemsContainer>
+              <View />
+              <Icon
+                name="arrow-up"
+                color={theme.colours.main.green}
+                size={40}
+              />
+              <CardText>{upMessage}</CardText>
+            </SwipeItemsContainer>
           )}
           <Card
             property={property}
@@ -36,7 +59,15 @@ const CardSwipeView = ({
             onSwipeDown={onSwipeDown}
           />
           {swipeDown && (
-            <Icon name="arrow-down" color={theme.colours.main.red} size={60} />
+            <SwipeItemsContainer>
+              <View />
+              <Icon
+                name="arrow-down"
+                color={theme.colours.main.red}
+                size={40}
+              />
+              <CardText>{downMessage}</CardText>
+            </SwipeItemsContainer>
           )}
         </CardSwipeContainer>
       </SafeAreaView>
