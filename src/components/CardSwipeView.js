@@ -12,6 +12,7 @@ export const CardSwipeContainer = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
+  width: 100%;
 `;
 
 export const CardText = styled(Text)`
@@ -23,7 +24,6 @@ export const CardText = styled(Text)`
 
 const SwipeItemsContainer = styled.View`
   flex-direction: row;
-  width: 50%;
   align-items: center;
   justify-content: center;
 `;

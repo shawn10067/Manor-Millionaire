@@ -74,12 +74,11 @@ const SwipeView = ({
   return (
     <GestureHandlerRootView
       style={{
-        width: "100%",
+        width: 350,
         height: "100%",
         justifyContent: "center",
         alignItems: "center",
         zIndex: 500,
-        backgroundColor: "blue",
       }}
     >
       <PanGestureHandler
@@ -103,7 +102,6 @@ const SwipeView = ({
             },
             style,
           ]}
-          testID="yur poop"
         >
           {children}
         </Animated.View>

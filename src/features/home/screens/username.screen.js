@@ -33,7 +33,7 @@ const UsernameScreen = ({ navigation }) => {
             text="Submit"
             onPress={() => {
               setUser({ ...user, hasUsername: true, hasHouse: false });
-              navigation.navigate("House Selection");
+              navigation.navigate("Tutorial");
             }}
           />
         </UsernameInputView>

@@ -12,8 +12,8 @@ const MoneyView = styled.View`
   border-radius: 5px;
   position: absolute;
   top: 5px;
-  right: 5px;
-  justify-content: space-evenly;
+  left: 5px;
+  justify-content: space-around;
   align-items: center;
   flex-direction: row;
 `;

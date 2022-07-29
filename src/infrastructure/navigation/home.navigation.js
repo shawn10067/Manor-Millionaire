@@ -4,6 +4,7 @@ import HomeScreen from "../../features/home/screens/home.screen";
 import UsernameScreen from "../../features/home/screens/username.screen";
 import { UserContext } from "../../services/user/user.context";
 import HouseSelectionScreen from "../../features/home/screens/house-selection.screen";
+import TutorialScreen from "../../features/home/screens/tutorial.screen";
 
 const HomeStack = createNativeStackNavigator();
 
@@ -12,7 +13,7 @@ const HomeNavigator = () => {
   const initialRoute = user.hasUsername
     ? user.hasHouse
       ? "Home"
-      : "House Selection"
+      : "Tutorial"
     : "Username Selection";
 
   console.log(initialRoute, user);
@@ -35,6 +36,13 @@ const HomeNavigator = () => {
       <HomeStack.Screen
         name="House Selection"
         component={HouseSelectionScreen}
+        options={{
+          gestureEnabled: false,
+        }}
+      />
+      <HomeStack.Screen
+        name="Tutorial"
+        component={TutorialScreen}
         options={{
           gestureEnabled: false,
         }}

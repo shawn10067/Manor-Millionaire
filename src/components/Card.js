@@ -11,7 +11,6 @@ import {
   HeaderView,
   HouseImage,
   InformationView,
-  MainCardView,
   MainPairContainer,
   PairContainer,
   PictureView,
@@ -25,6 +24,7 @@ import SwipeView from "./SwipeView";
 import GestureFlipView from "react-native-gesture-flip-card";
 import styled from "styled-components/native";
 import { Dimensions } from "react-native";
+import Icon from "react-native-vector-icons/Fontisto";
 
 // card flip view styling
 const CardFlipView = styled(GestureFlipView)`
@@ -91,11 +91,9 @@ const Card = ({ property, onSwipeUp, onSwipeDown, swipeUp, swipeDown }) => {
             </PairContainer>
           </InformationView>
           <ArrowView>
-            <DisclaimerText>
-              *The property value is ${propertyValueString}
-            </DisclaimerText>
-            <DisclaimerText>*Tier 1️⃣ costs ${tier1CostString}</DisclaimerText>
-            <DisclaimerText>*Tier 2️⃣ costs ${tier2CostString}</DisclaimerText>
+            <PairContainer>
+              <Icon name="arrow-right-l" size={40} color="black" />
+            </PairContainer>
           </ArrowView>
         </ContentView>
       </BaseCardView>
@@ -117,7 +115,7 @@ const Card = ({ property, onSwipeUp, onSwipeDown, swipeUp, swipeDown }) => {
   );
 
   return (
-    <CardFlipView height={height * 0.75} width={width}>
+    <CardFlipView height={height * 0.7} width={width - 10}>
       {CardFrontSide()}
       {CardBackSide()}
     </CardFlipView>
