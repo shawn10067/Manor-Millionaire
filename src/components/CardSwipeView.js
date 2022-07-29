@@ -13,6 +13,7 @@ export const CardSwipeContainer = styled.View`
   justify-content: center;
   align-items: center;
   width: 100%;
+  margin-top: 30px;
 `;
 
 export const CardText = styled(Text)`

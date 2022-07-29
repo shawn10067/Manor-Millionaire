@@ -33,7 +33,7 @@ const SignUpEmailScreen = ({ navigation }) => {
           <LoginButtonSubmit
             onPress={() => {
               setError(null);
-              setUser({ hasUsername: false });
+              setUser({ hasUsername: false, hasHouse: false, cash: 200000000 });
             }}
           />
         </FormView>

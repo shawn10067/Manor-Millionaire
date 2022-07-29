@@ -92,7 +92,7 @@ const Card = ({ property, onSwipeUp, onSwipeDown, swipeUp, swipeDown }) => {
           </InformationView>
           <ArrowView>
             <PairContainer>
-              <Icon name="arrow-right-l" size={40} color="black" />
+              <Icon name="arrow-right-l" size={30} color="black" />
             </PairContainer>
           </ArrowView>
         </ContentView>

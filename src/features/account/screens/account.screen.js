@@ -22,11 +22,7 @@ const AccountScreen = ({ navigation }) => {
       </LogoView>
       <GlobeView>
         <GlobeLottie>
-          <PlaneView>
-            <PlaneLottie>
-              <CoinsLottie />
-            </PlaneLottie>
-          </PlaneView>
+          <PlaneView></PlaneView>
         </GlobeLottie>
       </GlobeView>
       <AccountOptionsView>

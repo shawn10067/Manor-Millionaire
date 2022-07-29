@@ -48,16 +48,17 @@ export const SignUpButton = styled(RoundedButton).attrs({
 
 export const LogoImage = styled(Image).attrs({
   source: require("../../../../assets/logo.png"),
+  resizeMode: "contain",
 })`
-  height: 85%;
-  width: 100%;
+  height: 75%;
+  width: 90%;
 `;
 
 export const GlobeLottie = styled(LottieAnimation).attrs({
-  source: require("../../../../assets/earth.json"),
-  speed: 0.7,
+  source: require("../../../../assets/travel.json"),
+  speed: 2,
 })`
-  height: 80%;
+  height: 90%;
   width: 100%;
 `;
 

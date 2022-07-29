@@ -82,7 +82,7 @@ const HouseSelectionScreen = ({ navigation }) => {
                   setTimeout(() => {
                     setTransactionLoading(false);
                     setPurchaseConfirmation(true);
-                    setUser({ ...user, cash: 130000000000 });
+                    setUser({ ...user, cash: 130000000 });
                     // setTransactionError(true);
 
                     setTimeout(() => {

@@ -11,8 +11,8 @@ const MoneyView = styled.View`
   background-color: ${({ theme }) => theme.colours.main.white};
   border-radius: 5px;
   position: absolute;
-  top: 5px;
-  left: 5px;
+  top: 10px;
+  left: 10px;
   justify-content: space-around;
   align-items: center;
   flex-direction: row;

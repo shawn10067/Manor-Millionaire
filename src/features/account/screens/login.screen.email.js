@@ -29,7 +29,7 @@ const LoginEmailScreen = ({ navigation }) => {
           <LoginButtonSubmit
             onPress={() => {
               setError(null);
-              setUser({ hasUsername: true, hasHouse: true });
+              setUser({ hasUsername: true, hasHouse: true, cash: 200000000 });
             }}
           />
         </FormView>

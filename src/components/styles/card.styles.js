@@ -20,14 +20,14 @@ export const ContentView = styled.View`
 `;
 
 export const HeaderView = styled.View`
-  flex: 0.11;
+  flex: 0.1;
   margin-left: 5px;
   margin-right: 5px;
   border: 4px solid #ffbb00;
 `;
 
 export const PictureView = styled.View`
-  flex: 0.35;
+  flex: 0.36;
   margin-left: 5px;
   margin-right: 5px;
   margin-top: 10px;
@@ -65,7 +65,7 @@ export const MainPairContainer = styled.View`
 // card text styling
 export const CardHeadingText = styled.Text`
   color: ${({ theme }) => theme.colours.main.white};
-  font-size: 30px;
+  font-size: 26px;
   font-family: FuturaPTHeavy;
   text-transform: capitalize;
 `;
@@ -78,32 +78,32 @@ export const CardEmojiText = styled.Text`
 
 export const PriceHeadingText = styled.Text`
   color: ${({ theme }) => theme.colours.main.grey};
-  font-size: 25px;
+  font-size: 22px;
   font-family: FuturaPTHeavy;
   text-decoration: underline;
 `;
 
 export const PropertyPriceText = styled.Text`
   color: ${({ theme }) => theme.colours.main.grey};
-  font-size: 26px;
+  font-size: 23px;
   font-family: FuturaPTMedium;
 `;
 
 export const RentText = styled.Text`
   color: ${({ theme }) => theme.colours.main.grey};
-  font-size: 23px;
+  font-size: 20px;
   font-family: FuturaPTMedium;
 `;
 
 export const SubRentText = styled.Text`
   color: ${({ theme }) => theme.colours.main.grey};
-  font-size: 21px;
+  font-size: 18px;
   font-family: FuturaPTMedium;
 `;
 
 export const DisclaimerText = styled.Text`
   color: ${({ theme }) => theme.colours.main.grey};
-  font-size: 20px;
+  font-size: 17px;
   font-family: FuturaPTMedium;
 `;
 

@@ -12,6 +12,7 @@ const DemoImageContainer = styled.View`
 
 const DemoImage = styled(Image).attrs({
   source: require("../../../../assets/flip-demo.png"),
+  resizeMode: "contain",
 })`
   height: 100%;
   width: 100%;
