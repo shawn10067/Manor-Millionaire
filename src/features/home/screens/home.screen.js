@@ -25,7 +25,10 @@ const HomeScreen = () => {
             <NotiIcon name="notifications" size={60} color="yellow" />
           </MenuView>
           <MoneyCounter />
-          <MapLottie source={require("../../../../assets/globe.json")}>
+          <MapLottie
+            source={require("../../../../assets/globe.json")}
+            speed={0.5}
+          >
             <CenterView>
               <PropertiesButton
                 text="View Properties"
