@@ -9,7 +9,7 @@ import {
   properties,
 } from "../../../services/property/property.service";
 
-const organizedProperties = organizeProperties(properties);
+const organizedProperties = organizeProperties(properties());
 
 const renderCountrySection = (countryProperties) => {
   // creating two flatlists: 1 vertical for each country and one horizontal for every proeprty in the country
