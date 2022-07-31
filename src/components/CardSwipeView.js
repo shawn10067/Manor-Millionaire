@@ -2,7 +2,7 @@ import React from "react";
 import BackgroundView from "./BackgroundView";
 import SafeAreaView from "./SafeAreaView";
 import Card from "./Card";
-import { property } from "../services/property/property.service";
+import { defaultProperty } from "../services/property/property.service";
 import styled from "styled-components/native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import theme from "../infrastructure/theme";
@@ -36,7 +36,12 @@ const CardSwipeView = ({
   onSwipeDown = () => console.log("swiped down"),
   upMessage = "buy",
   downMessage = "decline",
+  property = defaultProperty,
+  route,
 }) => {
+  const propertyToUse =
+    (route && route.params && route.params.property) || property;
+
   return (
     <CardSwipeContainer>
       {swipeUp && (
@@ -47,7 +52,7 @@ const CardSwipeView = ({
         </SwipeItemsContainer>
       )}
       <Card
-        property={property}
+        property={propertyToUse}
         swipeUp={swipeUp}
         swipeDown={swipeDown}
         onSwipeUp={onSwipeUp}

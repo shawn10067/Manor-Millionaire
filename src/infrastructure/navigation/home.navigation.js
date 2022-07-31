@@ -5,6 +5,8 @@ import UsernameScreen from "../../features/home/screens/username.screen";
 import { UserContext } from "../../services/user/user.context";
 import HouseSelectionScreen from "../../features/home/screens/house-selection.screen";
 import TutorialScreen from "../../features/home/screens/tutorial.screen";
+import ViewPropertiesScreen from "../../features/home/screens/view-properties.screen";
+import CardSwipeView from "../../components/CardSwipeView";
 
 const HomeStack = createNativeStackNavigator();
 
@@ -47,6 +49,11 @@ const HomeNavigator = () => {
           gestureEnabled: false,
         }}
       />
+      <HomeStack.Screen
+        name="View Properties"
+        component={ViewPropertiesScreen}
+      />
+      <HomeStack.Screen name="View House" component={CardSwipeView} />
     </HomeStack.Navigator>
   );
 };

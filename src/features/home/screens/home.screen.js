@@ -15,7 +15,7 @@ import {
   TradeButton,
 } from "../components/home.screen.styles";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   return (
     <BackgroundView>
       <SafeAreaView>
@@ -34,6 +34,7 @@ const HomeScreen = () => {
                 text="View Properties"
                 colour="red"
                 fontSize={25}
+                onPress={() => navigation.navigate("View Properties")}
               />
               <TradeButton fontSize={30} />
             </CenterView>

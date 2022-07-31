@@ -1,6 +1,6 @@
-import { nanoid } from "nanoid";
+import uuid from "react-native-uuid";
 
-export const property = {
+export const defaultProperty = {
   country: "Spain",
   address: "17 Spring Dr",
   image: "../../../../assets/castle.jpg",
@@ -154,7 +154,7 @@ export const properties = () => {
       cost: { tier1Cost: 14000000, tier2Cost: 28000000 },
     },
   ].map((val) => {
-    val.id = nanoid();
+    val.id = uuid.v4();
     return val;
   });
 };
@@ -180,7 +180,7 @@ export const organizeProperties = (inputProperties) => {
         {
           country: currentProperty.country,
           properties: [currentProperty],
-          id: nanoid(),
+          id: uuid.v4(),
         },
       ];
     }
