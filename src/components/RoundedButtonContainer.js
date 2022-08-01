@@ -33,6 +33,8 @@ const RoundedButtonContainer = ({
     width: 220px;
     justify-content: center;
     align-items: center;
+    elevation: 5;
+    box-shadow: 0px 5px rgba(0, 0, 0, 0.4);
   `;
 
   // passing text in the pressable

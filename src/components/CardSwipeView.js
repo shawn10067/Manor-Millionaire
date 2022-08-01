@@ -37,11 +37,7 @@ const CardSwipeView = ({
   upMessage = "buy",
   downMessage = "decline",
   property = defaultProperty,
-  route,
 }) => {
-  const propertyToUse =
-    (route && route.params && route.params.property) || property;
-
   return (
     <CardSwipeContainer>
       {swipeUp && (
@@ -52,7 +48,7 @@ const CardSwipeView = ({
         </SwipeItemsContainer>
       )}
       <Card
-        property={propertyToUse}
+        property={property}
         swipeUp={swipeUp}
         swipeDown={swipeDown}
         onSwipeUp={onSwipeUp}

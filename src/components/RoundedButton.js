@@ -33,6 +33,8 @@ const RoundedButton = ({
     width: 220px;
     justify-content: center;
     align-items: center;
+    elevation: 10;
+    box-shadow: 0px 6px rgba(0, 0, 0, 0.7);
   `;
 
   // text styling

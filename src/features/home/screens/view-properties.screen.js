@@ -1,11 +1,11 @@
 import React from "react";
 import BackgroundBlackView from "../../../components/BackgroundBlackView";
 import SafeAreaView from "../../../components/SafeAreaView";
-import MoneyCounter from "../../../components/MoneyCounter";
 import {
   CountryHeaderText,
   PropertiesView,
   PropertyItemImage,
+  PropertyItemPressable,
   PropertyItemText,
   PropertyItemTintForeground,
   PropertyItemView,
@@ -22,18 +22,22 @@ const organizedProperties = organizeProperties(properties());
 const ViewPropertiesScreen = ({ navigation }) => {
   const renderPropertySection = ({ item }) => {
     return (
-      <PropertyItemView
-        onPress={() =>
-          navigation.navigate("View House", {
-            property: item,
-          })
-        }
-      >
-        <PropertyItemImage>
-          <PropertyItemTintForeground>
-            <PropertyItemText>{item.address}</PropertyItemText>
-          </PropertyItemTintForeground>
-        </PropertyItemImage>
+      <PropertyItemView>
+        <PropertyItemPressable
+          onPress={() =>
+            navigation.navigate("View House", {
+              property: item,
+              swipeUp: false,
+              downMessage: "back",
+            })
+          }
+        >
+          <PropertyItemImage>
+            <PropertyItemTintForeground>
+              <PropertyItemText>{item.address}</PropertyItemText>
+            </PropertyItemTintForeground>
+          </PropertyItemImage>
+        </PropertyItemPressable>
       </PropertyItemView>
     );
   };

@@ -11,11 +11,7 @@ export const UserContextProvider = ({ children }) => {
   });
   */
 
-  const [user, setUser] = useState({
-    cash: 200000000,
-    hasHouse: true,
-    hasUsername: true,
-  });
+  const [user, setUser] = useState(null);
 
   return (
     <UserContext.Provider

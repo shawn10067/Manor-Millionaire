@@ -20,18 +20,20 @@ export const CountryHeaderText = styled(Text)`
   margin: 8px;
 `;
 
-export const PropertyItemView = styled(Pressable)`
+export const PropertyItemView = styled.View`
   height: 200px;
   width: 200px;
-  border-radius: 8px;
   background-color: purple;
   margin: 10px;
+  border-radius: 30px;
 `;
+
+export const PropertyItemPressable = styled(Pressable)``;
 
 export const PropertyItemImage = styled(ImageBackground).attrs({
   source: require("../../../../assets/castle.jpg"),
 })`
-  border-radius: 5px;
+  border-radius: 10px;
   height: 100%;
   width: 100%;
 `;
@@ -42,6 +44,7 @@ export const PropertyItemTintForeground = styled.View`
   background-color: rgba(0, 0, 0, 0.2);
   justify-content: center;
   align-items: center;
+  border-radius: 10px;
 `;
 
 export const PropertyItemText = styled(Text)`
