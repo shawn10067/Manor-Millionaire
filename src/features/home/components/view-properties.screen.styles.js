@@ -54,3 +54,15 @@ export const PropertyItemText = styled(Text)`
   text-align: center;
   padding: 8px;
 `;
+
+export const BackArrowView = styled.View`
+  width: 27%;
+  height: 50px;
+  margin: 10px;
+  background-color: aliceblue;
+  justify-content: center;
+  align-items: center;
+  elevation: 10;
+  box-shadow: 1px 2px rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+`;

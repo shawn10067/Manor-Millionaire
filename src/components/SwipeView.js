@@ -52,7 +52,7 @@ const SwipeView = ({
     // determining what point to snap to, and what to call when the 'up' and 'down' snap points are held onto
     onEnd: ({ velocityY }) => {
       // getting snap destination
-      const dest = snapPoint(y.value, velocityY / 2.65, SNAP_POINTS);
+      const dest = snapPoint(y.value, velocityY / 1.5, SNAP_POINTS);
       y.value = withSpring(dest, { velocity: velocityY / 3 });
 
       // determining what to call

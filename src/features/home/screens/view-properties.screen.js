@@ -2,6 +2,7 @@ import React from "react";
 import BackgroundBlackView from "../../../components/BackgroundBlackView";
 import SafeAreaView from "../../../components/SafeAreaView";
 import {
+  BackArrowView,
   CountryHeaderText,
   PropertiesView,
   PropertyItemImage,
@@ -11,11 +12,13 @@ import {
   PropertyItemView,
   SeperatorBar,
 } from "../components/view-properties.screen.styles";
-import { FlatList } from "react-native";
+import { FlatList, Pressable } from "react-native";
 import {
   organizeProperties,
   properties,
 } from "../../../services/property/property.service";
+import { getCountryProperties } from "../../../utils/countryDecorations";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const organizedProperties = organizeProperties(properties());
 
@@ -43,11 +46,13 @@ const ViewPropertiesScreen = ({ navigation }) => {
   };
 
   const renderCountrySection = ({ item }) => {
-    // creating two flatlists: 1 vertical for each country and one horizontal for every proeprty in the country
     const countryProperties = item.properties;
+    const { emoji } = getCountryProperties(item.country);
     return (
       <PropertiesView>
-        <CountryHeaderText>{item.country}</CountryHeaderText>
+        <CountryHeaderText>
+          {item.country} {emoji}
+        </CountryHeaderText>
         <FlatList
           horizontal
           data={countryProperties}
@@ -68,6 +73,11 @@ const ViewPropertiesScreen = ({ navigation }) => {
             ItemSeparatorComponent={() => <SeperatorBar />}
           />
         </PropertiesView>
+        <Pressable onPress={() => navigation.goBack()}>
+          <BackArrowView>
+            <Icon name="arrow-left" color="black" size={30} />
+          </BackArrowView>
+        </Pressable>
       </SafeAreaView>
     </BackgroundBlackView>
   );

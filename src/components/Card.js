@@ -1,14 +1,19 @@
 import React from "react";
 import { toMoneyString } from "../utils/money";
 import {
+  ArrowPairContainer,
   ArrowView,
+  BackCardHeadingText,
+  BackContentView,
   BaseCardView,
+  ButtonView,
+  BuyActionButton,
   CardEmojiText,
   CardHeadingText,
   ContentView,
-  DisclaimerText,
   HeaderImage,
   HeaderView,
+  HeadingPairContainer,
   HouseImage,
   InformationView,
   MainPairContainer,
@@ -17,14 +22,16 @@ import {
   PriceHeadingText,
   PropertyPriceText,
   RentText,
+  SellActionButton,
   SubRentText,
   TintForeground,
 } from "./styles/card.styles";
 import SwipeView from "./SwipeView";
 import GestureFlipView from "react-native-gesture-flip-card";
 import styled from "styled-components/native";
-import { Dimensions } from "react-native";
+import { Dimensions, View } from "react-native";
 import Icon from "react-native-vector-icons/Fontisto";
+import { getCountryProperties } from "../utils/countryDecorations";
 
 // card flip view styling
 const CardFlipView = styled(GestureFlipView)`
@@ -46,6 +53,8 @@ const Card = ({ property, onSwipeUp, onSwipeDown, swipeUp, swipeDown }) => {
   const tier2CostString = toMoneyString(tier2Cost);
   const propertyValueString = toMoneyString(propertyValue);
 
+  const { emoji, borderColour, headerImage } = getCountryProperties(country);
+
   const CardFrontSide = () => (
     <SwipeView
       onSwipeUp={onSwipeUp}
@@ -53,15 +62,15 @@ const Card = ({ property, onSwipeUp, onSwipeDown, swipeUp, swipeDown }) => {
       swipeUp={swipeUp}
       swipeDown={swipeDown}
     >
-      <BaseCardView>
+      <BaseCardView borderColour={borderColour}>
         <ContentView>
-          <HeaderView>
-            <HeaderImage source={require("../../assets/castle.jpg")}>
+          <HeaderView borderColour={borderColour}>
+            <HeaderImage source={{ uri: headerImage }}>
               <TintForeground>
-                <MainPairContainer>
+                <HeadingPairContainer>
                   <CardHeadingText>{address}</CardHeadingText>
-                  <CardEmojiText>🇪🇸</CardEmojiText>
-                </MainPairContainer>
+                  <CardEmojiText>{emoji}</CardEmojiText>
+                </HeadingPairContainer>
               </TintForeground>
             </HeaderImage>
           </HeaderView>
@@ -90,26 +99,66 @@ const Card = ({ property, onSwipeUp, onSwipeDown, swipeUp, swipeDown }) => {
               <SubRentText>${tier2RentString}</SubRentText>
             </PairContainer>
           </InformationView>
-          <ArrowView>
-            <PairContainer>
-              <Icon name="arrow-right-l" size={30} color="black" />
-            </PairContainer>
-          </ArrowView>
         </ContentView>
+        <ArrowView>
+          <ArrowPairContainer>
+            <View />
+            <Icon name="arrow-left-l" size={35} color="black" />
+          </ArrowPairContainer>
+        </ArrowView>
       </BaseCardView>
     </SwipeView>
   );
 
   const CardBackSide = () => (
-    <SwipeView>
-      <BaseCardView>
-        <ContentView>
-          <DisclaimerText>
-            *The property value is ${propertyValueString}
-          </DisclaimerText>
-          <DisclaimerText>*Tier 1️⃣ costs ${tier1CostString}</DisclaimerText>
-          <DisclaimerText>*Tier 2️⃣ costs ${tier2CostString}</DisclaimerText>
-        </ContentView>
+    <SwipeView
+      onSwipeUp={onSwipeUp}
+      onSwipeDown={onSwipeDown}
+      swipeUp={swipeUp}
+      swipeDown={swipeDown}
+    >
+      <BaseCardView borderColour={borderColour}>
+        <BackContentView>
+          <BackCardHeadingText>
+            {address}
+            {"  "}
+            {emoji}
+          </BackCardHeadingText>
+          <InformationView>
+            <MainPairContainer>
+              <PriceHeadingText>Property Value</PriceHeadingText>
+            </MainPairContainer>
+            <PairContainer>
+              <SubRentText>${propertyValueString}</SubRentText>
+            </PairContainer>
+            <MainPairContainer>
+              <PriceHeadingText>Costs</PriceHeadingText>
+              <View style={{ width: 200, height: 40 }} />
+            </MainPairContainer>
+            <PairContainer>
+              <SubRentText>Tier 1️⃣</SubRentText>
+              <SubRentText>${tier1CostString}</SubRentText>
+            </PairContainer>
+            <PairContainer>
+              <SubRentText>Tier 2️⃣</SubRentText>
+              <SubRentText>${tier2CostString}</SubRentText>
+            </PairContainer>
+            <ButtonView>
+              <BuyActionButton
+                text="Tier 1"
+                colour={borderColour}
+                fontSize={30}
+              />
+              <SellActionButton text="Sell" colour="red" fontSize={30} />
+            </ButtonView>
+          </InformationView>
+        </BackContentView>
+        <ArrowView>
+          <ArrowPairContainer>
+            <View />
+            <Icon name="arrow-left-l" size={35} color="black" />
+          </ArrowPairContainer>
+        </ArrowView>
       </BaseCardView>
     </SwipeView>
   );
