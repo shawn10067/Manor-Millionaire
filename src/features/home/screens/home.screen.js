@@ -36,7 +36,10 @@ const HomeScreen = ({ navigation }) => {
                 fontSize={25}
                 onPress={() => navigation.navigate("View Properties")}
               />
-              <TradeButton fontSize={30} />
+              <TradeButton
+                onPress={() => navigation.navigate("Trade Options")}
+                fontSize={30}
+              />
             </CenterView>
           </MapLottie>
           <SpinButton />

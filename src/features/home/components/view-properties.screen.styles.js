@@ -21,8 +21,8 @@ export const CountryHeaderText = styled(Text)`
 `;
 
 export const PropertyItemView = styled.View`
-  height: 200px;
-  width: 200px;
+  height: 175px;
+  width: 175px;
   background-color: purple;
   margin: 10px;
   border-radius: 30px;
