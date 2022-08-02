@@ -40,8 +40,16 @@ const CardFlipView = styled(GestureFlipView)`
 
 const Card = ({ property, onSwipeUp, onSwipeDown, swipeUp, swipeDown }) => {
   const { height, width } = Dimensions.get("screen");
-  const { country, address, image, price, income, propertyValue, cost } =
-    property;
+  const {
+    country,
+    address,
+    image,
+    price,
+    income,
+    propertyValue,
+    cost,
+    status,
+  } = property;
   const { alone, set, tier1, tier2 } = income;
   const { tier1Cost, tier2Cost } = cost;
   const priceString = toMoneyString(price);
@@ -52,6 +60,27 @@ const Card = ({ property, onSwipeUp, onSwipeDown, swipeUp, swipeDown }) => {
   const tier1CostString = toMoneyString(tier1Cost);
   const tier2CostString = toMoneyString(tier2Cost);
   const propertyValueString = toMoneyString(propertyValue);
+
+  // for displaying card buttons
+  let buyAction;
+  let sellAction;
+  switch (status) {
+    case "alone":
+      buyAction = "Add to set";
+      sellAction = "Sell property";
+      break;
+    case "set":
+      buyAction = "Buy tier 1️⃣";
+      sellAction = "Remove from set";
+      break;
+    case "tier1":
+      buyAction = "Buy tier 2️⃣";
+      sellAction = "Sell tier 1️⃣";
+      break;
+    case "tier2":
+      sellAction = "Sell tier 2️⃣";
+      break;
+  }
 
   const { emoji, borderColour, headerImage } = getCountryProperties(country);
 
@@ -136,7 +165,7 @@ const Card = ({ property, onSwipeUp, onSwipeDown, swipeUp, swipeDown }) => {
               <View style={{ width: 200, height: 40 }} />
             </MainPairContainer>
             <PairContainer>
-              <SubRentText>Tier 1️⃣</SubRentText>
+              <SubRentText>Tier 1️⃣ </SubRentText>
               <SubRentText>${tier1CostString}</SubRentText>
             </PairContainer>
             <PairContainer>
@@ -144,12 +173,20 @@ const Card = ({ property, onSwipeUp, onSwipeDown, swipeUp, swipeDown }) => {
               <SubRentText>${tier2CostString}</SubRentText>
             </PairContainer>
             <ButtonView>
-              <BuyActionButton
-                text="Tier 1"
-                colour={borderColour}
-                fontSize={30}
-              />
-              <SellActionButton text="Sell" colour="red" fontSize={30} />
+              {buyAction && (
+                <BuyActionButton
+                  text={buyAction}
+                  colour="green"
+                  fontSize={20}
+                />
+              )}
+              {sellAction && (
+                <SellActionButton
+                  text={sellAction}
+                  colour="red"
+                  fontSize={20}
+                />
+              )}
             </ButtonView>
           </InformationView>
         </BackContentView>
