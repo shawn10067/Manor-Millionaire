@@ -2,7 +2,6 @@ import React from "react";
 import BackgroundBlackView from "../../../components/BackgroundBlackView";
 import SafeAreaView from "../../../components/SafeAreaView";
 import {
-  BackArrowView,
   CountryHeaderText,
   PropertiesView,
   PropertyItemImage,
@@ -18,7 +17,7 @@ import {
   properties,
 } from "../../../services/property/property.service";
 import { getCountryProperties } from "../../../utils/countryDecorations";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import BackArrowPressable from "../../../components/BackArrow";
 
 const organizedProperties = organizeProperties(properties());
 
@@ -73,11 +72,7 @@ const ViewPropertiesScreen = ({ navigation }) => {
             ItemSeparatorComponent={() => <SeperatorBar />}
           />
         </PropertiesView>
-        <Pressable onPress={() => navigation.goBack()}>
-          <BackArrowView>
-            <Icon name="arrow-left" color="black" size={30} />
-          </BackArrowView>
-        </Pressable>
+        <BackArrowPressable onPress={() => navigation.goBack()} />
       </SafeAreaView>
     </BackgroundBlackView>
   );

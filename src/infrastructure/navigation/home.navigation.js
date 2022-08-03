@@ -9,6 +9,7 @@ import ViewPropertiesScreen from "../../features/home/screens/view-properties.sc
 import CardSwipeView from "../../components/CardSwipeView";
 import ViewCardScreen from "../../features/home/screens/view-card.screen";
 import TradeOptionsScreen from "../../features/home/screens/trade-options.screen";
+import UserTradeScreen from "../../features/home/screens/user-trade.screen";
 
 const HomeStack = createNativeStackNavigator();
 
@@ -57,6 +58,7 @@ const HomeNavigator = () => {
       />
       <HomeStack.Screen name="View House" component={ViewCardScreen} />
       <HomeStack.Screen name="Trade Options" component={TradeOptionsScreen} />
+      <HomeStack.Screen name="Find User Trade" component={UserTradeScreen} />
     </HomeStack.Navigator>
   );
 };

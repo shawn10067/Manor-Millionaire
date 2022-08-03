@@ -1,12 +1,10 @@
 import React from "react";
-import { Pressable } from "react-native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import styled from "styled-components/native";
+import BackArrowPressable from "../../../components/BackArrow";
 import BackgroundBlackView from "../../../components/BackgroundBlackView";
 import LottieAnimation from "../../../components/LottieAnimation";
 import RoundedButton from "../../../components/RoundedButton";
 import SafeAreaView from "../../../components/SafeAreaView";
-import { BackArrowView } from "../components/view-properties.screen.styles";
 
 const TradeOptionsView = styled.View`
   flex: 1;
@@ -23,7 +21,7 @@ const NetworkLottieContainer = styled.View`
 
 const OptionsContainer = styled.View`
   flex: 0.4;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
 `;
@@ -44,15 +42,19 @@ const TradeOptionsScreen = ({ navigation }) => {
             <NetworkLottie />
           </NetworkLottieContainer>
           <OptionsContainer>
-            <RoundedButton text="Send" colour="blue" />
-            <RoundedButton text="View" colour="blue" />
+            <RoundedButton
+              text="Send"
+              colour="blue"
+              onPress={() => navigation.navigate("Find User Trade")}
+            />
+            <RoundedButton
+              text="View"
+              colour="blue"
+              onPress={() => navigation.navigate("View Trades")}
+            />
           </OptionsContainer>
         </TradeOptionsView>
-        <Pressable onPress={() => navigation.goBack()}>
-          <BackArrowView>
-            <Icon name="arrow-left" color="black" size={30} />
-          </BackArrowView>
-        </Pressable>
+        <BackArrowPressable onPress={() => navigation.goBack()} />
       </SafeAreaView>
     </BackgroundBlackView>
   );

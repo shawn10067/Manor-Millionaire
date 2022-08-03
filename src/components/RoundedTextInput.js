@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import theme from "../infrastructure/theme";
 import styled from "styled-components/native";
 import { TextInput } from "react-native";
@@ -8,8 +8,22 @@ const RoundedTextInput = ({
   backgroundColour = "white",
   borderColour = "green",
   placeholderColour = "grey",
+  onChange = () => null,
+  onEnd = (val) => console.log("input with", val),
   ...props
 }) => {
+  // search string ref
+  const searchString = useRef("");
+
+  // change function (incorporating the input prop)
+  const changeTextFn = (text) => {
+    searchString.current = text ? text : "";
+    onChange(searchString.current);
+  };
+  const endTextFn = (text) => {
+    onEnd(searchString.current);
+  };
+
   // getting the text colour based on if its in the pallate or not
   const text = theme.colours.main[textColour]
     ? theme.colours.main[textColour]
@@ -49,7 +63,14 @@ const RoundedTextInput = ({
     color: ${text};
   `;
 
-  return <RoundedTextInputBase {...props} />;
+  return (
+    <RoundedTextInputBase
+      {...props}
+      onChangeText={changeTextFn}
+      onEndEditing={endTextFn}
+      defaultValue={searchString.current}
+    />
+  );
 };
 
 export default RoundedTextInput;
