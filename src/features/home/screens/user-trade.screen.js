@@ -112,7 +112,7 @@ const UserTradeScreen = ({ navigation }) => {
       theirProperties: [],
       theirCash: 0,
     });
-    navigation.navigate("My Trade Properties", {
+    navigation.navigate("My Trade Cash", {
       property: defaultProperty,
     });
   };

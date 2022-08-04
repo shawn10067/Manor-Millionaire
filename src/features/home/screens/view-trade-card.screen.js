@@ -10,25 +10,45 @@ const ViewTradeCardScreen = ({ route, navigation }) => {
   const cardSwipeFunc = () => setTimeout(() => navigation.goBack(), 300);
   const { property = defaultProperty, addType = "me" } = route.params;
   const { trade, setTrade } = useContext(TradeContext);
+  const isPartOfTrade = trade.myProperties.find(
+    (propertyElement) => propertyElement.id === property.id
+  );
 
   const addToTrade = () => {
     if (addType === "me") {
-      setTrade({
-        ...trade,
-        myProperties: [...trade.myProperties, property],
-      });
+      if (isPartOfTrade) {
+        const removedFromProperties = trade.myProperties.filter(
+          (val) => val.id != property.id
+        );
+        setTrade({
+          ...trade,
+          myProperties: removedFromProperties,
+        });
+      } else {
+        setTrade({
+          ...trade,
+          myProperties: [...trade.myProperties, property],
+        });
+      }
     } else {
-      setTrade({
-        ...trade,
-        theirProperties: [...trade.theirProperties, property],
-      });
+      if (isPartOfTrade) {
+        const removedFromProperties = trade.theirProperties.filter(
+          (val) => val.id != property.id
+        );
+        setTrade({
+          ...trade,
+          theirProperties: removedFromProperties,
+        });
+      } else {
+        setTrade({
+          ...trade,
+          theirProperties: [...trade.theirProperties, property],
+        });
+      }
     }
     console.log("trade is", trade);
     navigation.goBack();
   };
-  const isPartOfTrade = trade.myProperties.find(
-    (propertyElement) => propertyElement.id === property.id
-  );
 
   return (
     <BackgroundView>
@@ -37,11 +57,11 @@ const ViewTradeCardScreen = ({ route, navigation }) => {
           <MoneyCounter />
           <CardSwipeView
             swipeDown={true}
-            swipeUp={!isPartOfTrade && true}
+            swipeUp={true}
             onSwipeDown={cardSwipeFunc}
             onSwipeUp={addToTrade}
             downMessage="back"
-            upMessage="add to deal"
+            upMessage={isPartOfTrade ? "remove from deal" : "add to deal"}
             property={property}
           />
         </SafeAreaAbsoluteView>
