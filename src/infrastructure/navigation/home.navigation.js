@@ -11,6 +11,11 @@ import ViewCardScreen from "../../features/home/screens/view-card.screen";
 import TradeOptionsScreen from "../../features/home/screens/trade-options.screen";
 import UserTradeScreen from "../../features/home/screens/user-trade.screen";
 import ViewTradesScreen from "../../features/home/screens/view-trades.screen";
+import ViewTradeCardScreen from "../../features/home/screens/view-trade-card.screen";
+import MyPropertiesTradeScreen from "../../features/home/screens/my-properties.screen";
+import TheirPropertiesTradeScreen from "../../features/home/screens/their-properties.screen";
+import MyCashTradeScreen from "../../features/home/screens/my-cash.screen";
+import TheirCashTradeScreen from "../../features/home/screens/their-cash.screen";
 
 const HomeStack = createNativeStackNavigator();
 
@@ -57,10 +62,27 @@ const HomeNavigator = () => {
         name="View Properties"
         component={ViewPropertiesScreen}
       />
-      <HomeStack.Screen name="View House" component={ViewCardScreen} />
       <HomeStack.Screen name="Trade Options" component={TradeOptionsScreen} />
       <HomeStack.Screen name="Find User Trade" component={UserTradeScreen} />
+      <HomeStack.Screen
+        name="My Trade Properties"
+        component={MyPropertiesTradeScreen}
+      />
+      <HomeStack.Screen name="My Trade Cash" component={MyCashTradeScreen} />
+      <HomeStack.Screen
+        name="Their Trade Properties"
+        component={TheirPropertiesTradeScreen}
+      />
+      <HomeStack.Screen
+        name="Their Trade Cash"
+        component={TheirCashTradeScreen}
+      />
       <HomeStack.Screen name="View Trades" component={ViewTradesScreen} />
+      <HomeStack.Screen name="View House" component={ViewCardScreen} />
+      <HomeStack.Screen
+        name="View Trade Card"
+        component={ViewTradeCardScreen}
+      />
     </HomeStack.Navigator>
   );
 };

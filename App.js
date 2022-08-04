@@ -6,6 +6,7 @@ import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import Navigation from "./src/infrastructure/navigation";
 import { UserContextProvider } from "./src/services/user/user.context";
+import { TradeContextProvider } from "./src/services/trade/trade.context";
 
 const App = () => {
   const [fontLoaded, fontError] = useFonts({
@@ -20,12 +21,14 @@ const App = () => {
 
   return (
     <UserContextProvider>
-      <NavigationContainer>
-        <ThemeProvider theme={theme}>
-          <Navigation />
-          <StatusBar style="light" />
-        </ThemeProvider>
-      </NavigationContainer>
+      <TradeContextProvider>
+        <NavigationContainer>
+          <ThemeProvider theme={theme}>
+            <Navigation />
+            <StatusBar style="light" />
+          </ThemeProvider>
+        </NavigationContainer>
+      </TradeContextProvider>
     </UserContextProvider>
   );
 };

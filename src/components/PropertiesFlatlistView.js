@@ -13,25 +13,30 @@ import { FlatList } from "react-native";
 import { getCountryProperties } from "../utils/countryDecorations";
 import { organizeProperties } from "../services/property/property.service";
 
-const PropertiesFlatlist = ({
-  navigation,
-  properties,
-  savingProperties = false,
-  setProperties = () => null,
-  selectedProperties = [],
-}) => {
+const PropertiesFlatlist = ({ navigation, properties, addType = "none" }) => {
   const organizedProperties = organizeProperties(properties);
   const renderPropertySection = ({ item }) => {
     return (
       <PropertyItemView>
         <PropertyItemPressable
-          onPress={() =>
-            navigation.navigate("View House", {
-              property: item,
-              swipeUp: false,
-              downMessage: "back",
-            })
-          }
+          onPress={() => {
+            if (addType === "me") {
+              navigation.navigate("View Trade Card", {
+                property: item,
+                addType: "me",
+              });
+            } else if (addType === "them") {
+              navigation.navigate("View Trade Card", {
+                property: item,
+                addType: "them",
+              });
+            } else {
+              navigation.navigate("View House", {
+                property: item,
+                downMessage: "back",
+              });
+            }
+          }}
         >
           <PropertyItemImage>
             <PropertyItemTintForeground>

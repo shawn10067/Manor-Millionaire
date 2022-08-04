@@ -172,22 +172,24 @@ const Card = ({ property, onSwipeUp, onSwipeDown, swipeUp, swipeDown }) => {
               <SubRentText>Tier 2️⃣</SubRentText>
               <SubRentText>${tier2CostString}</SubRentText>
             </PairContainer>
-            <ButtonView>
-              {buyAction && (
-                <BuyActionButton
-                  text={buyAction}
-                  colour="green"
-                  fontSize={20}
-                />
-              )}
-              {sellAction && (
-                <SellActionButton
-                  text={sellAction}
-                  colour="red"
-                  fontSize={20}
-                />
-              )}
-            </ButtonView>
+            {!swipeUp && (
+              <ButtonView>
+                {buyAction && (
+                  <BuyActionButton
+                    text={buyAction}
+                    colour="green"
+                    fontSize={20}
+                  />
+                )}
+                {sellAction && (
+                  <SellActionButton
+                    text={sellAction}
+                    colour="red"
+                    fontSize={20}
+                  />
+                )}
+              </ButtonView>
+            )}
           </InformationView>
         </BackContentView>
         <ArrowView>

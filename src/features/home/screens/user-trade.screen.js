@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { FlatList, Text } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import styled from "styled-components/native";
@@ -8,6 +8,8 @@ import RoundedButton from "../../../components/RoundedButton";
 import RoundedTextInput from "../../../components/RoundedTextInput";
 import SafeAreaView from "../../../components/SafeAreaView";
 import theme from "../../../infrastructure/theme";
+import { defaultProperty } from "../../../services/property/property.service";
+import { TradeContext } from "../../../services/trade/trade.context";
 import { SeperatorBar } from "../components/view-properties.screen.styles";
 
 const UserSearchView = styled.View`
@@ -70,16 +72,9 @@ const users = [
   { username: "luniwoney496565" },
 ];
 
-const renderUsers = ({ item }) => {
-  return (
-    <UserView>
-      <UserText>{item.username}</UserText>
-      <SendTradeButton colour="blue" text="send" fontSize={27} />
-    </UserView>
-  );
-};
-
 const UserTradeScreen = ({ navigation }) => {
+  const { setTrade, trade } = useContext(TradeContext);
+
   const [userData, setUserData] = useState(users);
   const [loading, setLoading] = useState(false);
   const usernameString = useRef("");
@@ -106,6 +101,35 @@ const UserTradeScreen = ({ navigation }) => {
         filterUsers(usernameString.current);
       }, 1500);
     }
+  };
+
+  // initiating trade
+  const startTrade = () => {
+    setTrade({
+      theirId: "546adf654",
+      myProperties: [],
+      myCash: 0,
+      theirProperties: [],
+      theirCash: 0,
+    });
+    navigation.navigate("My Trade Properties", {
+      property: defaultProperty,
+    });
+  };
+
+  // user render
+  const renderUsers = ({ item }) => {
+    return (
+      <UserView>
+        <UserText>{item.username}</UserText>
+        <SendTradeButton
+          colour="blue"
+          text="send"
+          fontSize={27}
+          onPress={startTrade}
+        />
+      </UserView>
+    );
   };
 
   return (
