@@ -104,8 +104,9 @@ const UserTradeScreen = ({ navigation }) => {
   };
 
   // initiating trade
-  const startTrade = () => {
+  const startTrade = (user) => {
     setTrade({
+      theirUsername: user.username,
       theirId: "546adf654",
       myProperties: [],
       myCash: 0,
@@ -126,7 +127,7 @@ const UserTradeScreen = ({ navigation }) => {
           colour="blue"
           text="send"
           fontSize={27}
-          onPress={startTrade}
+          onPress={() => startTrade(item)}
         />
       </UserView>
     );
