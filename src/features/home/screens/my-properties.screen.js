@@ -39,7 +39,11 @@ const MyPropertiesTradeScreen = ({ navigation }) => {
             properties={properties()}
             navigation={navigation}
           />
-          <ContinueButton colour="blue" text="Continue" />
+          <ContinueButton
+            colour="blue"
+            text="Continue"
+            onPress={() => navigation.navigate("Their Trade Cash")}
+          />
         </MainPropertySelectionContainer>
       </SafeAreaView>
     </BackgroundBlackView>

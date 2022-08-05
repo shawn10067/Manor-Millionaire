@@ -7,7 +7,7 @@ import SafeAreaView from "../../../components/SafeAreaView";
 
 const ViewCardScreen = ({ route, navigation }) => {
   const cardSwipeFunc = () => setTimeout(() => navigation.goBack(), 300);
-  const { property = defaultProperty } = route.params;
+  const { property = defaultProperty, buttonsDisabled = false } = route.params;
   return (
     <BackgroundView>
       <SafeAreaView>
@@ -19,6 +19,7 @@ const ViewCardScreen = ({ route, navigation }) => {
             onSwipeDown={cardSwipeFunc}
             downMessage="back"
             property={property}
+            buttonsDisabled={buttonsDisabled}
           />
         </SafeAreaAbsoluteView>
       </SafeAreaView>

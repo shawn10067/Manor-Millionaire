@@ -38,7 +38,14 @@ const CardFlipView = styled(GestureFlipView)`
   background-color: aliceblue;
 `;
 
-const Card = ({ property, onSwipeUp, onSwipeDown, swipeUp, swipeDown }) => {
+const Card = ({
+  property,
+  onSwipeUp,
+  onSwipeDown,
+  swipeUp,
+  swipeDown,
+  buttonsDisabled = false,
+}) => {
   const { height, width } = Dimensions.get("screen");
   const {
     country,
@@ -172,7 +179,7 @@ const Card = ({ property, onSwipeUp, onSwipeDown, swipeUp, swipeDown }) => {
               <SubRentText>Tier 2️⃣</SubRentText>
               <SubRentText>${tier2CostString}</SubRentText>
             </PairContainer>
-            {!swipeUp && (
+            {!swipeUp && !buttonsDisabled && (
               <ButtonView>
                 {buyAction && (
                   <BuyActionButton

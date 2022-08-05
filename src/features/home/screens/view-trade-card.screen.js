@@ -10,9 +10,13 @@ const ViewTradeCardScreen = ({ route, navigation }) => {
   const cardSwipeFunc = () => setTimeout(() => navigation.goBack(), 300);
   const { property = defaultProperty, addType = "me" } = route.params;
   const { trade, setTrade } = useContext(TradeContext);
-  const isPartOfTrade = trade.myProperties.find(
-    (propertyElement) => propertyElement.id === property.id
-  );
+  const isPartOfTrade =
+    trade.myProperties.find(
+      (propertyElement) => propertyElement.id === property.id
+    ) ||
+    trade.theirProperties.find(
+      (propertyElement) => propertyElement.id === property.id
+    );
 
   const addToTrade = () => {
     if (addType === "me") {
@@ -46,7 +50,6 @@ const ViewTradeCardScreen = ({ route, navigation }) => {
         });
       }
     }
-    console.log("trade is", trade);
     navigation.goBack();
   };
 

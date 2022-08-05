@@ -16,6 +16,7 @@ import MyPropertiesTradeScreen from "../../features/home/screens/my-properties.s
 import TheirPropertiesTradeScreen from "../../features/home/screens/their-properties.screen";
 import MyCashTradeScreen from "../../features/home/screens/my-cash.screen";
 import TheirCashTradeScreen from "../../features/home/screens/their-cash.screen";
+import ReviewTradeScreen from "../../features/home/screens/review-trade.screen";
 
 const HomeStack = createNativeStackNavigator();
 
@@ -26,8 +27,6 @@ const HomeNavigator = () => {
       ? "Home"
       : "Tutorial"
     : "Username Selection";
-
-  console.log(initialRoute, user);
 
   return (
     <HomeStack.Navigator
@@ -78,6 +77,7 @@ const HomeNavigator = () => {
         component={TheirCashTradeScreen}
       />
       <HomeStack.Screen name="View Trades" component={ViewTradesScreen} />
+      <HomeStack.Screen name="Review Trade" component={ReviewTradeScreen} />
       <HomeStack.Screen name="View House" component={ViewCardScreen} />
       <HomeStack.Screen
         name="View Trade Card"

@@ -82,7 +82,7 @@ const UserTradeScreen = ({ navigation }) => {
   let pollingInterval;
 
   const filterUsers = (text) => {
-    console.log("searched with", text);
+    "searched with", text;
     if (text) {
       const newUsers = users.filter((user) => {
         return user.username.toLowerCase().includes(text.toLowerCase());

@@ -37,6 +37,7 @@ const CardSwipeView = ({
   upMessage = "buy",
   downMessage = "decline",
   property = defaultProperty,
+  buttonsDisabled = false,
 }) => {
   return (
     <CardSwipeContainer>
@@ -53,6 +54,7 @@ const CardSwipeView = ({
         swipeDown={swipeDown}
         onSwipeUp={onSwipeUp}
         onSwipeDown={onSwipeDown}
+        buttonsDisabled={buttonsDisabled}
       />
       {swipeDown && (
         <SwipeItemsContainer>

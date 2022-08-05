@@ -58,7 +58,7 @@ const MyCashTradeScreen = ({ navigation }) => {
   const { trade, setTrade } = useContext(TradeContext);
   const cash = useRef(0);
 
-  const submit = (val) => {
+  const submit = () => {
     const myCash = Number.parseInt(cash.current);
     console.log("sending cash", myCash);
     setTrade({
@@ -78,6 +78,8 @@ const MyCashTradeScreen = ({ navigation }) => {
               <CashTextInput
                 keyboardType={"number-pad"}
                 onEnd={(val) => (cash.current = val)}
+                placeholder={"0"}
+                defaultValue={0}
               />
               <DoneButton
                 text="done"

@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import NotiIcon from "react-native-vector-icons/MaterialIcons";
 import BackgroundView from "../../../components/BackgroundView";
 import MoneyCounter from "../../../components/MoneyCounter";
 import SafeAreaView from "../../../components/SafeAreaView";
 import theme from "../../../infrastructure/theme";
+import { TradeContext } from "../../../services/trade/trade.context";
 import {
   CenterView,
   MapLottie,
@@ -16,6 +17,8 @@ import {
 } from "../components/home.screen.styles";
 
 const HomeScreen = ({ navigation }) => {
+  const { trade } = useContext(TradeContext);
+
   return (
     <BackgroundView>
       <SafeAreaView>
@@ -42,7 +45,7 @@ const HomeScreen = ({ navigation }) => {
               />
             </CenterView>
           </MapLottie>
-          <SpinButton />
+          <SpinButton onPress={() => console.log(trade)} />
         </MapView>
       </SafeAreaView>
     </BackgroundView>
