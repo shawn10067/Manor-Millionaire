@@ -25,6 +25,12 @@ const TradeView = styled.View`
   width: 100%;
 `;
 
+const ViewTradeButtonView = styled.View`
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+`;
+
 const MainText = styled(Text)`
   font-family: FuturaPTHeavy;
   font-size: 30px;
@@ -40,10 +46,44 @@ const SendButton = styled(RoundedButton).attrs({
   height: 80px;
 `;
 
+const AcceptButton = styled(RoundedButton).attrs({
+  colour: "green",
+  text: "Accept",
+  fontSize: 30,
+})`
+  width: 40%;
+  height: 70px;
+`;
+
+const DeclineButton = styled(RoundedButton).attrs({
+  colour: "red",
+  text: "Decline",
+  fontSize: 30,
+})`
+  width: 40%;
+  height: 70px;
+`;
+
 const ReviewTradeScreen = ({ navigation, route }) => {
   const { trade } = useContext(TradeContext);
   const { type } = route.params;
-  console.log("type", type);
+
+  const isView = type === "view";
+
+  // decline view trade button
+  const onDecline = () => {
+    navigation.navigate("Home");
+  };
+
+  // accept view trade button
+  const onAccept = () => {
+    navigation.navigate("Home");
+  };
+
+  // accept view trade button
+  const onSubmit = () => {
+    navigation.navigate("Home");
+  };
 
   // rendering properties
   const renderPropertySection = ({ item }) => {
@@ -66,6 +106,7 @@ const ReviewTradeScreen = ({ navigation, route }) => {
       </PropertyItemView>
     );
   };
+
   return (
     <BackgroundBlackView>
       <SafeAreaView>
@@ -86,7 +127,14 @@ const ReviewTradeScreen = ({ navigation, route }) => {
               data={trade.myProperties}
             />
           </TradeView>
-          <SendButton onPress={() => navigation.navigate("Home")} />
+          {!isView ? (
+            <SendButton onPress={onSubmit} />
+          ) : (
+            <ViewTradeButtonView>
+              <AcceptButton onPress={onAccept} />
+              <DeclineButton onPress={onDecline} />
+            </ViewTradeButtonView>
+          )}
         </MainView>
       </SafeAreaView>
     </BackgroundBlackView>
