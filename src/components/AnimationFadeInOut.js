@@ -9,20 +9,27 @@ const AnimationFadeInOut = ({ children, ...props }) => {
     if (isVisible) {
       Animated.timing(fadeAnim, {
         toValue: 1,
-        duration: 500,
-      }).start();
-    } else {
-      Animated.timing(fadeAnim, {
-        toValue: 0,
-        duration: 500,
+        duration: 1000,
+        useNativeDriver: true,
       }).start();
     }
+    return () => {
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 1000,
+        useNativeDriver: true,
+      }).start();
+    };
   }, [isVisible]);
+
   return (
     <Animated.View
       style={{
         ...props.style,
+        flex: 1,
         opacity: fadeAnim,
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       {children}

@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import NotiIcon from "react-native-vector-icons/MaterialIcons";
+import AnimationFadeInOut from "../../../components/AnimationFadeInOut";
 import BackgroundView from "../../../components/BackgroundView";
 import MoneyCounter from "../../../components/MoneyCounter";
 import SafeAreaView from "../../../components/SafeAreaView";
@@ -32,18 +33,20 @@ const HomeScreen = ({ navigation }) => {
             source={require("../../../../assets/globe.json")}
             speed={0.5}
           >
-            <CenterView>
-              <PropertiesButton
-                text="View Properties"
-                colour="red"
-                fontSize={25}
-                onPress={() => navigation.navigate("View Properties")}
-              />
-              <TradeButton
-                onPress={() => navigation.navigate("Trade Options")}
-                fontSize={30}
-              />
-            </CenterView>
+            <AnimationFadeInOut>
+              <CenterView>
+                <PropertiesButton
+                  text="View Properties"
+                  colour="red"
+                  fontSize={25}
+                  onPress={() => navigation.navigate("View Properties")}
+                />
+                <TradeButton
+                  onPress={() => navigation.navigate("Trade Options")}
+                  fontSize={30}
+                />
+              </CenterView>
+            </AnimationFadeInOut>
           </MapLottie>
           <SpinButton onPress={() => console.log(trade)} />
         </MapView>

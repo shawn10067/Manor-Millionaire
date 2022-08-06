@@ -7,6 +7,7 @@ import styled from "styled-components/native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import theme from "../infrastructure/theme";
 import { Text, View } from "react-native";
+import AnimationFadeInOut from "./AnimationFadeInOut";
 
 export const CardSwipeContainer = styled.View`
   flex: 1;
@@ -41,28 +42,30 @@ const CardSwipeView = ({
 }) => {
   return (
     <CardSwipeContainer>
-      {swipeUp && (
-        <SwipeItemsContainer>
-          <View />
-          <Icon name="arrow-up" color={theme.colours.main.green} size={40} />
-          <CardText>{upMessage}</CardText>
-        </SwipeItemsContainer>
-      )}
-      <Card
-        property={property}
-        swipeUp={swipeUp}
-        swipeDown={swipeDown}
-        onSwipeUp={onSwipeUp}
-        onSwipeDown={onSwipeDown}
-        buttonsDisabled={buttonsDisabled}
-      />
-      {swipeDown && (
-        <SwipeItemsContainer>
-          <View />
-          <Icon name="arrow-down" color={theme.colours.main.red} size={40} />
-          <CardText>{downMessage}</CardText>
-        </SwipeItemsContainer>
-      )}
+      <AnimationFadeInOut>
+        {swipeUp && (
+          <SwipeItemsContainer>
+            <View />
+            <Icon name="arrow-up" color={theme.colours.main.green} size={40} />
+            <CardText>{upMessage}</CardText>
+          </SwipeItemsContainer>
+        )}
+        <Card
+          property={property}
+          swipeUp={swipeUp}
+          swipeDown={swipeDown}
+          onSwipeUp={onSwipeUp}
+          onSwipeDown={onSwipeDown}
+          buttonsDisabled={buttonsDisabled}
+        />
+        {swipeDown && (
+          <SwipeItemsContainer>
+            <View />
+            <Icon name="arrow-down" color={theme.colours.main.red} size={40} />
+            <CardText>{downMessage}</CardText>
+          </SwipeItemsContainer>
+        )}
+      </AnimationFadeInOut>
     </CardSwipeContainer>
   );
 };
