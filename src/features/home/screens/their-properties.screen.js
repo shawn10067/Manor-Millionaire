@@ -41,7 +41,7 @@ const TheirPropertiesTradeScreen = ({ navigation }) => {
             text="Continue"
             onPress={() =>
               navigation.navigate("Review Trade", {
-                type: "view",
+                type: "send",
               })
             }
           />

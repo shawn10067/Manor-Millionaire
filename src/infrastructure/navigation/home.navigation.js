@@ -17,6 +17,9 @@ import TheirPropertiesTradeScreen from "../../features/home/screens/their-proper
 import MyCashTradeScreen from "../../features/home/screens/my-cash.screen";
 import TheirCashTradeScreen from "../../features/home/screens/their-cash.screen";
 import ReviewTradeScreen from "../../features/home/screens/review-trade.screen";
+import TransactionScreen from "../../features/home/screens/transaction.screen";
+import TransactionSuccessScreen from "../../features/home/screens/transaction-success.screen";
+import TransactionFailScreen from "../../features/home/screens/transaction-failed.screen";
 
 const HomeStack = createNativeStackNavigator();
 
@@ -79,6 +82,15 @@ const HomeNavigator = () => {
       <HomeStack.Screen name="View Trades" component={ViewTradesScreen} />
       <HomeStack.Screen name="Review Trade" component={ReviewTradeScreen} />
       <HomeStack.Screen name="View House" component={ViewCardScreen} />
+      <HomeStack.Screen name="Transaction" component={TransactionScreen} />
+      <HomeStack.Screen
+        name="Transaction Success"
+        component={TransactionSuccessScreen}
+      />
+      <HomeStack.Screen
+        name="Transaction Fail"
+        component={TransactionFailScreen}
+      />
       <HomeStack.Screen
         name="View Trade Card"
         component={ViewTradeCardScreen}

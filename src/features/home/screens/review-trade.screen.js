@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { FlatList, Text } from "react-native";
+import { FlatList, ImageBackground, Text } from "react-native";
 import styled from "styled-components/native";
 import BackgroundBlackView from "../../../components/BackgroundBlackView";
 import RoundedButton from "../../../components/RoundedButton";
@@ -27,35 +27,33 @@ const TradeView = styled.View`
   width: 100%;
 `;
 
+const TheirView = styled.View`
+  flex: 1;
+`;
+
+const MyView = styled.View`
+  flex: 1;
+`;
+
 const ViewTradeButtonView = styled.View`
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
 `;
 
-const MainText = styled(Text)`
+const UserText = styled(Text)`
   font-family: FuturaPTHeavy;
-  font-size: 30px;
+  font-size: 35px;
   color: ${({ theme }) => theme.colours.main.white};
   margin: 5px;
 `;
 
-const UserText = styled(Text)`
+const GreenSubHeadingText = styled(Text)`
   font-family: FuturaPTHeavy;
   font-size: 30px;
-  color: ${({ theme }) => theme.colours.main.blue};
-`;
-
-const CashText = styled(Text)`
-  font-family: FuturaPTHeavy;
-  font-size: 24px;
-  color: ${({ theme }) => theme.colours.main.white};
-`;
-
-const MoneyText = styled(Text)`
-  font-family: FuturaPTHeavy;
-  font-size: 24px;
   color: ${({ theme }) => theme.colours.main.green};
+  margin: 5px;
+  text-align: center;
 `;
 
 const SendButton = styled(RoundedButton).attrs({
@@ -102,7 +100,13 @@ const ReviewTradeScreen = ({ navigation, route }) => {
 
   // accept view trade button
   const onSubmit = () => {
-    navigation.navigate("Home");
+    new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, 6000);
+    }).then(() => navigation.navigate("Transaction Fail"));
+
+    navigation.navigate("Transaction");
   };
 
   // rendering properties
@@ -127,37 +131,59 @@ const ReviewTradeScreen = ({ navigation, route }) => {
     );
   };
 
+  // render their trade if they only have properties
+  const renderTheirProperties = () => {
+    if (trade.theirProperties.length > 0) {
+      return (
+        <FlatList
+          horizontal
+          data={trade.theirProperties}
+          renderItem={renderPropertySection}
+          keyExtractor={(item) => item.id}
+        />
+      );
+    }
+  };
+
+  // render my trade if I only have properties
+  const renderMyProperties = () => {
+    // if I have only properties and no cash, include my username
+    if (trade.myProperties.length > 0) {
+      return (
+        <FlatList
+          horizontal
+          data={trade.myProperties}
+          renderItem={renderPropertySection}
+          keyExtractor={(item) => item.id}
+        />
+      );
+    }
+  };
+
   return (
     <BackgroundBlackView>
       <SafeAreaView>
         <MainView>
           <TradeView>
-            <MainText>
-              <UserText>{trade.theirUsername}'s</UserText> properties +
-              <CashText>
-                {" "}
-                <MoneyText>${trade.theirCash}</MoneyText>
-              </CashText>
-            </MainText>
-            <FlatList
-              horizontal
-              keyExtractor={(item) => item.id}
-              renderItem={renderPropertySection}
-              data={trade.theirProperties}
-            />
+            <TheirView>
+              <UserText>
+                {trade.theirUsername}{" "}
+                {trade.theirCash !== 0 && (
+                  <GreenSubHeadingText>${trade.theirCash}</GreenSubHeadingText>
+                )}
+              </UserText>
+              {renderTheirProperties()}
+            </TheirView>
             <SeperatorBar />
-            <MainText>
-              Your properties +{" "}
-              <CashText>
-                <MoneyText>${trade.theirCash}</MoneyText>
-              </CashText>
-            </MainText>
-            <FlatList
-              horizontal
-              keyExtractor={(item) => item.id}
-              renderItem={renderPropertySection}
-              data={trade.myProperties}
-            />
+            <MyView>
+              <UserText>
+                You{" "}
+                {trade.myCash !== 0 && (
+                  <GreenSubHeadingText>${trade.myCash}</GreenSubHeadingText>
+                )}
+              </UserText>
+              {renderMyProperties()}
+            </MyView>
           </TradeView>
           {!isView ? (
             <SendButton onPress={onSubmit} />

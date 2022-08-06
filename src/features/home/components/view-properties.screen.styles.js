@@ -9,7 +9,7 @@ export const PropertiesView = styled.View`
 export const SeperatorBar = styled.View`
   height: 10px;
   width: 80%;
-  background-color: #042a6e;
+  background-color: #b4adea;
   border-radius: 4px;
   margin: 8px;
 `;
@@ -22,9 +22,8 @@ export const CountryHeaderText = styled(Text)`
 `;
 
 export const PropertyItemView = styled.View`
-  height: 175px;
-  width: 175px;
-  background-color: purple;
+  height: 150px;
+  width: 150px;
   margin: 10px;
   border-radius: 30px;
 `;
@@ -37,6 +36,7 @@ export const PropertyItemImage = styled(ImageBackground).attrs({
   border-radius: 10px;
   height: 100%;
   width: 100%;
+  overflow: hidden;
 `;
 
 export const PropertyItemTintForeground = styled.View`
