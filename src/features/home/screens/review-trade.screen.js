@@ -61,7 +61,7 @@ const SendButton = styled(RoundedButton).attrs({
   text: "Send",
 })`
   width: 70%;
-  height: 80px;
+  height: 70px;
 `;
 
 const AcceptButton = styled(RoundedButton).attrs({

@@ -9,6 +9,7 @@ const RoundedButton = ({
   fontSize = 40,
   normalBackgroundColor = "white",
   pressedBackgroundColor = "#C9C5C6",
+  shadow = true,
   ...props
 }) => {
   // getting the pressed background colour based on if its in the pallate or not
@@ -33,8 +34,8 @@ const RoundedButton = ({
     width: 220px;
     justify-content: center;
     align-items: center;
-    elevation: 10;
-    box-shadow: 0px 6px rgba(0, 0, 0, 0.7);
+    ${shadow && `elevation: 10;`};
+    ${shadow && `box-shadow: 0px 6px rgba(0, 0, 0, 0.7)`};
   `;
 
   // text styling

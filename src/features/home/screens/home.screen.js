@@ -13,9 +13,10 @@ import {
   MapView,
   MenuView,
   PropertiesButton,
-  SpinButton,
+  SpinRoundedButton,
   TradeButton,
 } from "../components/home.screen.styles";
+import SpinButtonProgressBar from "../../../components/SpinButtonProgressBar";
 
 const HomeScreen = ({ navigation }) => {
   const { trade } = useContext(TradeContext);
@@ -48,7 +49,8 @@ const HomeScreen = ({ navigation }) => {
               </CenterView>
             </AnimationFadeInOut>
           </MapLottie>
-          <SpinButton onPress={() => console.log(trade)} />
+          <SpinButtonProgressBar onPress={() => console.log(trade)} />
+          <SpinRoundedButton />
         </MapView>
       </SafeAreaView>
     </BackgroundView>

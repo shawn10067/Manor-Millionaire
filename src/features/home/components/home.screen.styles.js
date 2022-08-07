@@ -41,12 +41,17 @@ export const MenuView = styled.View`
   align-items: center;
 `;
 
-export const SpinButton = styled(RoundedButton).attrs({
-  colour: "blue",
+export const SpinRoundedButton = styled(RoundedButton).attrs({
+  fontSize: 30,
   text: "Spin",
+  colour: "#C1BBB3",
+  normalBackgroundColor: "rgba(0, 0, 0, 0.1)",
+  pressedBackgroundColor: "rgba(0, 0, 0, 0.4)",
+  shadow: false,
 })`
-  position: absolute;
-  bottom: 30px;
-  height: 70px;
   width: 230px;
+  height: 70px;
+  position: absolute;
+  bottom: 20px;
+  z-index: 3;
 `;
