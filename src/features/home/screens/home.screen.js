@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef, useState } from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import NotiIcon from "react-native-vector-icons/MaterialIcons";
 import AnimationFadeInOut from "../../../components/AnimationFadeInOut";
@@ -20,7 +20,6 @@ import SpinButtonProgressBar from "../../../components/SpinButtonProgressBar";
 
 const HomeScreen = ({ navigation }) => {
   const { trade } = useContext(TradeContext);
-
   return (
     <BackgroundView>
       <SafeAreaView>
@@ -49,8 +48,14 @@ const HomeScreen = ({ navigation }) => {
               </CenterView>
             </AnimationFadeInOut>
           </MapLottie>
-          <SpinButtonProgressBar onPress={() => console.log(trade)} />
-          <SpinRoundedButton />
+          <SpinButtonProgressBar
+            timeTill={Date.now() + 20000}
+            startTime={Date.now()}
+          />
+          <SpinRoundedButton
+            onPress={() => console.log(trade)}
+            disabled={Date.now() + 5000 < Date.now()}
+          />
         </MapView>
       </SafeAreaView>
     </BackgroundView>

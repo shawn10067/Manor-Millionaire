@@ -44,7 +44,7 @@ export const MenuView = styled.View`
 export const SpinRoundedButton = styled(RoundedButton).attrs({
   fontSize: 30,
   text: "Spin",
-  colour: "#C1BBB3",
+  colour: "white",
   normalBackgroundColor: "rgba(0, 0, 0, 0.1)",
   pressedBackgroundColor: "rgba(0, 0, 0, 0.4)",
   shadow: false,

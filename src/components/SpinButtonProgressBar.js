@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from "react";
-import { Animated } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components/native";
+import { ProgressBar } from "react-native-paper";
+import theme from "../infrastructure/theme";
 
 const ButtonBackground = styled.View`
   background-color: ${({ theme }) => theme.colours.main.white};
@@ -12,41 +13,46 @@ const ButtonBackground = styled.View`
   width: 230px;
 `;
 
-const SpinButtonProgressBar = ({ children, ...props }) => {
-  // holding the current value of the spin animation
-  const progress = useRef(new Animated.Value(0)).current;
+const SpinButtonProgressBar = ({ timeTill = Date.now() + 5000, startTime }) => {
+  let interval = useRef(null);
+  const [progress, setProgress] = useState(0);
+  const startDifference = useRef(timeTill - startTime);
 
-  // animate the progress variable to 100% slowly for the duration of 5 minutes
+  // get ms difference from now to the timeTill
+  const getDifference = () => timeTill - Date.now();
+
+  // update the progress every 1 second by 0.1 and clear the interval when the progress is 100 or the component is unmounted
   useEffect(() => {
-    Animated.timing(progress, {
-      toValue: 100,
-      duration: 5000,
-      useNativeDriver: true,
-    }).start();
-    // console log the progress variable after 500 ms
-    setTimeout(() => {
-      console.log(progress);
-    }, 500);
-  });
+    interval.current = setInterval(() => {
+      const diff = getDifference();
+      if (diff > 0) {
+        const absoluteProgress = Math.abs(1 - diff / startDifference.current);
+        if (absoluteProgress !== Infinity) {
+          setProgress(absoluteProgress);
+        }
+      } else {
+        setProgress(100);
+        clearInterval(interval.current);
+      }
+    }, 1000);
+    return () => {
+      clearInterval(interval.current);
+    };
+  }, [progress]);
 
-  // blue background that uses the width of the progress variable to hold the spin button
-  const ProgressBackground = styled.View`
-    background-color: ${({ theme }) => theme.colours.main.blue};
-    border-radius: 30px;
-    height: 100%;
-    z-index: 2;
-  `;
-
+  // use the progress and the react-native-paper progress bar to display the progress
   return (
-    <>
-      <ButtonBackground>
-        <ProgressBackground
-          style={{
-            width: 130,
-          }}
-        />
-      </ButtonBackground>
-    </>
+    <ButtonBackground>
+      <ProgressBar
+        progress={progress}
+        color={theme.colours.main.blue}
+        style={{
+          height: "100%",
+          width: "100%",
+          borderRadius: 30,
+        }}
+      />
+    </ButtonBackground>
   );
 };
 
