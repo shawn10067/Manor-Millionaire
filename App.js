@@ -7,6 +7,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import Navigation from "./src/infrastructure/navigation";
 import { UserContextProvider } from "./src/services/user/user.context";
 import { TradeContextProvider } from "./src/services/trade/trade.context";
+import { SpinContextProvider } from "./src/services/spin/spin.context";
 
 const App = () => {
   const [fontLoaded, fontError] = useFonts({
@@ -21,14 +22,16 @@ const App = () => {
 
   return (
     <UserContextProvider>
-      <TradeContextProvider>
-        <NavigationContainer>
-          <ThemeProvider theme={theme}>
-            <Navigation />
-            <StatusBar style="light" />
-          </ThemeProvider>
-        </NavigationContainer>
-      </TradeContextProvider>
+      <SpinContextProvider>
+        <TradeContextProvider>
+          <NavigationContainer>
+            <ThemeProvider theme={theme}>
+              <Navigation />
+              <StatusBar style="light" />
+            </ThemeProvider>
+          </NavigationContainer>
+        </TradeContextProvider>
+      </SpinContextProvider>
     </UserContextProvider>
   );
 };

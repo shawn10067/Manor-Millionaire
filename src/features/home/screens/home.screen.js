@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import NotiIcon from "react-native-vector-icons/MaterialIcons";
 import AnimationFadeInOut from "../../../components/AnimationFadeInOut";
@@ -17,9 +17,37 @@ import {
   TradeButton,
 } from "../components/home.screen.styles";
 import SpinButtonProgressBar from "../../../components/SpinButtonProgressBar";
+import { SpinContext } from "../../../services/spin/spin.context";
+import SpinProgress from "../components/SpinProgress";
+import { Alert } from "react-native";
 
 const HomeScreen = ({ navigation }) => {
   const { trade } = useContext(TradeContext);
+  const {
+    updateNextSpinTime,
+    updatePreviousSpinTime,
+    nextSpinTime,
+    previousSpinTime,
+    setHasSpun,
+    hasSpun,
+  } = useContext(SpinContext);
+  const onSpinPress = () => {
+    // in reality, update this state when spin flow is done (finish later)
+    setHasSpun(true);
+
+    updateNextSpinTime();
+    updatePreviousSpinTime();
+
+    console.log(trade);
+  };
+
+  const RunOnSpinReached = () => {
+    setHasSpun(true);
+    setTimeout(() => {
+      navigation.navigate("View Trades");
+    }, 1000);
+  };
+
   return (
     <BackgroundView>
       <SafeAreaView>
@@ -49,13 +77,12 @@ const HomeScreen = ({ navigation }) => {
             </AnimationFadeInOut>
           </MapLottie>
           <SpinButtonProgressBar
-            timeTill={Date.now() + 20000}
-            startTime={Date.now()}
-          />
-          <SpinRoundedButton
-            onPress={() => console.log(trade)}
-            disabled={Date.now() + 5000 < Date.now()}
-          />
+            timeTill={nextSpinTime.getTime()}
+            startTime={previousSpinTime.getTime()}
+          >
+            <SpinProgress RunOnSpinReached={RunOnSpinReached} />
+          </SpinButtonProgressBar>
+          <SpinRoundedButton onPress={() => onSpinPress()} disabled={hasSpun} />
         </MapView>
       </SafeAreaView>
     </BackgroundView>

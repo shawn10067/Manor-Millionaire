@@ -13,7 +13,11 @@ const ButtonBackground = styled.View`
   width: 230px;
 `;
 
-const SpinButtonProgressBar = ({ timeTill = Date.now() + 5000, startTime }) => {
+const SpinButtonProgressBar = ({
+  timeTill = Date.now() + 5000,
+  startTime,
+  children,
+}) => {
   let interval = useRef(null);
   const [progress, setProgress] = useState(0);
   const startDifference = useRef(timeTill - startTime);
@@ -52,6 +56,7 @@ const SpinButtonProgressBar = ({ timeTill = Date.now() + 5000, startTime }) => {
           borderRadius: 30,
         }}
       />
+      {children}
     </ButtonBackground>
   );
 };

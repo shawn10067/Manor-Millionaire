@@ -41,6 +41,17 @@ export const MenuView = styled.View`
   align-items: center;
 `;
 
+export const SpinTimeText = styled.Text`
+  font-size: 20px;
+  font-family: FuturaPTHeavy;
+  color: #f6ae2d;
+  margin: 5px;
+  text-align: center;
+  position: absolute;
+  top: -40px;
+  width: 100%;
+`;
+
 export const SpinRoundedButton = styled(RoundedButton).attrs({
   fontSize: 30,
   text: "Spin",

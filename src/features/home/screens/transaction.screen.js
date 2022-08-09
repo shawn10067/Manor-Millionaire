@@ -17,7 +17,7 @@ const TransactionAnimation = styled(LottieAnimation).attrs({
 })`
   width: 100%;
   height: 100%;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
 `;
 
@@ -27,7 +27,7 @@ const TransactionText = styled(Text)`
   color: ${({ theme }) => theme.colours.main.white};
   text-align: center;
   margin: 8px;
-  margin-bottom: 80px;
+  margin-top: 160px;
 `;
 
 const TransactionScreen = ({ navigation }) => {
