@@ -11,7 +11,6 @@ const SpinTimes = () => {
 
   // get 8 hour intervals for current date
   const SpinIntervals = [
-    new Date(year, month, day, 1, 54, 0, 0),
     new Date(year, month, day, 8, 0, 0, 0),
     new Date(year, month, day, 16, 0, 0, 0),
     new Date(year, month, day, 24, 0, 0, 0),

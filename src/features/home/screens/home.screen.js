@@ -19,7 +19,6 @@ import {
 import SpinButtonProgressBar from "../../../components/SpinButtonProgressBar";
 import { SpinContext } from "../../../services/spin/spin.context";
 import SpinProgress from "../components/SpinProgress";
-import { Alert } from "react-native";
 
 const HomeScreen = ({ navigation }) => {
   const { trade } = useContext(TradeContext);
@@ -31,6 +30,7 @@ const HomeScreen = ({ navigation }) => {
     setHasSpun,
     hasSpun,
   } = useContext(SpinContext);
+
   const onSpinPress = () => {
     // in reality, update this state when spin flow is done (finish later)
     setHasSpun(true);
@@ -38,14 +38,13 @@ const HomeScreen = ({ navigation }) => {
     updateNextSpinTime();
     updatePreviousSpinTime();
 
+    navigation.navigate("Bankruptcy Options");
     console.log(trade);
   };
 
   const RunOnSpinReached = () => {
-    setHasSpun(true);
-    setTimeout(() => {
-      navigation.navigate("View Trades");
-    }, 1000);
+    setHasSpun(false);
+    console.log("spin time activated");
   };
 
   return (

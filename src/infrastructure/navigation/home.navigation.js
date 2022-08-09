@@ -20,6 +20,8 @@ import ReviewTradeScreen from "../../features/home/screens/review-trade.screen";
 import TransactionScreen from "../../features/home/screens/transaction.screen";
 import TransactionSuccessScreen from "../../features/home/screens/transaction-success.screen";
 import TransactionFailScreen from "../../features/home/screens/transaction-failed.screen";
+import BankruptcyPropertyScreen from "../../features/home/screens/bankruptcy-properties.screen";
+import BankruptcyOptionsScreen from "../../features/home/screens/bankruptcy-options.screen";
 
 const HomeStack = createNativeStackNavigator();
 
@@ -94,6 +96,14 @@ const HomeNavigator = () => {
       <HomeStack.Screen
         name="View Trade Card"
         component={ViewTradeCardScreen}
+      />
+      <HomeStack.Screen
+        name="Bankruptcy Options"
+        component={BankruptcyOptionsScreen}
+      />
+      <HomeStack.Screen
+        name="Bankruptcy Properties"
+        component={BankruptcyPropertyScreen}
       />
     </HomeStack.Navigator>
   );
