@@ -22,6 +22,7 @@ import TransactionSuccessScreen from "../../features/home/screens/transaction-su
 import TransactionFailScreen from "../../features/home/screens/transaction-failed.screen";
 import BankruptcyPropertyScreen from "../../features/home/screens/bankruptcy-properties.screen";
 import BankruptcyOptionsScreen from "../../features/home/screens/bankruptcy-options.screen";
+import ViewBankruptCardScreen from "../../features/home/screens/view-bankrupt-card.screen";
 
 const HomeStack = createNativeStackNavigator();
 
@@ -104,6 +105,10 @@ const HomeNavigator = () => {
       <HomeStack.Screen
         name="Bankruptcy Properties"
         component={BankruptcyPropertyScreen}
+      />
+      <HomeStack.Screen
+        name="View Bankrupt Property"
+        component={ViewBankruptCardScreen}
       />
     </HomeStack.Navigator>
   );

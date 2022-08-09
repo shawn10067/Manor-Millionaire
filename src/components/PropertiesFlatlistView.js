@@ -13,8 +13,37 @@ import { FlatList } from "react-native";
 import { getCountryProperties } from "../utils/countryDecorations";
 import { organizeProperties } from "../services/property/property.service";
 
-const PropertiesFlatlist = ({ navigation, properties, addType = "none" }) => {
+const PropertiesFlatlist = ({
+  navigation,
+  properties,
+  addType = "none",
+  bankrupt = false,
+}) => {
   const organizedProperties = organizeProperties(properties);
+
+  // bankrupt section
+
+  const renderPropertySectionBankrupty = ({ item }) => {
+    return (
+      <PropertyItemView>
+        <PropertyItemPressable
+          onPress={() => {
+            navigation.navigate("View Bankruptcy Property", {
+              property: item,
+            });
+          }}
+        >
+          <PropertyItemImage>
+            <PropertyItemTintForeground>
+              <PropertyItemText>{item.address}</PropertyItemText>
+            </PropertyItemTintForeground>
+          </PropertyItemImage>
+        </PropertyItemPressable>
+      </PropertyItemView>
+    );
+  };
+  // --------- end of bankrupt section
+
   const renderPropertySection = ({ item }) => {
     return (
       <PropertyItemView>
@@ -69,7 +98,9 @@ const PropertiesFlatlist = ({ navigation, properties, addType = "none" }) => {
     <PropertiesView>
       <FlatList
         data={organizedProperties}
-        renderItem={renderCountrySection}
+        renderItem={
+          bankrupt ? renderPropertySectionBankrupty : renderCountrySection
+        }
         keyExtractor={(item) => item.id}
         ItemSeparatorComponent={() => <SeperatorBar />}
       />
