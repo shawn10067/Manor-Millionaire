@@ -26,6 +26,7 @@ import ViewBankruptCardScreen from "../../features/home/screens/view-bankrupt-ca
 import ReviewManagePropertiesTradeScreen from "../../features/home/screens/review-manage-properties.screen";
 import SpinIdleScreen from "../../features/home/screens/spin-idle.screen";
 import JailScreen from "../../features/home/screens/jail.screen";
+import LandedPropertyScreen from "../../features/home/screens/landed-on-property.screen";
 
 const HomeStack = createNativeStackNavigator();
 
@@ -119,6 +120,10 @@ const HomeNavigator = () => {
       />
       <HomeStack.Screen name="Spin Idle Screen" component={SpinIdleScreen} />
       <HomeStack.Screen name="Jail Screen" component={JailScreen} />
+      <HomeStack.Screen
+        name="Landed Property Screen"
+        component={LandedPropertyScreen}
+      />
     </HomeStack.Navigator>
   );
 };

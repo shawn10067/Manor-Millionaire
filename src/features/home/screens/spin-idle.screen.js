@@ -28,11 +28,18 @@ const WorldTourText = styled.Text`
   width: 100%;
 `;
 
+const getAScreenOption = () => {
+  const options = ["House Selection", "Jail Screen", "Landed Property Screen"];
+  const returnOption = options[Math.floor(Math.random() * options.length)];
+  return returnOption;
+};
+
 const SpinIdleScreen = ({ navigation }) => {
   useEffect(() => {
     setTimeout(() => {
-      navigation.navigate("Bankruptcy Options");
-    }, 3000);
+      const option = getAScreenOption();
+      navigation.navigate(option);
+    }, 5000);
   }, []);
   return (
     <BackgroundView>

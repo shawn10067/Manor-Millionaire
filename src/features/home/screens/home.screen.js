@@ -20,11 +20,12 @@ import SpinButtonProgressBar from "../../../components/SpinButtonProgressBar";
 import { SpinContext } from "../../../services/spin/spin.context";
 import SpinProgress from "../components/SpinProgress";
 import { BankruptcyContext } from "../../../services/bankruptcy/bankruptcy.context";
+import { Pressable } from "react-native";
 
 const HomeScreen = ({ navigation }) => {
   const { trade } = useContext(TradeContext);
 
-  const { bankruptTrade } = useContext(BankruptcyContext);
+  const { bankruptTrade, setBankruptTrade } = useContext(BankruptcyContext);
 
   const {
     updateNextSpinTime,
@@ -44,7 +45,7 @@ const HomeScreen = ({ navigation }) => {
 
     setTimeout(() => setHasSpun(false), 1000);
 
-    navigation.navigate("Jail Screen");
+    navigation.navigate("Spin Idle Screen");
     console.log(bankruptTrade);
   };
 
@@ -58,13 +59,32 @@ const HomeScreen = ({ navigation }) => {
       <SafeAreaView>
         <MapView>
           <MenuView>
-            <Icon name="menu" size={60} color={theme.colours.main.white} />
-            <NotiIcon name="notifications" size={40} color="yellow" />
-            <Icon
-              name="home-edit-outline"
-              size={40}
-              color={theme.colours.main.green}
-            />
+            <Pressable
+              onPress={() => navigation.navigate("View Trades")}
+              style={{
+                backgroundColor: "green",
+              }}
+            >
+              <Icon name="menu" size={56} color={theme.colours.main.white} />
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                console.log("Pressed");
+                setBankruptTrade({
+                  properties: [],
+                });
+                navigation.navigate("Bankruptcy Properties");
+              }}
+              style={{
+                backgroundColor: "blue",
+              }}
+            >
+              <Icon
+                name="home-edit-outline"
+                size={40}
+                color={theme.colours.main.blue}
+              />
+            </Pressable>
           </MenuView>
           <MoneyCounter />
           <MapLottie

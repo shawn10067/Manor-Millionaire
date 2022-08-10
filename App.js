@@ -18,6 +18,7 @@ const App = () => {
 
   const playSound = async () => {
     console.log("playing sound");
+
     const { sound } = await Audio.Sound.createAsync(
       require("./assets/sounds/soundtrack.mp3")
     );
@@ -25,6 +26,8 @@ const App = () => {
       setSoundtrack(sound);
       await sound.playAsync();
     }
+    const playback = new Audio.Sound();
+    playback.setIsLoopingAsync(true);
     console.log("playing sound");
   };
 
