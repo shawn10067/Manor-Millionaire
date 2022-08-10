@@ -46,7 +46,10 @@ const HomeScreen = ({ navigation }) => {
     setTimeout(() => setHasSpun(false), 1000);
 
     navigation.navigate("Spin Idle Screen");
+    console.log("-------bankrupt");
     console.log(bankruptTrade);
+    console.log("-------trade");
+    console.log(trade);
   };
 
   const RunOnSpinReached = () => {
@@ -60,7 +63,7 @@ const HomeScreen = ({ navigation }) => {
         <MapView>
           <MenuView>
             <Pressable
-              onPress={() => navigation.navigate("View Trades")}
+              onPress={() => navigation.navigate("Settings")}
               style={{
                 backgroundColor: "green",
               }}

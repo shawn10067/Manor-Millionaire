@@ -27,6 +27,7 @@ import ReviewManagePropertiesTradeScreen from "../../features/home/screens/revie
 import SpinIdleScreen from "../../features/home/screens/spin-idle.screen";
 import JailScreen from "../../features/home/screens/jail.screen";
 import LandedPropertyScreen from "../../features/home/screens/landed-on-property.screen";
+import SettingsScreen from "../../features/home/screens/settings.screen";
 
 const HomeStack = createNativeStackNavigator();
 
@@ -124,6 +125,7 @@ const HomeNavigator = () => {
         name="Landed Property Screen"
         component={LandedPropertyScreen}
       />
+      <HomeStack.Screen name="Settings" component={SettingsScreen} />
     </HomeStack.Navigator>
   );
 };
