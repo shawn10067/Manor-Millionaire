@@ -21,14 +21,13 @@ const PropertiesFlatlist = ({
 }) => {
   const organizedProperties = organizeProperties(properties);
 
-  // bankrupt section
-
+  // bankrupt render property method
   const renderPropertySectionBankrupty = ({ item }) => {
     return (
       <PropertyItemView>
         <PropertyItemPressable
           onPress={() => {
-            navigation.navigate("View Bankruptcy Property", {
+            navigation.navigate("View Bankrupt Property", {
               property: item,
             });
           }}
@@ -42,7 +41,7 @@ const PropertiesFlatlist = ({
       </PropertyItemView>
     );
   };
-  // --------- end of bankrupt section
+  // --------- end of bankrupt property render
 
   const renderPropertySection = ({ item }) => {
     return (
@@ -88,7 +87,9 @@ const PropertiesFlatlist = ({
         <FlatList
           horizontal
           data={countryProperties}
-          renderItem={renderPropertySection}
+          renderItem={
+            bankrupt ? renderPropertySectionBankrupty : renderPropertySection
+          }
         />
       </PropertiesView>
     );
@@ -98,9 +99,7 @@ const PropertiesFlatlist = ({
     <PropertiesView>
       <FlatList
         data={organizedProperties}
-        renderItem={
-          bankrupt ? renderPropertySectionBankrupty : renderCountrySection
-        }
+        renderItem={renderCountrySection}
         keyExtractor={(item) => item.id}
         ItemSeparatorComponent={() => <SeperatorBar />}
       />

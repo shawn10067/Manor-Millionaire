@@ -6,6 +6,8 @@ import RoundedButton from "../../../components/RoundedButton";
 import RoundedTextInput from "../../../components/RoundedTextInput";
 import SafeAreaView from "../../../components/SafeAreaView";
 import { TradeContext } from "../../../services/trade/trade.context";
+import SafeAreaAbsoluteView from "../../../components/SafeAreaAbsoluteView";
+import MoneyCounter from "../../../components/MoneyCounter";
 
 const MainView = styled.View`
   flex: 1;
@@ -70,31 +72,34 @@ const TheirCashTradeScreen = ({ navigation }) => {
   return (
     <BackgroundBlackView>
       <SafeAreaView>
-        <MainView>
-          <SendingView>
-            <MainText>Recieving Cash?</MainText>
-            <CashInputView>
-              <DollarText>$</DollarText>
-              <CashTextInput
-                keyboardType={"number-pad"}
-                onEnd={(val) => (cash.current = val)}
-                placeholder={"0"}
-                defaultValue={0}
-              />
-              <DoneButton
-                text="done"
-                colour="green"
-                fontSize={20}
-                onPress={() => Keyboard.dismiss()}
-              />
-            </CashInputView>
-          </SendingView>
-          <ContinueButton
-            text="Continue"
-            colour="blue"
-            onPress={() => submit()}
-          />
-        </MainView>
+        <SafeAreaAbsoluteView>
+          <MoneyCounter />
+          <MainView>
+            <SendingView>
+              <MainText>Recieving Cash?</MainText>
+              <CashInputView>
+                <DollarText>$</DollarText>
+                <CashTextInput
+                  keyboardType={"number-pad"}
+                  onEnd={(val) => (cash.current = val)}
+                  placeholder={"0"}
+                  defaultValue={0}
+                />
+                <DoneButton
+                  text="done"
+                  colour="green"
+                  fontSize={20}
+                  onPress={() => Keyboard.dismiss()}
+                />
+              </CashInputView>
+            </SendingView>
+            <ContinueButton
+              text="Continue"
+              colour="blue"
+              onPress={() => submit()}
+            />
+          </MainView>
+        </SafeAreaAbsoluteView>
       </SafeAreaView>
     </BackgroundBlackView>
   );

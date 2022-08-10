@@ -4,37 +4,34 @@ import CardSwipeView from "../../../components/CardSwipeView";
 import MoneyCounter from "../../../components/MoneyCounter";
 import SafeAreaAbsoluteView from "../../../components/SafeAreaAbsoluteView";
 import SafeAreaView from "../../../components/SafeAreaView";
+import { BankruptcyContext } from "../../../services/bankruptcy/bankruptcy.context";
 
 const ViewBankruptCardScreen = ({ route, navigation }) => {
   const cardSwipeFunc = () => setTimeout(() => navigation.goBack(), 300);
   const { property = defaultProperty } = route.params;
 
   // replace with new context
-  const { trade, setTrade } = useContext(TradeContext);
+  const { bankruptTrade, setBankruptTrade } = useContext(BankruptcyContext);
 
   // replace with bankrupt trade context
-  const isPartOfTrade =
-    trade.myProperties.find(
-      (propertyElement) => propertyElement.id === property.id
-    ) ||
-    trade.theirProperties.find(
-      (propertyElement) => propertyElement.id === property.id
-    );
+  const isPartOfTrade = bankruptTrade.properties.find(
+    (propertyElement) => propertyElement.id === property.id
+  );
 
   // replace with bankrupt trade context
   const addToTrade = () => {
     if (isPartOfTrade) {
-      const removedFromProperties = trade.myProperties.filter(
+      const removedFromProperties = bankruptTrade.properties.filter(
         (val) => val.id != property.id
       );
-      setTrade({
-        ...trade,
-        myProperties: removedFromProperties,
+      setBankruptTrade({
+        ...bankruptTrade,
+        properties: removedFromProperties,
       });
     } else {
-      setTrade({
-        ...trade,
-        myProperties: [...trade.myProperties, property],
+      setBankruptTrade({
+        ...bankruptTrade,
+        properties: [...bankruptTrade.properties, property],
       });
     }
     navigation.goBack();
@@ -51,7 +48,7 @@ const ViewBankruptCardScreen = ({ route, navigation }) => {
             onSwipeDown={cardSwipeFunc}
             onSwipeUp={addToTrade}
             downMessage="back"
-            upMessage={isPartOfTrade ? "remove from deal" : "add to deal"}
+            upMessage={isPartOfTrade ? "keep" : "sell"}
             property={property}
           />
         </SafeAreaAbsoluteView>

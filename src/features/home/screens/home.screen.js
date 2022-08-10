@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext } from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import NotiIcon from "react-native-vector-icons/MaterialIcons";
 import AnimationFadeInOut from "../../../components/AnimationFadeInOut";
@@ -19,9 +19,13 @@ import {
 import SpinButtonProgressBar from "../../../components/SpinButtonProgressBar";
 import { SpinContext } from "../../../services/spin/spin.context";
 import SpinProgress from "../components/SpinProgress";
+import { BankruptcyContext } from "../../../services/bankruptcy/bankruptcy.context";
 
 const HomeScreen = ({ navigation }) => {
   const { trade } = useContext(TradeContext);
+
+  const { bankruptTrade } = useContext(BankruptcyContext);
+
   const {
     updateNextSpinTime,
     updatePreviousSpinTime,
@@ -38,8 +42,10 @@ const HomeScreen = ({ navigation }) => {
     updateNextSpinTime();
     updatePreviousSpinTime();
 
-    navigation.navigate("Bankruptcy Options");
-    console.log(trade);
+    setTimeout(() => setHasSpun(false), 1000);
+
+    navigation.navigate("Jail Screen");
+    console.log(bankruptTrade);
   };
 
   const RunOnSpinReached = () => {
@@ -52,8 +58,13 @@ const HomeScreen = ({ navigation }) => {
       <SafeAreaView>
         <MapView>
           <MenuView>
-            <Icon name="menu" size={60} color={theme.colours.main.blue} />
-            <NotiIcon name="notifications" size={60} color="yellow" />
+            <Icon name="menu" size={60} color={theme.colours.main.white} />
+            <NotiIcon name="notifications" size={40} color="yellow" />
+            <Icon
+              name="home-edit-outline"
+              size={40}
+              color={theme.colours.main.green}
+            />
           </MenuView>
           <MoneyCounter />
           <MapLottie

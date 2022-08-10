@@ -8,7 +8,9 @@ export const UserContextProvider = ({ children }) => {
     hasUsername: true,
     cash: 155000000,
     bankrupt: false,
+    bankruptAmount: 0,
     hasSpun: false,
+    inJail: false,
   });
 
   // const [user, setUser] = useState(null);

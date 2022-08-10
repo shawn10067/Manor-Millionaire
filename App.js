@@ -8,13 +8,42 @@ import Navigation from "./src/infrastructure/navigation";
 import { UserContextProvider } from "./src/services/user/user.context";
 import { TradeContextProvider } from "./src/services/trade/trade.context";
 import { SpinContextProvider } from "./src/services/spin/spin.context";
+import { BankruptcyContextProvider } from "./src/services/bankruptcy/bankruptcy.context";
+import { Audio } from "expo-av";
+import { useEffect, useState } from "react";
 
 const App = () => {
+  // sound config
+  const [soundtrack, setSoundtrack] = useState(null);
+
+  const playSound = async () => {
+    console.log("playing sound");
+    const { sound } = await Audio.Sound.createAsync(
+      require("./assets/sounds/soundtrack.mp3")
+    );
+    if (!soundtrack) {
+      setSoundtrack(sound);
+      await sound.playAsync();
+    }
+    console.log("playing sound");
+  };
+
+  useEffect(() => {
+    if (playSound) {
+      playSound();
+    }
+    return soundtrack
+      ? () => {
+          soundtrack.unloadAsync();
+        }
+      : undefined;
+  }, [soundtrack]);
+
+  // font load
   const [fontLoaded, fontError] = useFonts({
     FuturaPTHeavy: require("./assets/fonts/FuturaPTHeavy.otf"),
     FuturaPTMedium: require("./assets/fonts/FuturaPTMedium.otf"),
   });
-
   if (!fontLoaded || fontError) {
     console.log("There was an error loading fonts.");
     return null;
@@ -22,16 +51,18 @@ const App = () => {
 
   return (
     <UserContextProvider>
-      <SpinContextProvider>
-        <TradeContextProvider>
-          <NavigationContainer>
-            <ThemeProvider theme={theme}>
-              <Navigation />
-              <StatusBar style="light" />
-            </ThemeProvider>
-          </NavigationContainer>
-        </TradeContextProvider>
-      </SpinContextProvider>
+      <BankruptcyContextProvider>
+        <SpinContextProvider>
+          <TradeContextProvider>
+            <NavigationContainer>
+              <ThemeProvider theme={theme}>
+                <Navigation playSound={playSound} />
+                <StatusBar style="light" />
+              </ThemeProvider>
+            </NavigationContainer>
+          </TradeContextProvider>
+        </SpinContextProvider>
+      </BankruptcyContextProvider>
     </UserContextProvider>
   );
 };

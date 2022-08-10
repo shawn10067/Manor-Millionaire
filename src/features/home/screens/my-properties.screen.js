@@ -5,10 +5,7 @@ import BackgroundBlackView from "../../../components/BackgroundBlackView";
 import PropertiesFlatlist from "../../../components/PropertiesFlatlistView";
 import RoundedButton from "../../../components/RoundedButton";
 import SafeAreaView from "../../../components/SafeAreaView";
-import {
-  organizeProperties,
-  properties,
-} from "../../../services/property/property.service";
+import { properties } from "../../../services/property/property.service";
 
 const HeadingText = styled(Text)`
   font-family: FuturaPTHeavy;

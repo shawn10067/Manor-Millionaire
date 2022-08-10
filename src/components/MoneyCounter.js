@@ -12,7 +12,7 @@ const MoneyView = styled.View`
   border-radius: 5px;
   position: absolute;
   top: 10px;
-  left: 10px;
+  right: 10px;
   justify-content: space-around;
   align-items: center;
   flex-direction: row;

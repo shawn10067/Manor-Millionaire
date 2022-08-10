@@ -6,13 +6,13 @@ export const BankruptcyContextProvider = ({ children }) => {
   const [bankruptTrade, setBankruptTrade] = useState(null);
 
   return (
-    <TradeContext.Provider
+    <BankruptcyContext.Provider
       value={{
         bankruptTrade,
         setBankruptTrade,
       }}
     >
       {children}
-    </TradeContext.Provider>
+    </BankruptcyContext.Provider>
   );
 };

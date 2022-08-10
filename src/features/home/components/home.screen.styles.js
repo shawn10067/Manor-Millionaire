@@ -35,7 +35,7 @@ export const TradeButton = styled(RoundedButton).attrs({
 export const MenuView = styled.View`
   position: absolute;
   top: 0px;
-  right: 10px;
+  left: 10px;
   height: 20%;
   width: 17%;
   align-items: center;

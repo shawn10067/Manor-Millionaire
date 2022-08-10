@@ -91,6 +91,10 @@ const HouseSelectionScreen = ({ navigation }) => {
                   }, 5000);
                 }}
                 upMessage="swipe to buy"
+                onSwipeDown={() => {
+                  navigation.navigate("Home");
+                }}
+                downMessage="decline"
               />
             </SafeAreaAbsoluteView>
           ) : (

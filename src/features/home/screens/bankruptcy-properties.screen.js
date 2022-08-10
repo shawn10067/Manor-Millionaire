@@ -1,23 +1,52 @@
-import React, { useContext } from "react";
+import React from "react";
+import { Text } from "react-native";
 import styled from "styled-components/native";
 import BackgroundBlackView from "../../../components/BackgroundBlackView";
 import PropertiesFlatlist from "../../../components/PropertiesFlatlistView";
+import RoundedButton from "../../../components/RoundedButton";
 import SafeAreaView from "../../../components/SafeAreaView";
-import { BankruptcyContext } from "../../../services/bankruptcy/bankruptcy.context";
 import { properties } from "../../../services/property/property.service";
 import { PropertiesView } from "../components/view-properties.screen.styles";
+
+const HeadingText = styled(Text)`
+  font-family: FuturaPTHeavy;
+  color: ${({ theme }) => theme.colours.main.white};
+  font-size: 25px;
+  margin: 8px;
+`;
+
+const MainPropertySelectionContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ContinueButton = styled(RoundedButton)`
+  width: 65%;
+  height: 70px;
+`;
 
 const BankruptcyPropertyScreen = ({ navigation }) => {
   return (
     <BackgroundBlackView>
       <SafeAreaView>
-        <PropertiesView>
-          <PropertiesFlatlist
-            properties={properties()}
-            navigation={navigation}
-            bankrupt
+        <MainPropertySelectionContainer>
+          <HeadingText>Which properties do you want to sell?</HeadingText>
+          <PropertiesView>
+            <PropertiesFlatlist
+              properties={properties()}
+              navigation={navigation}
+              bankrupt
+            />
+          </PropertiesView>
+          <ContinueButton
+            text="Continue"
+            onPress={() =>
+              navigation.navigate("Review Manage Properties Trade")
+            }
+            colour="blue"
           />
-        </PropertiesView>
+        </MainPropertySelectionContainer>
       </SafeAreaView>
     </BackgroundBlackView>
   );

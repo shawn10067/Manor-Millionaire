@@ -2,8 +2,10 @@ import React, { useContext, useRef } from "react";
 import { Keyboard, Text } from "react-native";
 import styled from "styled-components/native";
 import BackgroundBlackView from "../../../components/BackgroundBlackView";
+import MoneyCounter from "../../../components/MoneyCounter";
 import RoundedButton from "../../../components/RoundedButton";
 import RoundedTextInput from "../../../components/RoundedTextInput";
+import SafeAreaAbsoluteView from "../../../components/SafeAreaAbsoluteView";
 import SafeAreaView from "../../../components/SafeAreaView";
 import { TradeContext } from "../../../services/trade/trade.context";
 
@@ -70,31 +72,34 @@ const MyCashTradeScreen = ({ navigation }) => {
   return (
     <BackgroundBlackView>
       <SafeAreaView>
-        <MainView>
-          <SendingView>
-            <MainText>Sending Cash?</MainText>
-            <CashInputView>
-              <DollarText>$</DollarText>
-              <CashTextInput
-                keyboardType={"number-pad"}
-                onEnd={(val) => (cash.current = val)}
-                placeholder={"0"}
-                defaultValue={0}
-              />
-              <DoneButton
-                text="done"
-                colour="green"
-                fontSize={20}
-                onPress={() => Keyboard.dismiss()}
-              />
-            </CashInputView>
-          </SendingView>
-          <ContinueButton
-            text="Continue"
-            colour="blue"
-            onPress={() => submit()}
-          />
-        </MainView>
+        <SafeAreaAbsoluteView>
+          <MoneyCounter />
+          <MainView>
+            <SendingView>
+              <MainText>Sending Cash?</MainText>
+              <CashInputView>
+                <DollarText>$</DollarText>
+                <CashTextInput
+                  keyboardType={"number-pad"}
+                  onEnd={(val) => (cash.current = val)}
+                  placeholder={"0"}
+                  defaultValue={0}
+                />
+                <DoneButton
+                  text="done"
+                  colour="green"
+                  fontSize={20}
+                  onPress={() => Keyboard.dismiss()}
+                />
+              </CashInputView>
+            </SendingView>
+            <ContinueButton
+              text="Continue"
+              colour="blue"
+              onPress={() => submit()}
+            />
+          </MainView>
+        </SafeAreaAbsoluteView>
       </SafeAreaView>
     </BackgroundBlackView>
   );
