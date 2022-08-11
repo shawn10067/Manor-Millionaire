@@ -5,7 +5,6 @@ import styled from "styled-components/native";
 import BackArrowPressable from "../../../components/BackArrow";
 import RoundedButton from "../../../components/RoundedButton";
 import { UserContext } from "../../../services/user/user.context";
-import { LogoImage } from "../../account/components/account.screen.styles";
 import { Image } from "react-native";
 
 const MainView = styled.View`
@@ -18,6 +17,7 @@ const LogoView = styled.View`
   flex: 0.4;
   justify-content: center;
   align-items: center;
+  width: 100%;
 `;
 
 const UsernameView = styled.View`
@@ -55,6 +55,14 @@ const SoundButton = styled(RoundedButton).attrs({
   height: 70px;
 `;
 
+const CardTutorialButton = styled(RoundedButton).attrs({
+  colour: "blue",
+  text: "Card Tutorial",
+})`
+  width: 70%;
+  height: 70px;
+`;
+
 const Logo = styled(Image).attrs({
   source: require("../../../../assets/logo.png"),
   resizeMode: "contain",
@@ -81,7 +89,7 @@ const SettingsScreen = ({ navigation }) => {
       <SafeAreaView>
         <MainView>
           <LogoView>
-            <LogoImage />
+            <Logo />
           </LogoView>
           <UsernameView>
             <UsernameText>Guraryan69</UsernameText>
@@ -90,6 +98,11 @@ const SettingsScreen = ({ navigation }) => {
             <SoundButton
               onPress={onSoundPress}
               text={soundSetting ? "Sound: on" : "Sound: off"}
+            />
+
+            <CardTutorialButton
+              onPress={() => navigation.navigate("Tutorial", { picture: true })}
+              fontSize={33}
             />
             <LogoutButton onPress={onLogout} />
           </ButtonsView>

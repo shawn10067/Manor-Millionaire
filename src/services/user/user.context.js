@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 
 export const UserContext = createContext();
 
@@ -13,6 +13,31 @@ export const UserContextProvider = ({ children }) => {
     inJail: false,
   });
 
+  const [friends, setFriends] = useState([
+    { username: "sheenMachine" },
+    { username: "karan343" },
+    { username: "raju293" },
+    { username: "singhamRockx" },
+    { username: "ummy" },
+    { username: "Peebody" },
+    { username: "EuRekA247" },
+    { username: "zimbdestroyer" },
+    { username: "luniwoney496565" },
+  ]);
+
+  const [friendRequests, setFriendRequests] = useState([
+    { username: "sneakyBob" },
+    { username: "luluwatermelon" },
+    { username: "backstreetJibes" },
+    { username: "geneology2041" },
+  ]);
+
+  useEffect(() => {
+    if (user === null) {
+      setFriends(null);
+    }
+  }, [user]);
+
   // const [user, setUser] = useState(null);
 
   return (
@@ -20,6 +45,10 @@ export const UserContextProvider = ({ children }) => {
       value={{
         user,
         setUser,
+        friends,
+        setFriends,
+        friendRequests,
+        setFriendRequests,
       }}
     >
       {children}

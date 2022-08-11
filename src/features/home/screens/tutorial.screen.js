@@ -18,9 +18,15 @@ const DemoImage = styled(Image).attrs({
   width: 100%;
 `;
 
-const TutorialScreen = ({ navigation }) => {
+const TutorialScreen = ({ navigation, route }) => {
+  const picture = route.params && route.params.picture;
+
   setTimeout(() => {
-    navigation.navigate("House Selection");
+    if (!picture) {
+      navigation.navigate("House Selection");
+    } else {
+      navigation.navigate("Home");
+    }
   }, 8000);
   return (
     <BackgroundView>

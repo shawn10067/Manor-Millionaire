@@ -28,6 +28,9 @@ import SpinIdleScreen from "../../features/home/screens/spin-idle.screen";
 import JailScreen from "../../features/home/screens/jail.screen";
 import LandedPropertyScreen from "../../features/home/screens/landed-on-property.screen";
 import SettingsScreen from "../../features/home/screens/settings.screen";
+import FriendsOptionsScreen from "../../features/home/screens/friends-options.screen";
+import ViewFriendsScreen from "../../features/home/screens/user-friends.screen";
+import ViewFriendRequestsScreen from "../../features/home/screens/view-requests.screen";
 
 const HomeStack = createNativeStackNavigator();
 
@@ -126,6 +129,15 @@ const HomeNavigator = () => {
         component={LandedPropertyScreen}
       />
       <HomeStack.Screen name="Settings" component={SettingsScreen} />
+      <HomeStack.Screen
+        name="Friends Options"
+        component={FriendsOptionsScreen}
+      />
+      <HomeStack.Screen name="View Friends" component={ViewFriendsScreen} />
+      <HomeStack.Screen
+        name="View Friend Requests"
+        component={ViewFriendRequestsScreen}
+      />
     </HomeStack.Navigator>
   );
 };

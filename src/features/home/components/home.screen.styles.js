@@ -1,3 +1,4 @@
+import { Pressable } from "react-native";
 import styled from "styled-components/native";
 import LottieAnimation from "../../../components/LottieAnimation";
 import RoundedButton from "../../../components/RoundedButton";
@@ -32,6 +33,14 @@ export const TradeButton = styled(RoundedButton).attrs({
   width: 150px;
 `;
 
+export const FriendsButton = styled(RoundedButton).attrs({
+  colour: "green",
+  text: "Friends",
+})`
+  height: 60px;
+  width: 150px;
+`;
+
 export const MenuView = styled.View`
   position: absolute;
   top: 0px;
@@ -39,6 +48,22 @@ export const MenuView = styled.View`
   height: 20%;
   width: 17%;
   align-items: center;
+  z-index: 1;
+`;
+
+export const IconView = styled(Pressable)`
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const MenuFriendsButton = styled(RoundedButton).attrs({
+  fontSize: 16,
+  colour: "blue",
+  text: "Friends",
+})`
+  width: 100%;
+  height: 40px;
 `;
 
 export const SpinTimeText = styled.Text`

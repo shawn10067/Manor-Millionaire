@@ -9,8 +9,11 @@ import theme from "../../../infrastructure/theme";
 import { TradeContext } from "../../../services/trade/trade.context";
 import {
   CenterView,
+  FriendsButton,
+  IconView,
   MapLottie,
   MapView,
+  MenuFriendsButton,
   MenuView,
   PropertiesButton,
   SpinRoundedButton,
@@ -62,15 +65,10 @@ const HomeScreen = ({ navigation }) => {
       <SafeAreaView>
         <MapView>
           <MenuView>
-            <Pressable
-              onPress={() => navigation.navigate("Settings")}
-              style={{
-                backgroundColor: "green",
-              }}
-            >
+            <IconView onPress={() => navigation.navigate("Settings")}>
               <Icon name="menu" size={56} color={theme.colours.main.white} />
-            </Pressable>
-            <Pressable
+            </IconView>
+            <IconView
               onPress={() => {
                 console.log("Pressed");
                 setBankruptTrade({
@@ -78,20 +76,17 @@ const HomeScreen = ({ navigation }) => {
                 });
                 navigation.navigate("Bankruptcy Properties");
               }}
-              style={{
-                backgroundColor: "blue",
-              }}
             >
               <Icon
                 name="home-edit-outline"
                 size={40}
                 color={theme.colours.main.blue}
               />
-            </Pressable>
+            </IconView>
           </MenuView>
           <MoneyCounter />
           <MapLottie
-            source={require("../../../../assets/globe.json")}
+            source={require("../../../../assets/earth-plane.json")}
             speed={0.5}
           >
             <AnimationFadeInOut>
@@ -104,6 +99,10 @@ const HomeScreen = ({ navigation }) => {
                 />
                 <TradeButton
                   onPress={() => navigation.navigate("Trade Options")}
+                  fontSize={30}
+                />
+                <FriendsButton
+                  onPress={() => navigation.navigate("Friends Options")}
                   fontSize={30}
                 />
               </CenterView>
