@@ -12,7 +12,7 @@ const HeadingText = styled(Text)`
   font-family: FuturaPTHeavy;
   color: ${({ theme }) => theme.colours.main.white};
   font-size: 25px;
-  width: 100%
+  width: 100%;
   padding: 20px;
   text-align: center;
 `;
