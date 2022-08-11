@@ -12,7 +12,9 @@ const HeadingText = styled(Text)`
   font-family: FuturaPTHeavy;
   color: ${({ theme }) => theme.colours.main.white};
   font-size: 25px;
-  margin: 8px;
+  width: 100%
+  padding: 20px;
+  text-align: center;
 `;
 
 const MainPropertySelectionContainer = styled.View`

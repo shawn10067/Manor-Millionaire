@@ -10,6 +10,7 @@ import SafeAreaView from "../../../components/SafeAreaView";
 import theme from "../../../infrastructure/theme";
 import { defaultProperty } from "../../../services/property/property.service";
 import { TradeContext } from "../../../services/trade/trade.context";
+import { UserContext } from "../../../services/user/user.context";
 import { SeperatorBar } from "../components/view-properties.screen.styles";
 
 const UserSearchView = styled.View`
@@ -60,22 +61,11 @@ const SendTradeButton = styled(RoundedButton)`
   height: 55px;
 `;
 
-const users = [
-  { username: "sheenMachine" },
-  { username: "karan343" },
-  { username: "raju293" },
-  { username: "singhamRockx" },
-  { username: "ummy" },
-  { username: "Peebody" },
-  { username: "EuRekA247" },
-  { username: "zimbdestroyer" },
-  { username: "luniwoney496565" },
-];
-
 const UserTradeScreen = ({ navigation }) => {
-  const { setTrade, trade } = useContext(TradeContext);
+  const { friends } = useContext(UserContext);
+  const { setTrade } = useContext(TradeContext);
 
-  const [userData, setUserData] = useState(users);
+  const [userData, setUserData] = useState(friends);
   const [loading, setLoading] = useState(false);
   const usernameString = useRef("");
 
@@ -84,12 +74,12 @@ const UserTradeScreen = ({ navigation }) => {
   const filterUsers = (text) => {
     "searched with", text;
     if (text) {
-      const newUsers = users.filter((user) => {
+      const newUsers = friends.filter((user) => {
         return user.username.toLowerCase().includes(text.toLowerCase());
       });
       setUserData(newUsers);
     } else {
-      setUserData(users);
+      setUserData(friends);
     }
   };
 
@@ -147,7 +137,7 @@ const UserTradeScreen = ({ navigation }) => {
             onEnd={() => setTimeout(() => clearTimeout(pollingInterval), 1750)}
           />
           <SeperatorBar />
-          {users && users.length !== 0 ? (
+          {friends && friends.length !== 0 ? (
             <FlatList
               data={userData}
               renderItem={renderUsers}
@@ -158,7 +148,7 @@ const UserTradeScreen = ({ navigation }) => {
             />
           ) : (
             <EmptySearchView>
-              <EmptySearchText>Search for a user</EmptySearchText>
+              <EmptySearchText>Search friends</EmptySearchText>
               <Icon
                 name="account-search"
                 size={100}

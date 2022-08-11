@@ -31,6 +31,7 @@ import SettingsScreen from "../../features/home/screens/settings.screen";
 import FriendsOptionsScreen from "../../features/home/screens/friends-options.screen";
 import ViewFriendsScreen from "../../features/home/screens/user-friends.screen";
 import ViewFriendRequestsScreen from "../../features/home/screens/view-requests.screen";
+import AddFriendsScreen from "../../features/home/screens/add-friend.screen";
 
 const HomeStack = createNativeStackNavigator();
 
@@ -138,6 +139,7 @@ const HomeNavigator = () => {
         name="View Friend Requests"
         component={ViewFriendRequestsScreen}
       />
+      <HomeStack.Screen name="Add Friends" component={AddFriendsScreen} />
     </HomeStack.Navigator>
   );
 };

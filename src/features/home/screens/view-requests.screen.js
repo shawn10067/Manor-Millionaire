@@ -23,11 +23,20 @@ const MainText = styled(Text)`
   margin: 30px;
 `;
 
+const UserTextView = styled.View`
+  flex: 0.5;
+  justify-content: center;
+  align-items: center;
+`;
+
 const UserText = styled(Text)`
   font-family: FuturaPTMedium;
   font-size: 23px;
   color: ${({ theme }) => theme.colours.main.white};
   margin: 10px;
+  width: 100%;
+  padding-left: 8px;
+  padding-right: 8px;
 `;
 
 const UserView = styled.View`
@@ -45,14 +54,17 @@ const EmptyTradeView = styled.View`
   flex: 1;
 `;
 
-const RemoveFriendButton = styled(RoundedButton)`
-  width: 130px;
-  height: 55px;
+const RemoveFriendButton = styled(RoundedButton).attrs({
+  fontSize: 22,
+})`
+  width: 80px;
+  height: 45px;
 `;
 
 const OptionsRow = styled.View`
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
+  flex: 0.5;
 `;
 
 const ViewFriendRequestsScreen = ({ navigation }) => {
@@ -77,7 +89,9 @@ const ViewFriendRequestsScreen = ({ navigation }) => {
     };
     return (
       <UserView>
-        <UserText>{item.username}</UserText>
+        <UserTextView>
+          <UserText>{item.username}</UserText>
+        </UserTextView>
         <OptionsRow>
           <RemoveFriendButton
             colour="green"

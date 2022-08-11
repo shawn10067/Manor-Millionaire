@@ -62,7 +62,7 @@ const FriendsOptionsScreen = ({ navigation }) => {
             <OptionButton
               text="Add Friends"
               colour="green"
-              onPress={() => navigation.navigate("View Trades")}
+              onPress={() => navigation.navigate("Add Friends")}
             />
           </OptionsContainer>
         </FriendsOptionsView>

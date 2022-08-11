@@ -88,13 +88,7 @@ const ReviewManagePropertiesTradeScreen = ({ navigation, route }) => {
 
   // decline view trade button
   const onDecline = () => {
-    new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve();
-      }, 6000);
-    }).then(() => navigation.navigate("Transaction Success"));
-
-    navigation.navigate("Transaction");
+    navigation.navigate("Home");
   };
 
   // accept view trade button
