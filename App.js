@@ -11,6 +11,21 @@ import { BankruptcyContextProvider } from "./src/services/bankruptcy/bankruptcy.
 import { Audio } from "expo-av";
 import { useEffect, useState } from "react";
 
+// firebase setup
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+const firebaseConfig = {
+  apiKey: "AIzaSyBgT5huxjtJtGNhAXPUrph2Uy4ofcAyVLw",
+  authDomain: "manor-millionaire.firebaseapp.com",
+  projectId: "manor-millionaire",
+  storageBucket: "manor-millionaire.appspot.com",
+  messagingSenderId: "357017211894",
+  appId: "1:357017211894:web:690dffc13cd716f82fadd7",
+  measurementId: "G-JX8LYL5R3Z",
+};
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
 const App = () => {
   // sound config
   const [soundtrack, setSoundtrack] = useState(null);
