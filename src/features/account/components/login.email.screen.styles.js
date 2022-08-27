@@ -23,12 +23,13 @@ export const LoginButtonSubmit = styled(RoundedButton).attrs({
   text: "Login",
   colour: "red",
 })`
+  margin-top: 20px;
   width: 60%;
 `;
 
 export const LoginErrorText = styled(Text)`
   font-family: FuturaPTHeavy;
   color: ${({ theme }) => theme.colours.main.red};
-  font-size: 20;
+  font-size: 20px;
   margin: 7px;
 `;

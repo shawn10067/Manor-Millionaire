@@ -13,7 +13,7 @@ import {
 } from "../components/login.email.screen.styles";
 
 const LoginEmailScreen = ({ navigation }) => {
-  const [error, setError] = useState("none");
+  const [error, setError] = useState(null);
   const { setUser } = useContext(UserContext);
   return (
     <BackgroundView>
@@ -23,7 +23,7 @@ const LoginEmailScreen = ({ navigation }) => {
           <LogoImage />
         </LogoView>
         <FormView>
-          <RoundedTextInput placeholder="username" />
+          <RoundedTextInput placeholder="email" />
           <RoundedTextInput placeholder="password" secureTextEntry={true} />
           {error && <LoginErrorText>{error}</LoginErrorText>}
           <LoginButtonSubmit

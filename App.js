@@ -12,8 +12,9 @@ import { Audio } from "expo-av";
 import { useEffect, useState } from "react";
 
 // firebase setup
-import { initializeApp } from "firebase/app";
+import { getApps, initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { AuthenticationContextProvider } from "./src/services/authentication/authentication.context";
 const firebaseConfig = {
   apiKey: "AIzaSyBgT5huxjtJtGNhAXPUrph2Uy4ofcAyVLw",
   authDomain: "manor-millionaire.firebaseapp.com",
@@ -23,8 +24,9 @@ const firebaseConfig = {
   appId: "1:357017211894:web:690dffc13cd716f82fadd7",
   measurementId: "G-JX8LYL5R3Z",
 };
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+if (getApps().length === 0) {
+  const app = initializeApp(firebaseConfig);
+}
 
 const App = () => {
   // sound config
@@ -67,20 +69,22 @@ const App = () => {
   }
 
   return (
-    <UserContextProvider>
-      <BankruptcyContextProvider>
-        <SpinContextProvider>
-          <TradeContextProvider>
-            <NavigationContainer>
-              <ThemeProvider theme={theme}>
-                <Navigation playSound={playSound} />
-                <StatusBar style="light" />
-              </ThemeProvider>
-            </NavigationContainer>
-          </TradeContextProvider>
-        </SpinContextProvider>
-      </BankruptcyContextProvider>
-    </UserContextProvider>
+    <AuthenticationContextProvider>
+      <UserContextProvider>
+        <BankruptcyContextProvider>
+          <SpinContextProvider>
+            <TradeContextProvider>
+              <NavigationContainer>
+                <ThemeProvider theme={theme}>
+                  <Navigation playSound={playSound} />
+                  <StatusBar style="light" />
+                </ThemeProvider>
+              </NavigationContainer>
+            </TradeContextProvider>
+          </SpinContextProvider>
+        </BankruptcyContextProvider>
+      </UserContextProvider>
+    </AuthenticationContextProvider>
   );
 };
 export default App;
