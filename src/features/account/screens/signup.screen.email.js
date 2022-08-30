@@ -9,8 +9,8 @@ import { UserContext } from "../../../services/user/user.context";
 import { LogoImage } from "../components/account.screen.styles";
 import {
   BackButtonView,
+  CreateButtonSubmit,
   FormView,
-  LoginButtonSubmit,
   LoginErrorText,
   LogoView,
 } from "../components/login.email.screen.styles";
@@ -54,8 +54,8 @@ const SignUpEmailScreen = ({ navigation }) => {
             secureTextEntry={true}
             onChange={(val) => (repeatedPasswordRef.current = val)}
           />
-          {error && <LoginErrorText>{error}</LoginErrorText>}
-          <LoginButtonSubmit
+          {error && <LoginErrorText>{error.message}</LoginErrorText>}
+          <CreateButtonSubmit
             onPress={() => {
               createAccount(
                 emailRef.current,

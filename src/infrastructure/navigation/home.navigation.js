@@ -32,11 +32,12 @@ import FriendsOptionsScreen from "../../features/home/screens/friends-options.sc
 import ViewFriendsScreen from "../../features/home/screens/user-friends.screen";
 import ViewFriendRequestsScreen from "../../features/home/screens/view-requests.screen";
 import AddFriendsScreen from "../../features/home/screens/add-friend.screen";
+import { AuthenticationContext } from "../../services/authentication/authentication.context";
 
 const HomeStack = createNativeStackNavigator();
 
 const HomeNavigator = () => {
-  const { user } = useContext(UserContext);
+  const { user } = useContext(AuthenticationContext);
   const initialRoute = user.hasUsername
     ? user.hasHouse
       ? "Home"

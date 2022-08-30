@@ -50,16 +50,15 @@ export const AuthenticationContextProvider = ({ children }) => {
 
   const createAccount = (email, password, repeatedPassword) => {
     if (password !== repeatedPassword) {
-      setError("Passwords do not match");
+      setError({ message: "Passwords do not match" });
       return;
     }
     setIsLoading(true);
     setError(null);
     createEmailRequest(email, password)
       .then((authenticatedUser) => {
-        console.log("created user", authenticatedUser);
+        console.log("created user");
         setUser(authenticatedUser);
-        setError(null);
       })
       .catch((error) => {
         setError(error);

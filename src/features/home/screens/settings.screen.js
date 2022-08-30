@@ -6,6 +6,7 @@ import BackArrowPressable from "../../../components/BackArrow";
 import RoundedButton from "../../../components/RoundedButton";
 import { UserContext } from "../../../services/user/user.context";
 import { Image } from "react-native";
+import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 
 const MainView = styled.View`
   flex: 1;
@@ -73,11 +74,10 @@ const Logo = styled(Image).attrs({
 
 const SettingsScreen = ({ navigation }) => {
   const [soundSetting, setSoundSettings] = useState(true);
-  const { setUser } = useContext(UserContext);
+  const { logout } = useContext(AuthenticationContext);
 
   const onLogout = () => {
-    navigation.navigate("Home");
-    setUser(null);
+    logout();
   };
 
   const onSoundPress = () => {
