@@ -13,7 +13,6 @@ import { useEffect, useState } from "react";
 
 // firebase setup
 import { getApps, initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { AuthenticationContextProvider } from "./src/services/authentication/authentication.context";
 const firebaseConfig = {
   apiKey: "AIzaSyBgT5huxjtJtGNhAXPUrph2Uy4ofcAyVLw",
@@ -27,6 +26,13 @@ const firebaseConfig = {
 if (getApps().length === 0) {
   const app = initializeApp(firebaseConfig);
 }
+
+// apollo client setup, with cache and subscription setup
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+const client = new ApolloClient({
+  uri: "https://manor-millionaire-server.herokuapp.com/graphql",
+  cache: new InMemoryCache(),
+});
 
 const App = () => {
   // sound config
@@ -69,22 +75,24 @@ const App = () => {
   }
 
   return (
-    <AuthenticationContextProvider>
-      <UserContextProvider>
-        <BankruptcyContextProvider>
-          <SpinContextProvider>
-            <TradeContextProvider>
-              <NavigationContainer>
-                <ThemeProvider theme={theme}>
-                  <Navigation playSound={playSound} />
-                  <StatusBar style="light" />
-                </ThemeProvider>
-              </NavigationContainer>
-            </TradeContextProvider>
-          </SpinContextProvider>
-        </BankruptcyContextProvider>
-      </UserContextProvider>
-    </AuthenticationContextProvider>
+    <ApolloProvider client={client}>
+      <AuthenticationContextProvider>
+        <UserContextProvider>
+          <BankruptcyContextProvider>
+            <SpinContextProvider>
+              <TradeContextProvider>
+                <NavigationContainer>
+                  <ThemeProvider theme={theme}>
+                    <Navigation playSound={playSound} />
+                    <StatusBar style="light" />
+                  </ThemeProvider>
+                </NavigationContainer>
+              </TradeContextProvider>
+            </SpinContextProvider>
+          </BankruptcyContextProvider>
+        </UserContextProvider>
+      </AuthenticationContextProvider>
+    </ApolloProvider>
   );
 };
 export default App;

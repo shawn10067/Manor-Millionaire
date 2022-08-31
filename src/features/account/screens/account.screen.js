@@ -1,5 +1,8 @@
+import { useQuery } from "@apollo/client";
 import React from "react";
 import { Platform } from "react-native";
+import { Text } from "react-native-paper";
+import { GET_SPIN_OUTCOME } from "../../../../graphql/queries";
 import SafeAreaAccountView from "../../../components/SafeAreaAccountView";
 import {
   AccountOptionsView,
@@ -15,6 +18,13 @@ import {
 } from "../components/account.screen.styles";
 
 const AccountScreen = ({ navigation }) => {
+  const { data, loading, error } = useQuery(GET_SPIN_OUTCOME);
+  if (error) {
+    return <Text>Error! {error.message}</Text>;
+  }
+  if (data) {
+    console.log("DATA CAME");
+  }
   return (
     <SafeAreaAccountView>
       <LogoView>
@@ -44,6 +54,7 @@ const AccountScreen = ({ navigation }) => {
             }
           }}
         />
+        {data && <Text>{data.toString()}</Text>}
       </AccountOptionsView>
     </SafeAreaAccountView>
   );
