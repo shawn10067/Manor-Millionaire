@@ -14,25 +14,51 @@ import { LoginErrorText } from "../../account/components/login.email.screen.styl
 import SafeAreaView from "../../../components/SafeAreaView";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 import { getAuth } from "firebase/auth";
+import { useMutation } from "@apollo/client";
+import { CREATE_ACCOUNT } from "../../../../graphql/mutations";
+import { useRef } from "react";
+import { useEffect } from "react";
 
 const UsernameScreen = ({ navigation }) => {
-  const { user, setUser } = useContext(UserContext);
+  const { setUser: setAuthUser } = useContext(AuthenticationContext);
   const [error, setError] = useState(null);
-  const { createAccount } = useContext(AuthenticationContext);
-  const onUsernameSubmit = () => {
-    if (!user.username) {
+  const usernameRef = useRef();
+
+  // lazy query for signing up
+  const [createAccountMutation, { data, loading, error: createAccountError }] =
+    useMutation(CREATE_ACCOUNT);
+
+  // useeffect for createAccountError
+  useEffect(() => {
+    if (createAccountError) {
+      setError(createAccountError);
+    }
+  }, [createAccountError]);
+
+  // function to create database user
+  const onUsernameSubmit = async () => {
+    if (!usernameRef.current) {
       setError({ message: "Username is required" });
     } else {
-      getAuth()
-        .currentUser.getIdToken()
-        .then((token) => {
-          createAccount(token, user).then(() => {
-            setUser({ ...user, hasUsername: true });
-            navigation.navigate("Tutorial");
-          });
-        });
-      // get auth token and create account, and then navigate
-      setError(null);
+      console.log("submitting username", usernameRef.current);
+      const token = await getAuth().currentUser.getIdToken();
+      createAccountMutation({
+        variables: {
+          username: usernameRef.current,
+          firebaseId: token,
+        },
+      });
+
+      if (data) {
+        // get auth token and create account, and then navigate
+        console.log("data", data);
+        setError(null);
+        //setUser({ ...user, hasUsername: true });
+        //setAuthUser(createdAccount);
+        //navigation.navigate("Tutorial");
+      } else {
+        console.log(data);
+      }
     }
   };
 
@@ -46,8 +72,12 @@ const UsernameScreen = ({ navigation }) => {
           <UsernameText>What shall we call you?</UsernameText>
         </TextView>
         <UsernameInputView>
-          <RoundedTextInput borderColour="red" placeholder="username" />
-          {error && <LoginErrorText>{error}</LoginErrorText>}
+          <RoundedTextInput
+            borderColour="red"
+            placeholder="username"
+            onChange={(val) => (usernameRef.current = val)}
+          />
+          {error && <LoginErrorText>{error.message}</LoginErrorText>}
           <RoundedButton
             colour="red"
             text="Submit"

@@ -7,6 +7,8 @@ import { onAuthStateChanged, signOut, getAuth } from "firebase/auth";
 import { getApp } from "firebase/app";
 import { createContext } from "react";
 import { useState } from "react";
+import { useQuery } from "@apollo/client";
+import { LOGIN } from "../../../graphql/queries";
 
 export const AuthenticationContext = createContext();
 
@@ -14,7 +16,10 @@ export const AuthenticationContextProvider = ({ children }) => {
   const [loading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
+  const [firebaseIdToken, setFirebaseIdToken] = useState("");
+  const [idToken, setIdToken] = useState("");
 
+  // app auth state change listener
   const app = getApp();
   const auth = getAuth(app);
   onAuthStateChanged(auth, (existingUser) => {
@@ -28,45 +33,50 @@ export const AuthenticationContextProvider = ({ children }) => {
   const logout = async () => {
     signOut(auth).then(() => {
       setUser(null);
-      console.log("logged out");
     });
   };
 
-  const login = (email, password) => {
+  const login = async (email, password) => {
     setIsLoading(true);
     setError(null);
-    loginEmailRequest(email, password)
-      .then((authenticatedUser) => {
-        setUser(authenticatedUser);
-        setError(null);
-      })
-      .catch((error) => {
-        setError(error);
-      })
-      .finally(() => {
-        setIsLoading(false);
+    try {
+      const authToken = await loginEmailRequest(email, password);
+      setIdToken(authToken);
+      const { data, error } = useQuery(LOGIN, {
+        variables: {
+          firebaseId: authToken,
+        },
       });
+      if (error) {
+        throw new Error(error);
+      }
+      data && data.login && setUser(data.login);
+      setError(null);
+    } catch (e) {
+      setError(e);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const createAccount = (email, password, repeatedPassword) => {
+  const createFirebaseAccount = async (email, password, repeatedPassword) => {
     if (password !== repeatedPassword) {
       setError({ message: "Passwords do not match" });
       return;
     }
     setIsLoading(true);
     setError(null);
-    createEmailRequest(email, password)
-      .then((authenticatedUser) => {
-        console.log("created user");
-        setUser(authenticatedUser);
-      })
-      .catch((error) => {
-        setError(error);
-        setUser(null);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    try {
+      await createEmailRequest(email, password);
+      const firebaseToken = await getAuth().currentUser.getIdToken();
+      setFirebaseIdToken(firebaseToken);
+      setUser({ hasUsername: false });
+    } catch (error) {
+      setError(error);
+      setUser(null);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -77,7 +87,7 @@ export const AuthenticationContextProvider = ({ children }) => {
         error,
         logout,
         login,
-        createAccount,
+        createFirebaseAccount,
       }}
     >
       {children}

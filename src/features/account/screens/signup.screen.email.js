@@ -5,7 +5,6 @@ import BackgroundView from "../../../components/BackgroundView";
 import RoundedTextInput from "../../../components/RoundedTextInput";
 import SafeAreaView from "../../../components/SafeAreaView";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
-import { UserContext } from "../../../services/user/user.context";
 import { LogoImage } from "../components/account.screen.styles";
 import {
   BackButtonView,
@@ -17,8 +16,9 @@ import {
 
 const SignUpEmailScreen = ({ navigation }) => {
   const [error, setError] = useState(null);
-  const { error: authError, createAccount } = useContext(AuthenticationContext);
-  const { setUser } = useContext(UserContext);
+  const { error: authError, createFirebaseAccount } = useContext(
+    AuthenticationContext
+  );
 
   // setting error state when authError is set
   useEffect(() => {
@@ -31,6 +31,15 @@ const SignUpEmailScreen = ({ navigation }) => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const repeatedPasswordRef = useRef();
+
+  // on create
+  const onCreate = () => {
+    createFirebaseAccount(
+      emailRef.current,
+      passwordRef.current,
+      repeatedPasswordRef.current
+    );
+  };
 
   return (
     <BackgroundView>
@@ -55,15 +64,7 @@ const SignUpEmailScreen = ({ navigation }) => {
             onChange={(val) => (repeatedPasswordRef.current = val)}
           />
           {error && <LoginErrorText>{error.message}</LoginErrorText>}
-          <CreateButtonSubmit
-            onPress={() => {
-              createAccount(
-                emailRef.current,
-                passwordRef.current,
-                repeatedPasswordRef.current
-              );
-            }}
-          />
+          <CreateButtonSubmit onPress={onCreate} />
         </FormView>
       </SafeAreaView>
     </BackgroundView>

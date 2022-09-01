@@ -5,3 +5,9 @@ export const GET_SPIN_OUTCOME = gql`
     spin
   }
 `;
+
+export const LOGIN = gql`
+  query LOGIN($firebaseId: ID!) {
+    login(firebaseId: $firebaseId)
+  }
+`;

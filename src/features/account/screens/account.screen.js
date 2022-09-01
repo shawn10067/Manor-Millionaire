@@ -6,13 +6,11 @@ import { GET_SPIN_OUTCOME } from "../../../../graphql/queries";
 import SafeAreaAccountView from "../../../components/SafeAreaAccountView";
 import {
   AccountOptionsView,
-  CoinsLottie,
   GlobeLottie,
   GlobeView,
   LoginButton,
   LogoImage,
   LogoView,
-  PlaneLottie,
   PlaneView,
   SignUpButton,
 } from "../components/account.screen.styles";
@@ -38,20 +36,16 @@ const AccountScreen = ({ navigation }) => {
       <AccountOptionsView>
         <LoginButton
           onPress={() => {
-            if (Platform.OS === "ios") {
-              navigation.navigate("Apple Login");
-            } else {
-              navigation.navigate("Email Login");
-            }
+            Platform.OS === "ios"
+              ? navigation.navigate("Apple Login")
+              : navigation.navigate("Email Login");
           }}
         />
         <SignUpButton
           onPress={() => {
-            if (Platform.OS === "ios") {
-              navigation.navigate("Apple Signup");
-            } else {
-              navigation.navigate("Email Signup");
-            }
+            Platform.OS === "ios"
+              ? navigation.navigate("Apple Signup")
+              : navigation.navigate("Email Signup");
           }}
         />
         {data && <Text>{data.toString()}</Text>}
