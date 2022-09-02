@@ -74,6 +74,7 @@ export const AuthenticationContextProvider = ({ children }) => {
     try {
       await createEmailRequest(email, password);
       const firebaseToken = await getAuth().currentUser.getIdToken();
+      console.log("firebaseToken", firebaseToken);
       setFirebaseIdToken(firebaseToken);
       setUser({ hasUsername: false });
     } catch (error) {
