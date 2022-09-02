@@ -7,8 +7,9 @@ import { onAuthStateChanged, signOut, getAuth } from "firebase/auth";
 import { getApp } from "firebase/app";
 import { createContext } from "react";
 import { useState } from "react";
-import { useQuery } from "@apollo/client";
-import { LOGIN } from "../../../graphql/queries";
+import { useLazyQuery, useQuery } from "@apollo/client";
+import { GET_ME, LOGIN } from "../../../graphql/queries";
+import { useEffect } from "react";
 
 export const AuthenticationContext = createContext();
 
@@ -16,9 +17,21 @@ export const AuthenticationContextProvider = ({ children }) => {
   // holding all the states
   const [loading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
+  const [gotUser, setGotUser] = useState(null);
   const [error, setError] = useState(null);
   const [firebaseIdToken, setFirebaseIdToken] = useState("");
   const [userToken, setUserToken] = useState("");
+
+  // lazy query for getting the user
+  const [getMe, { data, loading: getMeLoading, error: getMeError }] =
+    useLazyQuery(GET_ME);
+
+  // if the userToken changes, then set the user
+  useEffect(() => {
+    if (userToken) {
+      getMe();
+    }
+  }, [userToken]);
 
   // app auth state change listener
   const app = getApp();

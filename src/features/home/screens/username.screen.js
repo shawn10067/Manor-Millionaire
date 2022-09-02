@@ -45,14 +45,6 @@ const UsernameScreen = ({ navigation }) => {
 
   // function to create database user
   const onUsernameSubmit = async () => {
-    console.log(
-      "FUCKING FIREBASE",
-      firebaseIdToken,
-      "FUCKING USER TOKEN",
-      userToken
-    );
-    return;
-
     if (!usernameRef.current) {
       setError({ message: "Username is required" });
     } else {

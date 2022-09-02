@@ -11,3 +11,16 @@ export const LOGIN = gql`
     login(firebaseId: $firebaseId)
   }
 `;
+
+export const GET_ME = gql`
+  query GET_ME {
+    getMe {
+      username
+      cash
+      id
+      jailed
+      frozen
+      lastSpin
+    }
+  }
+`;
