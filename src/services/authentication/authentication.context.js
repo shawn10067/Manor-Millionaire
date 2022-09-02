@@ -13,11 +13,12 @@ import { LOGIN } from "../../../graphql/queries";
 export const AuthenticationContext = createContext();
 
 export const AuthenticationContextProvider = ({ children }) => {
+  // holding all the states
   const [loading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
   const [firebaseIdToken, setFirebaseIdToken] = useState("");
-  const [idToken, setIdToken] = useState("");
+  const [userToken, setUserToken] = useState("");
 
   // app auth state change listener
   const app = getApp();
@@ -30,18 +31,14 @@ export const AuthenticationContextProvider = ({ children }) => {
     }
   });
 
-  const logout = async () => {
-    signOut(auth).then(() => {
-      setUser(null);
-    });
-  };
-
+  // TODO: make sure this works
   const login = async (email, password) => {
     setIsLoading(true);
     setError(null);
     try {
-      const authToken = await loginEmailRequest(email, password);
-      setIdToken(authToken);
+      await loginEmailRequest(email, password);
+      const authToken = await auth.currentUser.getIdToken();
+      setFirebaseIdToken(authToken);
       const { data, error } = useQuery(LOGIN, {
         variables: {
           firebaseId: authToken,
@@ -59,6 +56,14 @@ export const AuthenticationContextProvider = ({ children }) => {
     }
   };
 
+  // this is DONE
+  const logout = async () => {
+    signOut(auth).then(() => {
+      setUser(null);
+    });
+  };
+
+  // this is DONE
   const createFirebaseAccount = async (email, password, repeatedPassword) => {
     if (password !== repeatedPassword) {
       setError({ message: "Passwords do not match" });
@@ -85,6 +90,9 @@ export const AuthenticationContextProvider = ({ children }) => {
         user,
         loading,
         error,
+        userToken,
+        firebaseIdToken,
+        setUserToken,
         logout,
         login,
         createFirebaseAccount,

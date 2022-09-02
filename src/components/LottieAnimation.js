@@ -27,8 +27,8 @@ const LottieAnimation = ({
       lottieRef.current.play
     ) {
       setTimeout(() => {
-        lottieRef.current.reset();
-        lottieRef.current.play();
+        lottieRef && lottieRef.current && lottieRef.current.reset();
+        lottieRef && lottieRef.current && lottieRef.current.play();
       }, 100);
     }
   }, [lottieRef.current]);

@@ -16,13 +16,6 @@ import {
 } from "../components/account.screen.styles";
 
 const AccountScreen = ({ navigation }) => {
-  const { data, loading, error } = useQuery(GET_SPIN_OUTCOME);
-  if (error) {
-    return <Text>Error! {error.message}</Text>;
-  }
-  if (data) {
-    console.log("DATA CAME");
-  }
   return (
     <SafeAreaAccountView>
       <LogoView>
@@ -48,7 +41,6 @@ const AccountScreen = ({ navigation }) => {
               : navigation.navigate("Email Signup");
           }}
         />
-        {data && <Text>{data.toString()}</Text>}
       </AccountOptionsView>
     </SafeAreaAccountView>
   );

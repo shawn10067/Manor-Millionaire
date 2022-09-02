@@ -9,18 +9,19 @@ import {
 import RoundedTextInput from "../../../components/RoundedTextInput";
 import RoundedButton from "../../../components/RoundedButton";
 import BackgroundView from "../../../components/BackgroundView";
-import { UserContext } from "../../../services/user/user.context";
 import { LoginErrorText } from "../../account/components/login.email.screen.styles";
 import SafeAreaView from "../../../components/SafeAreaView";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 import { getAuth } from "firebase/auth";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { CREATE_ACCOUNT } from "../../../../graphql/mutations";
 import { useRef } from "react";
 import { useEffect } from "react";
 
 const UsernameScreen = ({ navigation }) => {
-  const { setUser: setAuthUser } = useContext(AuthenticationContext);
+  const { setUserToken, firebaseIdToken, user, logout, userToken } = useContext(
+    AuthenticationContext
+  );
   const [error, setError] = useState(null);
   const usernameRef = useRef();
 
@@ -35,30 +36,39 @@ const UsernameScreen = ({ navigation }) => {
     }
   }, [createAccountError]);
 
+  if (data) {
+    console.log("GOT THE FUCKING DATA", data);
+    setUserToken(data.signUp);
+  }
+
+  console.log("FUCKING FIREBASE", `firebaseIdToken: "${firebaseIdToken}"`);
+
   // function to create database user
   const onUsernameSubmit = async () => {
+    console.log(
+      "FUCKING FIREBASE",
+      firebaseIdToken,
+      "FUCKING USER TOKEN",
+      userToken
+    );
+    return;
+
     if (!usernameRef.current) {
       setError({ message: "Username is required" });
     } else {
-      console.log("submitting username", usernameRef.current);
-      const token = await getAuth().currentUser.getIdToken();
+      setError(null);
+      // only for debugging
+      const uid = getAuth().currentUser.uid;
+      console.log("uid", uid);
+
+      // simply calling the mutation
+      console.log("firebaseID", firebaseIdToken);
       createAccountMutation({
         variables: {
           username: usernameRef.current,
-          firebaseId: token,
+          firebaseId: firebaseIdToken,
         },
       });
-
-      if (data) {
-        // get auth token and create account, and then navigate
-        console.log("data", data);
-        setError(null);
-        //setUser({ ...user, hasUsername: true });
-        //setAuthUser(createdAccount);
-        //navigation.navigate("Tutorial");
-      } else {
-        console.log(data);
-      }
     }
   };
 
