@@ -5,6 +5,7 @@ import { AuthenticationContext } from "../../services/authentication/authenticat
 
 const Navigation = ({ playSound }) => {
   const { user } = useContext(AuthenticationContext);
+
   const ReturnNavigator = user ? <HomeNavigator /> : <AccountNavigator />;
 
   return ReturnNavigator;

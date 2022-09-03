@@ -17,7 +17,7 @@ export const AuthenticationContextProvider = ({ children }) => {
   // holding all the states
   const [loading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
-  const [gotUser, setGotUser] = useState(null);
+  const [gotUser, setGotUser] = useState(false);
   const [error, setError] = useState(null);
   const [firebaseIdToken, setFirebaseIdToken] = useState("");
   const [userToken, setUserToken] = useState("");

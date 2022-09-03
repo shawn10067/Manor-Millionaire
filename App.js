@@ -29,7 +29,6 @@ if (getApps().length === 0) {
 
 // apollo client setup, with cache and subscription setup
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
-import { useContext } from "react";
 const client = new ApolloClient({
   uri: "https://manor-millionaire-server.herokuapp.com/graphql",
   cache: new InMemoryCache(),
@@ -40,8 +39,6 @@ const App = () => {
   const [soundtrack, setSoundtrack] = useState(null);
 
   const playSound = async () => {
-    console.log("playing sound");
-
     const { sound } = await Audio.Sound.createAsync(
       require("./assets/sounds/soundtrack.mp3")
     );
@@ -51,7 +48,6 @@ const App = () => {
     }
     const playback = new Audio.Sound();
     playback.setIsLoopingAsync(true);
-    console.log("playing sound");
   };
 
   useEffect(() => {
