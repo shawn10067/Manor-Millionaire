@@ -24,7 +24,7 @@ const firebaseConfig = {
   measurementId: "G-JX8LYL5R3Z",
 };
 if (getApps().length === 0) {
-  const app = initializeApp(firebaseConfig);
+  initializeApp(firebaseConfig);
 }
 
 // apollo client setup, with cache and subscription setup
@@ -36,7 +36,6 @@ const App = () => {
   const [soundtrack, setSoundtrack] = useState(null);
   const [firebaseIdToken, setFirebaseIdToken] = useState(null);
   const client = CreateApolloClient(firebaseIdToken);
-
   const playSound = async () => {
     const { sound } = await Audio.Sound.createAsync(
       require("./assets/sounds/soundtrack.mp3")
@@ -48,7 +47,6 @@ const App = () => {
     const playback = new Audio.Sound();
     playback.setIsLoopingAsync(true);
   };
-
   useEffect(() => {
     if (!soundtrack) {
       playSound();

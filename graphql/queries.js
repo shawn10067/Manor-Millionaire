@@ -24,3 +24,9 @@ export const GET_ME = gql`
     }
   }
 `;
+
+export const USER_EXISTS = gql`
+  query USER_EXISTS($firebaseId: String!) {
+    userExists(firebaseId: $firebaseId)
+  }
+`;

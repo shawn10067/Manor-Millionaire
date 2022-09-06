@@ -1,10 +1,7 @@
 // apollo client setup, with cache and subscription setup
-import {
-  ApolloClient,
-  InMemoryCache,
-  HttpLink,
-  ApolloLink,
-} from "@apollo/client";
+import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
+
+import { setContext } from "@apollo/client/link/context";
 
 const CreateApolloClient = (firebaseIdToken) => {
   if (firebaseIdToken) {
@@ -12,19 +9,18 @@ const CreateApolloClient = (firebaseIdToken) => {
     const httpLink = new HttpLink({
       uri: "https://manor-millionaire-server.herokuapp.com/graphql",
     });
-
-    const authMiddleware = new ApolloLink((operation, forward) => {
-      // add the authorization to the headers
-      operation.setContext({
+    const authLink = setContext((_, { headers }) => {
+      // return the headers to the context so httpLink can read them
+      return {
         headers: {
+          ...headers,
           authorization: firebaseIdToken ? `Bearer ${firebaseIdToken}` : "",
         },
-      });
-      return forward(operation);
+      };
     });
 
     const client = new ApolloClient({
-      link: authMiddleware.concat(httpLink),
+      link: authLink.concat(httpLink),
       cache: new InMemoryCache(),
     });
     return client;
