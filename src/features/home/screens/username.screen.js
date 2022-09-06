@@ -36,6 +36,7 @@ const UsernameScreen = ({ navigation }) => {
     }
   }, [createAccountError]);
 
+  // if we successfully created an account
   if (data) {
     console.log("GOT THE FUCKING DATA", data);
     setUserToken(data.signUp);

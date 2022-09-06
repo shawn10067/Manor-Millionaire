@@ -28,15 +28,14 @@ if (getApps().length === 0) {
 }
 
 // apollo client setup, with cache and subscription setup
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
-const client = new ApolloClient({
-  uri: "https://manor-millionaire-server.herokuapp.com/graphql",
-  cache: new InMemoryCache(),
-});
+import { ApolloProvider } from "@apollo/client";
+import CreateApolloClient from "./src/utils/apolloClientCreator";
 
 const App = () => {
   // sound config
   const [soundtrack, setSoundtrack] = useState(null);
+  const [firebaseIdToken, setFirebaseIdToken] = useState(null);
+  const client = CreateApolloClient(firebaseIdToken);
 
   const playSound = async () => {
     const { sound } = await Audio.Sound.createAsync(
@@ -51,7 +50,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    if (playSound) {
+    if (!soundtrack) {
       playSound();
     }
     return soundtrack
@@ -73,7 +72,10 @@ const App = () => {
 
   return (
     <ApolloProvider client={client}>
-      <AuthenticationContextProvider>
+      <AuthenticationContextProvider
+        setFirebaseIdToken={setFirebaseIdToken}
+        firebaseIdToken={firebaseIdToken}
+      >
         <UserContextProvider>
           <BankruptcyContextProvider>
             <SpinContextProvider>

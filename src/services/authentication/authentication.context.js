@@ -13,13 +13,15 @@ import { useEffect } from "react";
 
 export const AuthenticationContext = createContext();
 
-export const AuthenticationContextProvider = ({ children }) => {
+export const AuthenticationContextProvider = ({
+  children,
+  setFirebaseIdToken,
+  firebaseIdToken,
+}) => {
   // holding all the states
   const [loading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
-  const [gotUser, setGotUser] = useState(false);
   const [error, setError] = useState(null);
-  const [firebaseIdToken, setFirebaseIdToken] = useState("");
   const [userToken, setUserToken] = useState("");
 
   // lazy query for getting the user
@@ -33,12 +35,38 @@ export const AuthenticationContextProvider = ({ children }) => {
     }
   }, [userToken]);
 
+  //   // set firebaseIdToken if user changes
+  //   useEffect(() => {
+  //     console.log(
+  //       "AUTH STATE:",
+  //       getAuth().currentUser ? getAuth().currentUser.uid : "NO USER"
+  //     );
+  //     if (getAuth().currentUser) {
+  //       console.log("SETTING TOKEN");
+  //       getAuth()
+  //         .currentUser.getIdToken()
+  //         .then((token) => {
+  //           if (token) {
+  //             setFirebaseIdToken(token);
+  //           }
+  //         });
+  //     }
+  //   });
+
   // app auth state change listener
   const app = getApp();
   const auth = getAuth(app);
   onAuthStateChanged(auth, (existingUser) => {
     if (existingUser) {
+      console.log("EXISTING USER", existingUser);
       setUser(existingUser);
+      let retrivedToken = null;
+      let retrivedUser = null;
+      existingUser.getIdToken().then((token) => {
+        if (token) {
+          setFirebaseIdToken(token);
+        }
+      });
     } else {
       setUser(null);
     }
@@ -87,7 +115,6 @@ export const AuthenticationContextProvider = ({ children }) => {
     try {
       await createEmailRequest(email, password);
       const firebaseToken = await getAuth().currentUser.getIdToken();
-      console.log("firebaseToken", firebaseToken);
       setFirebaseIdToken(firebaseToken);
       setUser({ hasUsername: false });
     } catch (error) {
