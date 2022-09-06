@@ -1,12 +1,12 @@
 // apollo client setup, with cache and subscription setup
-import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
+import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 
 import { setContext } from "@apollo/client/link/context";
 
 const CreateApolloClient = (firebaseIdToken) => {
   if (firebaseIdToken) {
     console.log("creating client using firebaseIdToken: ", firebaseIdToken);
-    const httpLink = new HttpLink({
+    const httpLink = createHttpLink({
       uri: "https://manor-millionaire-server.herokuapp.com/graphql",
     });
     const authLink = setContext((_, { headers }) => {
