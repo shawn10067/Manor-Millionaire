@@ -1,5 +1,5 @@
 // apollo client setup, with cache and subscription setup
-import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
+import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 
 import { setContext } from "@apollo/client/link/context";
 
