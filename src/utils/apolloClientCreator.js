@@ -7,7 +7,7 @@ const CreateApolloClient = (firebaseIdToken) => {
   if (firebaseIdToken) {
     console.log("creating client using firebaseIdToken: ", firebaseIdToken);
     const httpLink = new HttpLink({
-      uri: "https://manor-millionaire-server.herokuapp.com/graphql",
+      uri: "http://localhost:4000/graphql",
     });
     const authLink = setContext((_, { headers }) => {
       // return the headers to the context so httpLink can read them
