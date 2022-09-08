@@ -34,8 +34,8 @@ import CreateApolloClient from "./src/utils/apolloClientCreator";
 const App = () => {
   // sound config
   const [soundtrack, setSoundtrack] = useState(null);
-  const [firebaseIdToken, setFirebaseIdToken] = useState(null);
-  const client = CreateApolloClient(firebaseIdToken);
+  const [userToken, setUserToken] = useState(null);
+  const client = CreateApolloClient(userToken);
   const playSound = async () => {
     const { sound } = await Audio.Sound.createAsync(
       require("./assets/sounds/soundtrack.mp3")
@@ -71,8 +71,8 @@ const App = () => {
   return (
     <ApolloProvider client={client}>
       <AuthenticationContextProvider
-        setFirebaseIdToken={setFirebaseIdToken}
-        firebaseIdToken={firebaseIdToken}
+        userToken={userToken}
+        setUserToken={setUserToken}
       >
         <UserContextProvider>
           <BankruptcyContextProvider>

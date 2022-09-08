@@ -2,6 +2,7 @@
 const extractArray = (val) => (val.length != 0 ? val : null);
 
 export const createErrorObject = (inputError) => {
+  console.log(inputError);
   const error =
     (inputError.graphQLErrors && extractArray(inputError.graphQLErrors)) ||
     (inputError.clientErrors && extractArray(inputError.clientErrors)) ||

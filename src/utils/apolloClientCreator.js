@@ -1,10 +1,5 @@
 // apollo client setup, with cache and subscription setup
-import {
-  ApolloClient,
-  InMemoryCache,
-  HttpLink,
-  createHttpLink,
-} from "@apollo/client";
+import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 
 import { setContext } from "@apollo/client/link/context";
 
@@ -19,7 +14,7 @@ const CreateApolloClient = (firebaseIdToken) => {
       return {
         headers: {
           ...headers,
-          Authorization: firebaseIdToken ? `Bearer ${firebaseIdToken}` : "",
+          authorization: firebaseIdToken ? `Bearer ${firebaseIdToken}` : "",
         },
       };
     });

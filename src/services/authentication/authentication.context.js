@@ -15,14 +15,14 @@ export const AuthenticationContext = createContext();
 
 export const AuthenticationContextProvider = ({
   children,
-  setFirebaseIdToken,
-  firebaseIdToken,
+  userToken,
+  setUserToken,
 }) => {
   // holding all the states
   const [loading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
+  const [firebaseIdToken, setFirebaseIdToken] = useState(null);
   const [error, setError] = useState(null);
-  const [userToken, setUserToken] = useState("");
 
   // lazy query for getting the user
   const [getMe, { data, loading: getMeLoading, error: getMeError }] =
