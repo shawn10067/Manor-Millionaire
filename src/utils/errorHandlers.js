@@ -1,5 +1,5 @@
+// extract array helper method
 const extractArray = (val) => (val.length != 0 ? val : null);
-import reply from "../../reply.json";
 
 export const createErrorObject = (inputError) => {
   const error =
@@ -13,5 +13,3 @@ export const createErrorObject = (inputError) => {
     message,
   };
 };
-
-console.log(createErrorObject(reply));
