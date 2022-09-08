@@ -1,0 +1,70 @@
+{
+  "graphQLErrors": [],
+  "clientErrors": [],
+  "networkError": {
+    "name": "ServerError",
+    "response": {
+      "type": "default",
+      "status": 400,
+      "ok": false,
+      "statusText": "",
+      "headers": {
+        "map": {
+          "access-control-allow-origin": "*",
+          "connection": "keep-alive",
+          "content-length": "956",
+          "content-type": "application/json; charset=utf-8",
+          "date": "Thu, 08 Sep 2022 03:03:32 GMT",
+          "etag": "W/\"3bc-gH4Gpno2ZMgB34CMuevUiuEb5yY\"",
+          "keep-alive": "timeout=5",
+          "x-powered-by": "Express"
+        }
+      },
+      "url": "http://192.168.0.128:4000/graphql",
+      "bodyUsed": true,
+      "_bodyInit": {
+        "_data": {
+          "size": 956,
+          "offset": 0,
+          "blobId": "657309CF-9C93-4D3F-83FD-9B1543817878",
+          "type": "application/json",
+          "name": "graphql",
+          "__collector": {}
+        }
+      },
+      "_bodyBlob": {
+        "_data": {
+          "size": 956,
+          "offset": 0,
+          "blobId": "657309CF-9C93-4D3F-83FD-9B1543817878",
+          "type": "application/json",
+          "name": "graphql",
+          "__collector": {}
+        }
+      }
+    },
+    "statusCode": 400,
+    "result": {
+      "errors": [
+        {
+          "message": "Context creation failed: Malformatted Token",
+          "extensions": {
+            "message": "Incorrect Token",
+            "code": "UNAUTHENTICATED",
+            "exception": {
+              "stacktrace": [
+                "AuthenticationError: Context creation failed: Malformatted Token",
+                "    at ApolloServer.context (file:///Users/shawn/Desktop/Manor%20Millionaire%20Game/Manor-Millionaire-Backend/index.js:84:17)",
+                "    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)",
+                "    at async ApolloServer.graphQLServerOptions (/Users/shawn/Desktop/Manor Millionaire Game/Manor-Millionaire-Backend/node_modules/apollo-server-core/dist/ApolloServer.js:511:23)",
+                "    at async resolveGraphqlOptions (/Users/shawn/Desktop/Manor Millionaire Game/Manor-Millionaire-Backend/node_modules/apollo-server-core/dist/graphqlOptions.js:6:16)",
+                "    at async runHttpQuery (/Users/shawn/Desktop/Manor Millionaire Game/Manor-Millionaire-Backend/node_modules/apollo-server-core/dist/runHttpQuery.js:88:19)"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  },
+  "message": "Response not successful: Received status code 400"
+}

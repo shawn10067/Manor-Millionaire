@@ -18,6 +18,7 @@ import { CREATE_ACCOUNT } from "../../../../graphql/mutations";
 import { useRef } from "react";
 import { useEffect } from "react";
 import { USER_EXISTS } from "../../../../graphql/queries";
+import { createErrorObject } from "../../../utils/errorHandlers";
 
 const UsernameScreen = ({ navigation }) => {
   const { setUserToken, firebaseIdToken, user, logout, userToken } = useContext(
@@ -39,20 +40,19 @@ const UsernameScreen = ({ navigation }) => {
   // useeffect for createAccountError
   useEffect(() => {
     if (createAccountError) {
-      setError(createAccountError);
+      setError(createErrorObject(createAccountError));
     }
   }, [createAccountError]);
 
   // useeffect for checkError
   useEffect(() => {
     if (checkError) {
-      setError(checkError);
+      setError(createErrorObject(checkError));
     }
   }, [checkError]);
 
   // if we successfully created an account
   if (data && !gotUser) {
-    console.log("GOT THE FUCKING DATA", data);
     setUserToken(data.signUp);
     checkIfUserExists({
       variables: {
@@ -77,7 +77,6 @@ const UsernameScreen = ({ navigation }) => {
       console.log("uid", uid);
 
       // simply calling the mutation
-      console.log("firebaseID", firebaseIdToken);
       createAccountMutation({
         variables: {
           username: usernameRef.current,
