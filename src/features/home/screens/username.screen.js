@@ -28,31 +28,40 @@ const UsernameScreen = ({ navigation }) => {
   const [gotUser, setGotUser] = useState(false);
   const usernameRef = useRef();
 
-  // lazy query for signing up
-  const [createAccountMutation, { data, loading, error: createAccountError }] =
-    useMutation(CREATE_ACCOUNT);
-
+  // queries
+  const [
+    createAccountMutation,
+    { data, loading, error: createAccountError, called },
+  ] = useMutation(CREATE_ACCOUNT);
   const [
     checkIfUserExists,
     { data: checkData, loading: checkLoading, error: checkError },
   ] = useLazyQuery(USER_EXISTS);
 
-  // useeffect for createAccountError
+  if (called) {
+    console.log("called");
+  }
+
+  if (createAccountError || checkError) {
+    console.log("error");
+  }
+
+  // error use effects --------
   useEffect(() => {
     if (createAccountError) {
       setError(createErrorObject(createAccountError));
     }
   }, [createAccountError]);
-
-  // useeffect for checkError
   useEffect(() => {
     if (checkError) {
       setError(createErrorObject(checkError));
     }
   }, [checkError]);
+  // end of effects --------
 
   // if we successfully created an account
   if (data && !gotUser) {
+    console.log("user creation data recieved", data);
     setUserToken(data.signUp);
     checkIfUserExists({
       variables: {
@@ -61,9 +70,11 @@ const UsernameScreen = ({ navigation }) => {
     });
   }
 
+  // if we got the status of the user
   if (checkData && !gotUser) {
+    console.log("data to check for existing user", checkData);
     setGotUser(true);
-    navigation.navigate("Home");
+    //navigation.navigate("Home");
   }
 
   // function to create database user

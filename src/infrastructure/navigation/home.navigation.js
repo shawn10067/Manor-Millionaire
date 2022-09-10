@@ -38,11 +38,13 @@ const HomeStack = createNativeStackNavigator();
 
 const HomeNavigator = () => {
   const { user } = useContext(AuthenticationContext);
-  const initialRoute = user.hasUsername
-    ? user.hasHouse
-      ? "Home"
-      : "Tutorial"
-    : "Username Selection";
+  const initialRoute =
+    user &&
+    (user.hasUsername
+      ? user.hasHouse
+        ? "Home"
+        : "Tutorial"
+      : "Username Selection");
 
   return (
     <HomeStack.Navigator

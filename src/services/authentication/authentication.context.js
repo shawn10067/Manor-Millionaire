@@ -7,7 +7,7 @@ import { onAuthStateChanged, signOut, getAuth } from "firebase/auth";
 import { getApp } from "firebase/app";
 import { createContext } from "react";
 import { useState } from "react";
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { useApolloClient, useLazyQuery, useQuery } from "@apollo/client";
 import { GET_ME, LOGIN } from "../../../graphql/queries";
 import { useEffect } from "react";
 
@@ -98,9 +98,15 @@ export const AuthenticationContextProvider = ({
   };
 
   // this is DONE
+  // getting the apollo client and logging out
+  const client = useApolloClient();
   const logout = async () => {
     signOut(auth).then(() => {
       setUser(null);
+      setUserToken(null);
+      setFirebaseIdToken(null);
+      client.cache.reset();
+      client.resetStore();
     });
   };
 
