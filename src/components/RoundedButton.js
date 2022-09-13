@@ -1,5 +1,6 @@
 import React from "react";
 import { Pressable } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import styled from "styled-components/native";
 import theme from "../infrastructure/theme";
 
@@ -10,6 +11,7 @@ const RoundedButton = ({
   normalBackgroundColor = "white",
   pressedBackgroundColor = "#C9C5C6",
   shadow = true,
+  loading = false,
   ...props
 }) => {
   // getting the pressed background colour based on if its in the pallate or not
@@ -38,6 +40,13 @@ const RoundedButton = ({
     ${shadow && `box-shadow: 0px 6px rgba(0, 0, 0, 0.7)`};
   `;
 
+  const CustomActivityIndicator = styled(ActivityIndicator).attrs({
+    color: theme.colours.main[colour] ? theme.colours.main[colour] : colour,
+    size: fontSize - 5,
+  })`
+    height: 100%;
+  `;
+
   // text styling
   const Text = styled.Text`
     font-family: FuturaPTHeavy;
@@ -54,8 +63,9 @@ const RoundedButton = ({
         pressed && { backgroundColor: pressedBG },
         props.style,
       ]}
+      disabled={loading}
     >
-      <Text>{text}</Text>
+      {loading ? <CustomActivityIndicator /> : <Text>{text}</Text>}
     </Button>
   );
 };

@@ -27,18 +27,18 @@ const AccountScreen = ({ navigation }) => {
         </GlobeLottie>
       </GlobeView>
       <AccountOptionsView>
-        <LoginButton
-          onPress={() => {
-            Platform.OS === "ios"
-              ? navigation.navigate("Apple Login")
-              : navigation.navigate("Email Login");
-          }}
-        />
         <SignUpButton
           onPress={() => {
             Platform.OS === "ios"
               ? navigation.navigate("Apple Signup")
               : navigation.navigate("Email Signup");
+          }}
+        />
+        <LoginButton
+          onPress={() => {
+            Platform.OS === "ios"
+              ? navigation.navigate("Apple Login")
+              : navigation.navigate("Email Login");
           }}
         />
       </AccountOptionsView>

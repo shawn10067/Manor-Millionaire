@@ -16,9 +16,11 @@ import {
 
 const SignUpEmailScreen = ({ navigation }) => {
   const [error, setError] = useState(null);
-  const { error: authError, createFirebaseAccount } = useContext(
-    AuthenticationContext
-  );
+  const {
+    error: authError,
+    createFirebaseAccount,
+    loading,
+  } = useContext(AuthenticationContext);
 
   // setting error state when authError is set
   useEffect(() => {
@@ -64,7 +66,7 @@ const SignUpEmailScreen = ({ navigation }) => {
             onChange={(val) => (repeatedPasswordRef.current = val)}
           />
           {error && <LoginErrorText>{error.message}</LoginErrorText>}
-          <CreateButtonSubmit onPress={onCreate} />
+          <CreateButtonSubmit onPress={onCreate} loading={loading} />
         </FormView>
       </SafeAreaView>
     </BackgroundView>

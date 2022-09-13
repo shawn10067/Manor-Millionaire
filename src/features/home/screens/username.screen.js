@@ -29,60 +29,65 @@ const UsernameScreen = ({ navigation }) => {
   const usernameRef = useRef();
 
   // queries
-  const [
-    createAccountMutation,
-    { data, loading, error: createAccountError, called },
-  ] = useMutation(CREATE_ACCOUNT);
+  const [createAccountMutation, { data, loading, error: createAccountError }] =
+    useMutation(CREATE_ACCOUNT, {
+      onCompleted: (completeData) => {
+        console.log("got creation data", completeData);
+      },
+    });
   const [
     checkIfUserExists,
     { data: checkData, loading: checkLoading, error: checkError },
-  ] = useLazyQuery(USER_EXISTS);
-
-  if (called) {
-    console.log("called");
-  }
-
-  if (createAccountError || checkError) {
-    console.log("error");
-  }
+  ] = useLazyQuery(USER_EXISTS, {
+    onCompleted: (completeData) => {
+      console.log("got existance data", completeData);
+    },
+  });
 
   // error use effects --------
   useEffect(() => {
     if (createAccountError) {
+      ("error occured");
       setError(createErrorObject(createAccountError));
     }
   }, [createAccountError]);
   useEffect(() => {
     if (checkError) {
+      ("error occured");
       setError(createErrorObject(checkError));
     }
   }, [checkError]);
   // end of effects --------
 
-  // if we successfully created an account
-  if (data && !gotUser) {
-    console.log("user creation data recieved", data);
-    setUserToken(data.signUp);
-    checkIfUserExists({
-      variables: {
-        firebaseIdToken,
-      },
-    });
-  }
-
   // if we got the status of the user
-  if (checkData && !gotUser) {
-    console.log("data to check for existing user", checkData);
-    setGotUser(true);
-    //navigation.navigate("Home");
-  }
+  useEffect(() => {
+    if (checkData && !gotUser) {
+      console.log("data to check for existing user", checkData);
+      setGotUser(true);
+      //navigation.navigate("Home");
+    }
+  }, [checkData, gotUser]);
+
+  // if we successfully created an account
+  useEffect(() => {
+    if (data && !gotUser) {
+      console.log("user creation data recieved", data);
+      if (!userToken) {
+        setUserToken(data.signUp);
+      }
+      checkIfUserExists({
+        variables: {
+          firebaseId: firebaseIdToken,
+        },
+      });
+    }
+  }, [data, gotUser]);
 
   // function to create database user
   const onUsernameSubmit = async () => {
     if (!usernameRef.current) {
       setError({ message: "Username is required" });
     } else {
-      setError(null);
       // only for debugging
       const uid = getAuth().currentUser.uid;
       console.log("uid", uid);
@@ -94,6 +99,8 @@ const UsernameScreen = ({ navigation }) => {
           firebaseId: firebaseIdToken,
         },
       });
+
+      setError(null);
     }
   };
 
@@ -117,6 +124,7 @@ const UsernameScreen = ({ navigation }) => {
             colour="red"
             text="Submit"
             onPress={onUsernameSubmit}
+            loading={checkLoading || loading}
           />
         </UsernameInputView>
       </SafeAreaView>

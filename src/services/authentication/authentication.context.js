@@ -35,30 +35,12 @@ export const AuthenticationContextProvider = ({
     }
   }, [userToken]);
 
-  //   // set firebaseIdToken if user changes
-  //   useEffect(() => {
-  //     console.log(
-  //       "AUTH STATE:",
-  //       getAuth().currentUser ? getAuth().currentUser.uid : "NO USER"
-  //     );
-  //     if (getAuth().currentUser) {
-  //       console.log("SETTING TOKEN");
-  //       getAuth()
-  //         .currentUser.getIdToken()
-  //         .then((token) => {
-  //           if (token) {
-  //             setFirebaseIdToken(token);
-  //           }
-  //         });
-  //     }
-  //   });
-
   // app auth state change listener
   const app = getApp();
   const auth = getAuth(app);
   onAuthStateChanged(auth, (existingUser) => {
     if (existingUser) {
-      console.log("EXISTING USER", existingUser);
+      // console.log("EXISTING USER", existingUser);
       setUser(existingUser);
       let retrivedToken = null;
       let retrivedUser = null;
@@ -101,12 +83,12 @@ export const AuthenticationContextProvider = ({
   // getting the apollo client and logging out
   const client = useApolloClient();
   const logout = async () => {
+    client.clearStore();
     signOut(auth).then(() => {
+      console.log("signed out");
       setUser(null);
       setUserToken(null);
       setFirebaseIdToken(null);
-      client.cache.reset();
-      client.resetStore();
     });
   };
 
