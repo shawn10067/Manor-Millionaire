@@ -13,76 +13,20 @@ import { LoginErrorText } from "../../account/components/login.email.screen.styl
 import SafeAreaView from "../../../components/SafeAreaView";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 import { getAuth } from "firebase/auth";
-import { useLazyQuery, useMutation } from "@apollo/client";
-import { CREATE_ACCOUNT } from "../../../../graphql/mutations";
 import { useRef } from "react";
-import { useEffect } from "react";
-import { USER_EXISTS } from "../../../../graphql/queries";
-import { createErrorObject } from "../../../utils/errorHandlers";
 
 const UsernameScreen = ({ navigation }) => {
-  const { setUserToken, firebaseIdToken, user, logout, userToken } = useContext(
-    AuthenticationContext
-  );
+  const {
+    createAccountMutation,
+    setUserToken,
+    firebaseIdToken,
+    user,
+    logout,
+    userToken,
+    loading,
+  } = useContext(AuthenticationContext);
   const [error, setError] = useState(null);
-  const [gotUser, setGotUser] = useState(false);
   const usernameRef = useRef();
-
-  // queries
-  const [createAccountMutation, { data, loading, error: createAccountError }] =
-    useMutation(CREATE_ACCOUNT, {
-      onCompleted: (completeData) => {
-        console.log("got creation data", completeData);
-      },
-    });
-  const [
-    checkIfUserExists,
-    { data: checkData, loading: checkLoading, error: checkError },
-  ] = useLazyQuery(USER_EXISTS, {
-    onCompleted: (completeData) => {
-      console.log("got existance data", completeData);
-    },
-  });
-
-  // error use effects --------
-  useEffect(() => {
-    if (createAccountError) {
-      ("error occured");
-      setError(createErrorObject(createAccountError));
-    }
-  }, [createAccountError]);
-  useEffect(() => {
-    if (checkError) {
-      ("error occured");
-      setError(createErrorObject(checkError));
-    }
-  }, [checkError]);
-  // end of effects --------
-
-  // if we got the status of the user
-  useEffect(() => {
-    if (checkData && !gotUser) {
-      console.log("data to check for existing user", checkData);
-      setGotUser(true);
-      //navigation.navigate("Home");
-    }
-  }, [checkData, gotUser]);
-
-  // if we successfully created an account
-  useEffect(() => {
-    if (data && !gotUser) {
-      console.log("user creation data recieved", data);
-      if (!userToken) {
-        setUserToken(data.signUp);
-      }
-      checkIfUserExists({
-        variables: {
-          firebaseId: firebaseIdToken,
-        },
-      });
-    }
-  }, [data, gotUser]);
-
   // function to create database user
   const onUsernameSubmit = async () => {
     if (!usernameRef.current) {
@@ -124,7 +68,7 @@ const UsernameScreen = ({ navigation }) => {
             colour="red"
             text="Submit"
             onPress={onUsernameSubmit}
-            loading={checkLoading || loading}
+            loading={loading}
           />
         </UsernameInputView>
       </SafeAreaView>

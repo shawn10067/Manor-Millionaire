@@ -1,5 +1,5 @@
 // apollo client setup, with cache and subscription setup
-import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
+import { ApolloClient, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import cache from "../infrastructure/cache/cache";
 
@@ -11,6 +11,7 @@ const ipConfigs = {
 
 const CreateApolloClient = (firebaseIdToken) => {
   if (firebaseIdToken) {
+    console.log("creating auth client");
     const httpLink = createHttpLink({
       uri: ipConfigs.university,
     });
@@ -31,6 +32,7 @@ const CreateApolloClient = (firebaseIdToken) => {
 
     return client;
   } else {
+    console.log("creating NORMAL client");
     const client = new ApolloClient({
       uri: ipConfigs.university,
       cache,

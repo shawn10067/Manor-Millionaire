@@ -7,9 +7,16 @@ import { onAuthStateChanged, signOut, getAuth } from "firebase/auth";
 import { getApp } from "firebase/app";
 import { createContext } from "react";
 import { useState } from "react";
-import { useApolloClient, useLazyQuery, useQuery } from "@apollo/client";
-import { GET_ME, LOGIN } from "../../../graphql/queries";
+import {
+  useApolloClient,
+  useLazyQuery,
+  useMutation,
+  useQuery,
+} from "@apollo/client";
+import { GET_ME, LOGIN, USER_EXISTS } from "../../../graphql/queries";
 import { useEffect } from "react";
+import { CREATE_ACCOUNT } from "../../../graphql/mutations";
+import { createErrorObject } from "../../utils/errorHandlers";
 
 export const AuthenticationContext = createContext();
 
@@ -23,27 +30,89 @@ export const AuthenticationContextProvider = ({
   const [user, setUser] = useState(null);
   const [firebaseIdToken, setFirebaseIdToken] = useState(null);
   const [error, setError] = useState(null);
+  const [gotUser, setGotUser] = useState(false);
+  const [userExists, setUserExists] = useState(false);
 
-  // lazy query for getting the user
-  const [getMe, { data, loading: getMeLoading, error: getMeError }] =
-    useLazyQuery(GET_ME);
+  // queries
+  const [
+    createAccountMutation,
+    { createData, loading: createLoading, error: createAccountError },
+  ] = useMutation(CREATE_ACCOUNT, {
+    onCompleted: (completeData) => {
+      console.log("got creation data", completeData);
+    },
+  });
+  const [
+    checkIfUserExists,
+    { data: checkData, loading: checkLoading, error: checkError },
+  ] = useLazyQuery(USER_EXISTS, {
+    onCompleted: (completeData) => {
+      console.log("got existance data", completeData);
+    },
+  });
 
-  // if the userToken changes, then set the user
+  if (createLoading || checkLoading) {
+    setIsLoading(true);
+  }
+
+  // error use effects --------
   useEffect(() => {
-    if (userToken) {
-      getMe();
+    if (createAccountError) {
+      ("setting error because error occured");
+      setError(createErrorObject(createAccountError));
     }
-  }, [userToken]);
+  }, [createAccountError]);
+  useEffect(() => {
+    if (checkError) {
+      ("setting error because error occured");
+      setError(createErrorObject(checkError));
+    }
+  }, [checkError]);
+  // end of effects --------
 
-  // app auth state change listener
+  // if we got the status of the user
+  useEffect(() => {
+    if (checkData && !gotUser) {
+      console.log("data to check for existing user", checkData);
+      setGotUser(true);
+      //navigation.navigate("Home");
+    }
+  }, [checkData, gotUser]);
+
+  // if we successfully created an account
+  useEffect(() => {
+    if (createData && !gotUser) {
+      console.log("user creation data recieved", createData);
+      if (!userToken) {
+        console.log("setting user token");
+        setUserToken(createData.signUp);
+      }
+      checkIfUserExists({
+        variables: {
+          firebaseId: firebaseIdToken,
+        },
+      });
+    }
+  }, [createData, gotUser]);
+
+  // // lazy query for getting the user
+  // const [getMe, { data: meData, loading: getMeLoading, error: getMeError }] =
+  //   useLazyQuery(GET_ME);
+
+  // // if the userToken changes, then set the user
+  // useEffect(() => {
+  //   if (userToken) {
+  //     getMe();
+  //   }
+  // }, [userToken]);
+
+  // when the user changes auth state, or opens app, we get the *firebase id token*
   const app = getApp();
   const auth = getAuth(app);
   onAuthStateChanged(auth, (existingUser) => {
     if (existingUser) {
       // console.log("EXISTING USER", existingUser);
       setUser(existingUser);
-      let retrivedToken = null;
-      let retrivedUser = null;
       existingUser.getIdToken().then((token) => {
         if (token) {
           setFirebaseIdToken(token);
@@ -62,7 +131,7 @@ export const AuthenticationContextProvider = ({
       await loginEmailRequest(email, password);
       const authToken = await auth.currentUser.getIdToken();
       setFirebaseIdToken(authToken);
-      const { data, error } = useQuery(LOGIN, {
+      const { loginData, error } = useQuery(LOGIN, {
         variables: {
           firebaseId: authToken,
         },
@@ -70,7 +139,7 @@ export const AuthenticationContextProvider = ({
       if (error) {
         throw new Error(error);
       }
-      data && data.login && setUser(data.login);
+      loginData && loginData.login && setUser(loginData.login);
       setError(null);
     } catch (e) {
       setError(e);
@@ -79,7 +148,6 @@ export const AuthenticationContextProvider = ({
     }
   };
 
-  // this is DONE
   // getting the apollo client and logging out
   const client = useApolloClient();
   const logout = async () => {
@@ -92,7 +160,7 @@ export const AuthenticationContextProvider = ({
     });
   };
 
-  // this is DONE
+  // firebase create account method
   const createFirebaseAccount = async (email, password, repeatedPassword) => {
     if (password !== repeatedPassword) {
       setError({ message: "Passwords do not match" });
@@ -125,6 +193,7 @@ export const AuthenticationContextProvider = ({
         logout,
         login,
         createFirebaseAccount,
+        createAccountMutation,
       }}
     >
       {children}

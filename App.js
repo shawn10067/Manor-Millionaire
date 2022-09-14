@@ -32,10 +32,17 @@ import { ApolloProvider } from "@apollo/client";
 import CreateApolloClient from "./src/utils/apolloClientCreator";
 
 const App = () => {
+  // client config
+  const [userToken, setUserToken] = useState(null);
+  let client = CreateApolloClient(userToken);
+
+  useEffect(() => {
+    client = CreateApolloClient(userToken);
+  }, userToken);
+
   // sound config
   const [soundtrack, setSoundtrack] = useState(null);
-  const [userToken, setUserToken] = useState(null);
-  const client = CreateApolloClient(userToken);
+
   const playSound = async () => {
     const { sound } = await Audio.Sound.createAsync(
       require("./assets/sounds/soundtrack.mp3")
@@ -80,7 +87,7 @@ const App = () => {
               <TradeContextProvider>
                 <NavigationContainer>
                   <ThemeProvider theme={theme}>
-                    <Navigation playSound={playSound} />
+                    <Navigation />
                     <StatusBar style="light" />
                   </ThemeProvider>
                 </NavigationContainer>
