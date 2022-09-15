@@ -53,10 +53,10 @@ const JailScreen = ({ navigation }) => {
         <HandcuffLottieView>
           <HandcuffLottie loopStatus={false} />
           <HandcuffText>
-            You've been arrested and your{" "}
+            {"You've been arrested and your "}
             <HandcuffTextRed>properties have been frozen!</HandcuffTextRed> You
             must stay in prison for the next{" "}
-            <HandcuffTextRed>2 spins.</HandcuffTextRed>
+            <HandcuffTextRed>12 hours.</HandcuffTextRed>
           </HandcuffText>
           <ContinueButton
             text="Continue"

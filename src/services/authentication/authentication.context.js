@@ -13,7 +13,7 @@ import {
   useMutation,
   useQuery,
 } from "@apollo/client";
-import { GET_ME, LOGIN, USER_EXISTS } from "../../../graphql/queries";
+import { LOGIN, USER_EXISTS } from "../../../graphql/queries";
 import { useEffect } from "react";
 import { CREATE_ACCOUNT } from "../../../graphql/mutations";
 import { createErrorObject } from "../../utils/errorHandlers";
@@ -30,58 +30,118 @@ export const AuthenticationContextProvider = ({
   const [user, setUser] = useState(null);
   const [firebaseIdToken, setFirebaseIdToken] = useState(null);
   const [error, setError] = useState(null);
-  const [gotUser, setGotUser] = useState(false);
   const [userExists, setUserExists] = useState(false);
+
+  console.log(
+    "rendering component with the following state",
+    loading,
+    "user is",
+    user,
+    "firebaseIdToken is",
+    firebaseIdToken,
+    "error is",
+    error,
+    userExists,
+    userToken
+  );
 
   // queries
   const [
     createAccountMutation,
     { createData, loading: createLoading, error: createAccountError },
-  ] = useMutation(CREATE_ACCOUNT, {
-    onCompleted: (completeData) => {
-      console.log("got creation data", completeData);
-    },
-  });
+  ] = useMutation(CREATE_ACCOUNT);
   const [
     checkIfUserExists,
     { data: checkData, loading: checkLoading, error: checkError },
-  ] = useLazyQuery(USER_EXISTS, {
-    onCompleted: (completeData) => {
-      console.log("got existance data", completeData);
-    },
-  });
+  ] = useLazyQuery(USER_EXISTS);
+  const [
+    userLogin,
+    { data: loginData, loading: loginLoading, error: loginError },
+  ] = useLazyQuery(LOGIN);
 
-  if (createLoading || checkLoading) {
+  if ((createLoading || checkLoading || loginLoading) && !loading) {
     setIsLoading(true);
+  } else {
+    if (loading && !createLoading && !checkLoading && !loginLoading) {
+      setIsLoading(false);
+    }
   }
 
   // error use effects --------
   useEffect(() => {
     if (createAccountError) {
-      ("setting error because error occured");
       setError(createErrorObject(createAccountError));
     }
   }, [createAccountError]);
   useEffect(() => {
     if (checkError) {
-      ("setting error because error occured");
       setError(createErrorObject(checkError));
+    }
+  }, [checkError]);
+  useEffect(() => {
+    if (loginError) {
+      setError(createErrorObject(loginError));
     }
   }, [checkError]);
   // end of effects --------
 
+  // data use effects --------
+
+  // if we get the login data, we set the user and the user token
+  useEffect(() => {
+    if (loginData) {
+      console.log("login data", loginData);
+      //setUser(loginData.login);
+      //setUserToken(loginData.login.token);
+    }
+  }, [loginData]);
+
+  // if userExists is true, then we can login with the firebaseIdToken
+  useEffect(() => {
+    if (userExists) {
+      userLogin({
+        variables: {
+          firebaseId: firebaseIdToken,
+        },
+      });
+    }
+  }, [userExists]);
+
+  // if the user exists, use the login query and set the user
+  useEffect(() => {
+    if (userExists) {
+      console.log("user exists, logging in", userExists);
+    } else {
+      console.log("user does not exist, creating account", userExists);
+    }
+  }, [userExists]);
+
+  // if firebaseId token changes, call the checkIfUserExists
+  useEffect(() => {
+    console.log("firebase token fetch call");
+    if (firebaseIdToken) {
+      checkIfUserExists({
+        variables: {
+          firebaseId: firebaseIdToken,
+        },
+      });
+    }
+  }, [firebaseIdToken]);
+
   // if we got the status of the user
   useEffect(() => {
-    if (checkData && !gotUser) {
+    console.log("user existance fetch call");
+    if (checkData) {
       console.log("data to check for existing user", checkData);
-      setGotUser(true);
+      setUserExists(checkData.userExists);
       //navigation.navigate("Home");
     }
-  }, [checkData, gotUser]);
+  }, [checkData]);
 
   // if we successfully created an account
   useEffect(() => {
-    if (createData && !gotUser) {
+    console.log("user creating call");
+    if (createData) {
       console.log("user creation data recieved", createData);
       if (!userToken) {
         console.log("setting user token");
@@ -93,37 +153,27 @@ export const AuthenticationContextProvider = ({
         },
       });
     }
-  }, [createData, gotUser]);
+  }, [createData]);
 
-  // // lazy query for getting the user
-  // const [getMe, { data: meData, loading: getMeLoading, error: getMeError }] =
-  //   useLazyQuery(GET_ME);
-
-  // // if the userToken changes, then set the user
-  // useEffect(() => {
-  //   if (userToken) {
-  //     getMe();
-  //   }
-  // }, [userToken]);
+  // end of effects --------
 
   // when the user changes auth state, or opens app, we get the *firebase id token*
-  const app = getApp();
-  const auth = getAuth(app);
-  onAuthStateChanged(auth, (existingUser) => {
-    if (existingUser) {
-      // console.log("EXISTING USER", existingUser);
-      setUser(existingUser);
-      existingUser.getIdToken().then((token) => {
-        if (token) {
-          setFirebaseIdToken(token);
-        }
-      });
-    } else {
-      setUser(null);
-    }
-  });
+  useEffect(() => {
+    const app = getApp();
+    const auth = getAuth(app);
+    onAuthStateChanged(auth, (existingUser) => {
+      if (existingUser && !user) {
+        existingUser.getIdToken().then((token) => {
+          if (token) {
+            setFirebaseIdToken(token);
+          }
+        });
+      }
+    });
+  }, []);
 
   // TODO: make sure this works
+  const auth = getAuth();
   const login = async (email, password) => {
     setIsLoading(true);
     setError(null);
@@ -157,6 +207,9 @@ export const AuthenticationContextProvider = ({
       setUser(null);
       setUserToken(null);
       setFirebaseIdToken(null);
+      setError(null);
+      setIsLoading(false);
+      setUserExists(false);
     });
   };
 
@@ -172,7 +225,6 @@ export const AuthenticationContextProvider = ({
       await createEmailRequest(email, password);
       const firebaseToken = await getAuth().currentUser.getIdToken();
       setFirebaseIdToken(firebaseToken);
-      setUser({ hasUsername: false });
     } catch (error) {
       setError(error);
       setUser(null);
@@ -194,6 +246,8 @@ export const AuthenticationContextProvider = ({
         login,
         createFirebaseAccount,
         createAccountMutation,
+        userExists,
+        setUserExists,
       }}
     >
       {children}

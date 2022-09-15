@@ -46,12 +46,14 @@ const HomeNavigator = () => {
         : "Tutorial"
       : "Username Selection");
 
+  console.log("navigating with user", user, initialRoute);
+
   return (
     <HomeStack.Navigator
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={initialRoute}
+      initialRouteName={initialRoute || "Username Selection"}
     >
       <HomeStack.Screen
         name="Home"

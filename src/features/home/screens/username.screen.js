@@ -16,17 +16,11 @@ import { getAuth } from "firebase/auth";
 import { useRef } from "react";
 
 const UsernameScreen = ({ navigation }) => {
-  const {
-    createAccountMutation,
-    setUserToken,
-    firebaseIdToken,
-    user,
-    logout,
-    userToken,
-    loading,
-  } = useContext(AuthenticationContext);
   const [error, setError] = useState(null);
   const usernameRef = useRef();
+  const { createAccountMutation, firebaseIdToken, logout, loading } =
+    useContext(AuthenticationContext);
+
   // function to create database user
   const onUsernameSubmit = async () => {
     if (!usernameRef.current) {
