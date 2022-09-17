@@ -33,19 +33,19 @@ export const AuthenticationContextProvider = ({
   const [error, setError] = useState(null);
   const [userExists, setUserExists] = useState(false);
 
-  // console.log(
-  //   "rendering component with the following state",
-  //   loading,
-  //   "user is",
-  //   user,
-  //   "firebaseIdToken is",
-  //   firebaseIdToken,
-  //   "error is",
-  //   error,
-  //   userExists,
-  //   userToken
-  // );
-  console.log("user is ", user);
+  console.log(
+    "rendering component with the following state",
+    loading,
+    "user is",
+    user,
+    "firebaseIdToken is",
+    firebaseIdToken,
+    "error is",
+    error,
+    userExists,
+    userToken
+  );
+  //console.log("user is ", user);
 
   // queries
   const [
@@ -112,7 +112,7 @@ export const AuthenticationContextProvider = ({
     console.log("me data changed ", meData);
     if (meData) {
       console.log("meData is", meData);
-      // setUser(meData.getMe);
+      setUser(meData.getMe);
     }
   }, [meData]);
 

@@ -14,7 +14,7 @@ const linuxConfigs = {
 };
 
 const ipConfigs = {
-  ...linuxConfigs,
+  ...macConfigs,
   heroku: "https://manor-millionaire-server.herokuapp.com/graphql",
 };
 

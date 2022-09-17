@@ -37,12 +37,13 @@ const HomeStack = createNativeStackNavigator();
 const HomeNavigator = () => {
   const { user } = useContext(AuthenticationContext);
   const initialRoute =
-    user &&
-    (user.hasUsername
-      ? user.hasHouse
-        ? "Home"
-        : "Tutorial"
-      : "Username Selection");
+    (user &&
+      (user.username
+        ? user.hasHouse
+          ? "Home"
+          : "Tutorial"
+        : "Username Selection")) ||
+    "Username Selection";
 
   console.log("navigating with user", user, initialRoute);
 
@@ -51,7 +52,7 @@ const HomeNavigator = () => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={initialRoute || "Username Selection"}
+      initialRouteName={initialRoute}
     >
       <HomeStack.Screen
         name="Home"

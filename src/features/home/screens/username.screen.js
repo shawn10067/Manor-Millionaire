@@ -18,8 +18,13 @@ import { useRef } from "react";
 const UsernameScreen = ({ navigation }) => {
   const [error, setError] = useState(null);
   const usernameRef = useRef();
-  const { createAccountMutation, firebaseIdToken, logout, loading } =
+  const { createAccountMutation, firebaseIdToken, logout, loading, user } =
     useContext(AuthenticationContext);
+
+  if (user) {
+    console.log("USER CREATED", user);
+    navigation.navigate("Tutorial");
+  }
 
   // function to create database user
   const onUsernameSubmit = async () => {
