@@ -74,7 +74,7 @@ const Logo = styled(Image).attrs({
 
 const SettingsScreen = ({ navigation }) => {
   const [soundSetting, setSoundSettings] = useState(true);
-  const { logout } = useContext(AuthenticationContext);
+  const { logout, user } = useContext(AuthenticationContext);
 
   const onLogout = () => {
     logout();
@@ -92,7 +92,7 @@ const SettingsScreen = ({ navigation }) => {
             <Logo />
           </LogoView>
           <UsernameView>
-            <UsernameText>Guraryan69</UsernameText>
+            <UsernameText>{user.username}</UsernameText>
           </UsernameView>
           <ButtonsView>
             <SoundButton

@@ -1,7 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import BackgroundView from "../../../components/BackgroundView";
 import RoundedTextInput from "../../../components/RoundedTextInput";
 import SafeAreaView from "../../../components/SafeAreaView";
+import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 import { LogoImage } from "../components/account.screen.styles";
 import {
   BackButtonView,
@@ -12,8 +13,23 @@ import {
 } from "../components/login.email.screen.styles";
 
 const LoginEmailScreen = ({ navigation }) => {
+  // use refs
+
+  const emailRef = useRef();
+  const passwordRef = useRef();
   const [error, setError] = useState(null);
   // to be implemented
+  const {
+    error: authError,
+    loading,
+    login,
+  } = useContext(AuthenticationContext);
+  // log the refs
+  useEffect(() => {
+    if (authError) {
+      setError(authError);
+    }
+  }, [authError]);
   return (
     <BackgroundView>
       <SafeAreaView>
@@ -22,13 +38,21 @@ const LoginEmailScreen = ({ navigation }) => {
           <LogoImage />
         </LogoView>
         <FormView>
-          <RoundedTextInput placeholder="email" />
-          <RoundedTextInput placeholder="password" secureTextEntry={true} />
-          {error && <LoginErrorText>{error}</LoginErrorText>}
+          <RoundedTextInput
+            placeholder="email"
+            onChange={(val) => (emailRef.current = val)}
+          />
+          <RoundedTextInput
+            placeholder="password"
+            secureTextEntry={true}
+            onChange={(val) => (passwordRef.current = val)}
+          />
+          {error && <LoginErrorText>{error.message}</LoginErrorText>}
           <LoginButtonSubmit
             onPress={() => {
-              return null;
+              login(emailRef.current, passwordRef.current);
             }}
+            loading={loading}
           />
         </FormView>
       </SafeAreaView>

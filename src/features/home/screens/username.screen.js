@@ -17,6 +17,18 @@ import { useRef } from "react";
 import AnimationFadeInOut from "../../../components/AnimationFadeInOut";
 import styled from "styled-components/native";
 
+const UsernameAnimated = styled(AnimationFadeInOut)`
+  height: 100%;
+  width: 100%;
+  flex: 1;
+`;
+
+const UsernameAnimatedView = styled.View`
+  height: 100%;
+  width: 100%;
+  flex: 1;
+`;
+
 const UsernameScreen = ({ navigation }) => {
   const [error, setError] = useState(null);
   const usernameRef = useRef();
@@ -44,22 +56,8 @@ const UsernameScreen = ({ navigation }) => {
           firebaseId: firebaseIdToken,
         },
       });
-
-      setError(null);
     }
   };
-
-  const UsernameAnimated = styled(AnimationFadeInOut)`
-    height: 100%;
-    width: 100%;
-    flex: 1;
-  `;
-
-  const UsernameAnimatedView = styled.View`
-    height: 100%;
-    width: 100%;
-    flex: 1;
-  `;
 
   return (
     <BackgroundView>

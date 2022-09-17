@@ -24,12 +24,9 @@ import { SpinContext } from "../../../services/spin/spin.context";
 import SpinProgress from "../components/SpinProgress";
 import { BankruptcyContext } from "../../../services/bankruptcy/bankruptcy.context";
 import { Pressable } from "react-native";
-import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 
 const HomeScreen = ({ navigation }) => {
   const { trade } = useContext(TradeContext);
-  const { logout } = useContext(AuthenticationContext);
-  logout();
 
   const { bankruptTrade, setBankruptTrade } = useContext(BankruptcyContext);
 
@@ -60,7 +57,6 @@ const HomeScreen = ({ navigation }) => {
 
   const RunOnSpinReached = () => {
     setHasSpun(false);
-    console.log("spin time activated");
   };
 
   return (
@@ -73,7 +69,6 @@ const HomeScreen = ({ navigation }) => {
             </IconView>
             <IconView
               onPress={() => {
-                console.log("Pressed");
                 setBankruptTrade({
                   properties: [],
                 });

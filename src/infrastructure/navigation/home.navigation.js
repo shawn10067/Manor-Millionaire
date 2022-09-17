@@ -41,7 +41,7 @@ const HomeNavigator = () => {
       (user.username
         ? user.hasHouse
           ? "Home"
-          : "Tutorial"
+          : "Home"
         : "Username Selection")) ||
     "Username Selection";
 

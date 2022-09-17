@@ -1,55 +1,66 @@
+import { useLazyQuery } from "@apollo/client";
 import React, { createContext, useEffect, useState } from "react";
+import { createErrorObject } from "../../utils/errorHandlers";
+import { GET_MY_PROPERTIES } from "../../../graphql/personal";
 
 export const UserContext = createContext();
 
 export const UserContextProvider = ({ children }) => {
-  const [user, setUser] = useState({
-    hasHouse: true,
-    hasUsername: true,
-    cash: 155000000,
-    bankrupt: false,
-    bankruptAmount: 0,
-    hasSpun: false,
-    inJail: false,
-  });
+  // holding the user information
+  const [friends, setFriends] = useState({});
+  const [friendRequests, setFriendRequests] = useState({});
+  const [trades, setTrades] = useState([]);
+  const [properties, setProperties] = useState([]);
 
-  const [friends, setFriends] = useState([
-    { username: "sheenMachine" },
-    { username: "karan343" },
-    { username: "raju293" },
-    { username: "singhamRockx" },
-    { username: "ummy" },
-    { username: "Peebody" },
-    { username: "EuRekA247" },
-    { username: "zimbdestroyer" },
-    { username: "luniwoney496565" },
-  ]);
+  // holding loading and error state
+  const [loading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-  const [friendRequests, setFriendRequests] = useState([
-    { username: "sneakyBob" },
-    { username: "luluwatermelon" },
-    { username: "backstreetJibes" },
-    { username: "backstreetJibes255446" },
-    { username: "geneology2041" },
-  ]);
+  // using the personal queries and lazy queries to get the information at any time
 
+  // queries
+  const [
+    getProperties,
+    {
+      data: propertiesData,
+      loading: propertiesLoading,
+      error: propertiesError,
+    },
+  ] = useLazyQuery(GET_MY_PROPERTIES);
+
+  // loading logic
+  if (propertiesLoading && !loading) {
+    setIsLoading(true);
+  } else if (loading && !propertiesLoading) {
+    setIsLoading(false);
+  }
+
+  // properties logic
   useEffect(() => {
-    if (user === null) {
-      setFriends(null);
+    if (propertiesError) {
+      setError(createErrorObject(propertiesError));
     }
-  }, [user]);
-
-  // const [user, setUser] = useState(null);
+  }, [propertiesError]);
+  useEffect(() => {
+    if (propertiesData) {
+      console.log("properties data came in ", propertiesData);
+      //setProperties(propertiesData.getMe)
+    }
+  }, [propertiesData]);
 
   return (
     <UserContext.Provider
       value={{
-        user,
-        setUser,
         friends,
         setFriends,
         friendRequests,
         setFriendRequests,
+        properties,
+        setProperties,
+        trades,
+        getProperties,
+        error,
+        loading,
       }}
     >
       {children}

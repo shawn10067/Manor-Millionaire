@@ -7,12 +7,7 @@ import { onAuthStateChanged, signOut, getAuth } from "firebase/auth";
 import { getApp } from "firebase/app";
 import { createContext } from "react";
 import { useState } from "react";
-import {
-  useApolloClient,
-  useLazyQuery,
-  useMutation,
-  useQuery,
-} from "@apollo/client";
+import { useApolloClient, useLazyQuery, useMutation } from "@apollo/client";
 import { LOGIN, USER_EXISTS } from "../../../graphql/queries";
 import { useEffect } from "react";
 import { CREATE_ACCOUNT } from "../../../graphql/mutations";
@@ -32,20 +27,6 @@ export const AuthenticationContextProvider = ({
   const [firebaseIdToken, setFirebaseIdToken] = useState(null);
   const [error, setError] = useState(null);
   const [userExists, setUserExists] = useState(false);
-
-  console.log(
-    "rendering component with the following state",
-    loading,
-    "user is",
-    user,
-    "firebaseIdToken is",
-    firebaseIdToken,
-    "error is",
-    error,
-    userExists,
-    userToken
-  );
-  //console.log("user is ", user);
 
   // queries
   const [
@@ -80,7 +61,7 @@ export const AuthenticationContextProvider = ({
     }
   }
 
-  console.log("me data is ", meError);
+  // console.log("me data is ", meError);
 
   // error use effects --------
   useEffect(() => {
@@ -109,9 +90,7 @@ export const AuthenticationContextProvider = ({
 
   // if we have the user date, we set the user state
   useEffect(() => {
-    console.log("me data changed ", meData);
     if (meData) {
-      console.log("meData is", meData);
       setUser(meData.getMe);
     }
   }, [meData]);
@@ -119,7 +98,6 @@ export const AuthenticationContextProvider = ({
   // if we have a user token, run the get me query
   useEffect(() => {
     if (userToken) {
-      console.log("getting me with token", userToken);
       getMe();
     }
   }, [userToken]);
@@ -127,7 +105,6 @@ export const AuthenticationContextProvider = ({
   // if we get the login data, we set the user and the user token
   useEffect(() => {
     if (loginData) {
-      console.log("login data", loginData);
       const { login } = loginData;
       setUserToken(login);
     }
@@ -144,18 +121,8 @@ export const AuthenticationContextProvider = ({
     }
   }, [userExists]);
 
-  // if the user exists, use the login query and set the user
-  useEffect(() => {
-    if (userExists) {
-      console.log("user exists, logging in", userExists);
-    } else {
-      console.log("user does not exist, creating account", userExists);
-    }
-  }, [userExists]);
-
   // if firebaseId token changes, call the checkIfUserExists
   useEffect(() => {
-    console.log("firebase token fetch call");
     if (firebaseIdToken) {
       checkIfUserExists({
         variables: {
@@ -167,23 +134,15 @@ export const AuthenticationContextProvider = ({
 
   // if we got the status of the user
   useEffect(() => {
-    console.log("user existance fetch call");
     if (checkData) {
-      console.log("data to check for existing user", checkData);
       setUserExists(checkData.userExists);
-      //navigation.navigate("Home");
     }
   }, [checkData]);
 
-  console.log("user exists", userExists);
-
   // if we successfully created an account
   useEffect(() => {
-    console.log("user creating call");
     if (createData) {
-      console.log("user creation data recieved", createData);
       if (!userToken) {
-        console.log("setting user token");
         setUserToken(createData.signUp);
       }
       client.refetchQueries({
@@ -214,29 +173,28 @@ export const AuthenticationContextProvider = ({
     });
   }, []);
 
-  // TODO: make sure this works
+  // login method
   const auth = getAuth();
   const login = async (email, password) => {
-    setIsLoading(true);
     setError(null);
     try {
+      if (!email || !password) {
+        setError({
+          message: "please enter an email and password",
+        });
+        return;
+      }
       await loginEmailRequest(email, password);
       const authToken = await auth.currentUser.getIdToken();
       setFirebaseIdToken(authToken);
-      const { loginData, error } = useQuery(LOGIN, {
+      setUserExists(true);
+      userLogin({
         variables: {
-          firebaseId: authToken,
+          firebaseIdToken: authToken,
         },
       });
-      if (error) {
-        throw new Error(error);
-      }
-      loginData && loginData.login && setUser(loginData.login);
-      setError(null);
     } catch (e) {
-      setError(e);
-    } finally {
-      setIsLoading(false);
+      setError({ message: "wrong email password combination" });
     }
   };
 
@@ -244,15 +202,13 @@ export const AuthenticationContextProvider = ({
   const client = useApolloClient();
   const logout = async () => {
     client.clearStore();
-    signOut(auth).then(() => {
-      console.log("signed out");
-      setUser(null);
-      setUserToken(null);
-      setFirebaseIdToken(null);
-      setError(null);
-      setIsLoading(false);
-      setUserExists(false);
-    });
+    signOut(auth);
+    setUser(null);
+    setUserToken(null);
+    setFirebaseIdToken(null);
+    setError(null);
+    setIsLoading(false);
+    setUserExists(false);
   };
 
   // firebase create account method

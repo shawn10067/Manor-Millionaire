@@ -3,7 +3,7 @@ import { Text } from "react-native";
 import AnimatedNumbers from "react-native-animated-numbers";
 import styled from "styled-components/native";
 import theme from "../infrastructure/theme";
-import { UserContext } from "../services/user/user.context";
+import { AuthenticationContext } from "../services/authentication/authentication.context";
 
 const MoneyView = styled.View`
   width: 195px;
@@ -25,7 +25,7 @@ const CashText = styled(Text)`
 `;
 
 const MoneyCounter = () => {
-  const { user } = useContext(UserContext);
+  const { user } = useContext(AuthenticationContext);
   return (
     <MoneyView>
       <CashText>$</CashText>
