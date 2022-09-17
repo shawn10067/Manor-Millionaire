@@ -17,6 +17,7 @@ import { LOGIN, USER_EXISTS } from "../../../graphql/queries";
 import { useEffect } from "react";
 import { CREATE_ACCOUNT } from "../../../graphql/mutations";
 import { createErrorObject } from "../../utils/errorHandlers";
+import { GET_ME } from "../../../graphql/personal";
 
 export const AuthenticationContext = createContext();
 
@@ -32,18 +33,18 @@ export const AuthenticationContextProvider = ({
   const [error, setError] = useState(null);
   const [userExists, setUserExists] = useState(false);
 
-  console.log(
-    "rendering component with the following state",
-    loading,
-    "user is",
-    user,
-    "firebaseIdToken is",
-    firebaseIdToken,
-    "error is",
-    error,
-    userExists,
-    userToken
-  );
+  // console.log(
+  //   "rendering component with the following state",
+  //   loading,
+  //   "user is",
+  //   user,
+  //   "firebaseIdToken is",
+  //   firebaseIdToken,
+  //   "error is",
+  //   error,
+  //   userExists,
+  //   userToken
+  // );
 
   // queries
   const [
@@ -58,11 +59,22 @@ export const AuthenticationContextProvider = ({
     userLogin,
     { data: loginData, loading: loginLoading, error: loginError },
   ] = useLazyQuery(LOGIN);
+  const [getMe, { data: meData, loading: meLoading, error: meError }] =
+    useLazyQuery(GET_ME);
 
-  if ((createLoading || checkLoading || loginLoading) && !loading) {
+  if (
+    (createLoading || checkLoading || loginLoading || meLoading) &&
+    !loading
+  ) {
     setIsLoading(true);
   } else {
-    if (loading && !createLoading && !checkLoading && !loginLoading) {
+    if (
+      loading &&
+      !createLoading &&
+      !checkLoading &&
+      !loginLoading &&
+      !meLoading
+    ) {
       setIsLoading(false);
     }
   }
@@ -83,18 +95,42 @@ export const AuthenticationContextProvider = ({
       setError(createErrorObject(loginError));
     }
   }, [checkError]);
+  useEffect(() => {
+    if (meError) {
+      setError(createErrorObject(meError));
+    }
+  }, [meError]);
   // end of effects --------
 
   // data use effects --------
+
+  // if we have the user date, we set the user state
+  useEffect(() => {
+    if (meData) {
+      console.log("meData is", meData);
+      // setUser(meData.getMe);
+    }
+  }, [meData]);
+
+  // if we have a user token, run the get me query
+  useEffect(() => {
+    if (userToken) {
+      getMe();
+    }
+  }, [userToken]);
 
   // if we get the login data, we set the user and the user token
   useEffect(() => {
     if (loginData) {
       console.log("login data", loginData);
-      //setUser(loginData.login);
-      //setUserToken(loginData.login.token);
+      const { login } = loginData;
+      setUserToken(login);
     }
   }, [loginData]);
+
+  /*
+  TODO: GET USER FROM GETME()
+  */
 
   // if userExists is true, then we can login with the firebaseIdToken
   useEffect(() => {

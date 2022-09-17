@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import BackgroundView from "../../../components/BackgroundView";
 import RoundedTextInput from "../../../components/RoundedTextInput";
 import SafeAreaView from "../../../components/SafeAreaView";
-import { UserContext } from "../../../services/user/user.context";
 import { LogoImage } from "../components/account.screen.styles";
 import {
   BackButtonView,
@@ -14,7 +13,7 @@ import {
 
 const LoginEmailScreen = ({ navigation }) => {
   const [error, setError] = useState(null);
-  const { setUser } = useContext(UserContext);
+  // to be implemented
   return (
     <BackgroundView>
       <SafeAreaView>
@@ -28,8 +27,7 @@ const LoginEmailScreen = ({ navigation }) => {
           {error && <LoginErrorText>{error}</LoginErrorText>}
           <LoginButtonSubmit
             onPress={() => {
-              setError(null);
-              setUser({ hasUsername: true, hasHouse: true, cash: 200000000 });
+              return null;
             }}
           />
         </FormView>

@@ -12,19 +12,6 @@ export const LOGIN = gql`
   }
 `;
 
-export const GET_ME = gql`
-  query GET_ME {
-    getMe {
-      username
-      cash
-      id
-      jailed
-      frozen
-      lastSpin
-    }
-  }
-`;
-
 export const USER_EXISTS = gql`
   query USER_EXISTS($firebaseId: String!) {
     userExists(firebaseId: $firebaseId)
