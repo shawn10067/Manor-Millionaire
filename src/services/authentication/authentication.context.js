@@ -50,7 +50,7 @@ export const AuthenticationContextProvider = ({
   // queries
   const [
     createAccountMutation,
-    { createData, loading: createLoading, error: createAccountError },
+    { data: createData, loading: createLoading, error: createAccountError },
   ] = useMutation(CREATE_ACCOUNT);
   const [
     checkIfUserExists,
@@ -133,10 +133,6 @@ export const AuthenticationContextProvider = ({
     }
   }, [loginData]);
 
-  /*
-  TODO: GET USER FROM GETME()
-  */
-
   // if userExists is true, then we can login with the firebaseIdToken
   useEffect(() => {
     if (userExists) {
@@ -179,6 +175,8 @@ export const AuthenticationContextProvider = ({
     }
   }, [checkData]);
 
+  console.log("user exists", userExists);
+
   // if we successfully created an account
   useEffect(() => {
     console.log("user creating call");
@@ -188,6 +186,9 @@ export const AuthenticationContextProvider = ({
         console.log("setting user token");
         setUserToken(createData.signUp);
       }
+      client.refetchQueries({
+        include: [USER_EXISTS],
+      });
       checkIfUserExists({
         variables: {
           firebaseId: firebaseIdToken,

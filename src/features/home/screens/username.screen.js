@@ -14,6 +14,8 @@ import SafeAreaView from "../../../components/SafeAreaView";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 import { getAuth } from "firebase/auth";
 import { useRef } from "react";
+import AnimationFadeInOut from "../../../components/AnimationFadeInOut";
+import styled from "styled-components/native";
 
 const UsernameScreen = ({ navigation }) => {
   const [error, setError] = useState(null);
@@ -47,29 +49,45 @@ const UsernameScreen = ({ navigation }) => {
     }
   };
 
+  const UsernameAnimated = styled(AnimationFadeInOut)`
+    height: 100%;
+    width: 100%;
+    flex: 1;
+  `;
+
+  const UsernameAnimatedView = styled.View`
+    height: 100%;
+    width: 100%;
+    flex: 1;
+  `;
+
   return (
     <BackgroundView>
       <SafeAreaView>
-        <BeachLottieView>
-          <BeachLottie />
-        </BeachLottieView>
-        <TextView>
-          <UsernameText>What shall we call you?</UsernameText>
-        </TextView>
-        <UsernameInputView>
-          <RoundedTextInput
-            borderColour="red"
-            placeholder="username"
-            onChange={(val) => (usernameRef.current = val)}
-          />
-          {error && <LoginErrorText>{error.message}</LoginErrorText>}
-          <RoundedButton
-            colour="red"
-            text="Submit"
-            onPress={onUsernameSubmit}
-            loading={loading}
-          />
-        </UsernameInputView>
+        <UsernameAnimated>
+          <UsernameAnimatedView>
+            <BeachLottieView>
+              <BeachLottie />
+            </BeachLottieView>
+            <TextView>
+              <UsernameText>What shall we call you?</UsernameText>
+            </TextView>
+            <UsernameInputView>
+              <RoundedTextInput
+                borderColour="red"
+                placeholder="username"
+                onChange={(val) => (usernameRef.current = val)}
+              />
+              {error && <LoginErrorText>{error.message}</LoginErrorText>}
+              <RoundedButton
+                colour="red"
+                text="Submit"
+                onPress={onUsernameSubmit}
+                loading={loading}
+              />
+            </UsernameInputView>
+          </UsernameAnimatedView>
+        </UsernameAnimated>
       </SafeAreaView>
     </BackgroundView>
   );

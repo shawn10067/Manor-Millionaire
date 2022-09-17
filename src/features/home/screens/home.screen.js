@@ -24,9 +24,12 @@ import { SpinContext } from "../../../services/spin/spin.context";
 import SpinProgress from "../components/SpinProgress";
 import { BankruptcyContext } from "../../../services/bankruptcy/bankruptcy.context";
 import { Pressable } from "react-native";
+import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 
 const HomeScreen = ({ navigation }) => {
   const { trade } = useContext(TradeContext);
+  const { logout } = useContext(AuthenticationContext);
+  logout();
 
   const { bankruptTrade, setBankruptTrade } = useContext(BankruptcyContext);
 
