@@ -45,6 +45,7 @@ export const AuthenticationContextProvider = ({
   //   userExists,
   //   userToken
   // );
+  console.log("user is ", user);
 
   // queries
   const [
@@ -79,6 +80,8 @@ export const AuthenticationContextProvider = ({
     }
   }
 
+  console.log("me data is ", meError);
+
   // error use effects --------
   useEffect(() => {
     if (createAccountError) {
@@ -106,6 +109,7 @@ export const AuthenticationContextProvider = ({
 
   // if we have the user date, we set the user state
   useEffect(() => {
+    console.log("me data changed ", meData);
     if (meData) {
       console.log("meData is", meData);
       // setUser(meData.getMe);
@@ -115,6 +119,7 @@ export const AuthenticationContextProvider = ({
   // if we have a user token, run the get me query
   useEffect(() => {
     if (userToken) {
+      console.log("getting me with token", userToken);
       getMe();
     }
   }, [userToken]);
