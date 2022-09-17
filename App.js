@@ -39,7 +39,7 @@ const App = () => {
 
   useEffect(() => {
     client = CreateApolloClient(userToken);
-  }, userToken);
+  }, [userToken]);
 
   // sound config
   const [soundtrack, setSoundtrack] = useState(null);
