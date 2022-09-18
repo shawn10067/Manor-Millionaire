@@ -27,6 +27,7 @@ export const AuthenticationContextProvider = ({
   const [firebaseIdToken, setFirebaseIdToken] = useState(null);
   const [error, setError] = useState(null);
   const [userExists, setUserExists] = useState(false);
+  const [userStateSettled, setUserStateSettled] = useState(false);
 
   // queries
   const [
@@ -92,6 +93,9 @@ export const AuthenticationContextProvider = ({
   useEffect(() => {
     if (meData) {
       setUser(meData.getMe);
+      setTimeout(() => {
+        setUserStateSettled(true);
+      }, 250);
     }
   }, [meData]);
 
@@ -110,7 +114,7 @@ export const AuthenticationContextProvider = ({
     }
   }, [loginData]);
 
-  // if userExists is true, then we can login with the firebaseIdToken
+  // if the userExists method is done, then we can login with the firebaseIdToken
   useEffect(() => {
     if (userExists) {
       userLogin({
@@ -135,7 +139,11 @@ export const AuthenticationContextProvider = ({
   // if we got the status of the user
   useEffect(() => {
     if (checkData) {
-      setUserExists(checkData.userExists);
+      const { userExists } = checkData;
+      setUserExists(userExists);
+      if (!userExists) {
+        setUserStateSettled(true);
+      }
     }
   }, [checkData]);
 
@@ -169,6 +177,8 @@ export const AuthenticationContextProvider = ({
             setFirebaseIdToken(token);
           }
         });
+      } else {
+        setUserStateSettled(true);
       }
     });
   }, []);
@@ -209,6 +219,7 @@ export const AuthenticationContextProvider = ({
     setError(null);
     setIsLoading(false);
     setUserExists(false);
+    setUserStateSettled(false);
   };
 
   // firebase create account method
@@ -246,6 +257,7 @@ export const AuthenticationContextProvider = ({
         createAccountMutation,
         userExists,
         setUserExists,
+        userStateSettled,
       }}
     >
       {children}

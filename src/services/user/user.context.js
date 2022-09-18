@@ -1,16 +1,23 @@
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import React, { createContext, useEffect, useState } from "react";
 import { createErrorObject } from "../../utils/errorHandlers";
-import { GET_MY_PROPERTIES } from "../../../graphql/personal";
+import {
+  GET_MY_FRIENDS,
+  GET_MY_FRIEND_REQUESTS,
+  GET_MY_PROPERTIES,
+} from "../../../graphql/personal";
+import { SEARCH_USERS } from "../../../graphql/queries";
+import { SEND_FRIEND_REQUEST } from "../../../graphql/mutations";
 
 export const UserContext = createContext();
 
 export const UserContextProvider = ({ children }) => {
   // holding the user information
-  const [friends, setFriends] = useState({});
-  const [friendRequests, setFriendRequests] = useState({});
+  const [friends, setFriends] = useState([]);
+  const [friendRequests, setFriendRequests] = useState([]);
   const [trades, setTrades] = useState([]);
   const [properties, setProperties] = useState([]);
+  const [searchedUsers, setSearchedUsers] = useState([]);
 
   // holding loading and error state
   const [loading, setIsLoading] = useState(false);
@@ -27,11 +34,45 @@ export const UserContextProvider = ({ children }) => {
       error: propertiesError,
     },
   ] = useLazyQuery(GET_MY_PROPERTIES);
+  const [
+    getFriendRequests,
+    {
+      data: friendRequestsData,
+      loading: friendRequestLoading,
+      error: friendRequestError,
+    },
+  ] = useLazyQuery(GET_MY_FRIEND_REQUESTS);
+  const [
+    getFriends,
+    { data: friendsData, loading: friendsLoading, error: friendsError },
+  ] = useLazyQuery(GET_MY_FRIENDS);
+  const [
+    searchUsers,
+    { data: searchData, loading: searchLoading, error: searchError },
+  ] = useLazyQuery(SEARCH_USERS);
+  const [
+    sendFriendRequest,
+    { loading: sendFriendRequestLoading, error: sendFriendRequestError },
+  ] = useMutation(SEND_FRIEND_REQUEST);
 
   // loading logic
-  if (propertiesLoading && !loading) {
+  if (
+    !loading &&
+    (propertiesLoading ||
+      friendRequestLoading ||
+      friendsLoading ||
+      searchLoading ||
+      sendFriendRequestLoading)
+  ) {
     setIsLoading(true);
-  } else if (loading && !propertiesLoading) {
+  } else if (
+    loading &&
+    !propertiesLoading &&
+    !friendRequestLoading &&
+    !friendsLoading &&
+    !searchLoading &&
+    !sendFriendRequestLoading
+  ) {
     setIsLoading(false);
   }
 
@@ -43,10 +84,61 @@ export const UserContextProvider = ({ children }) => {
   }, [propertiesError]);
   useEffect(() => {
     if (propertiesData) {
-      console.log("properties data came in ", propertiesData);
-      //setProperties(propertiesData.getMe)
+      const mappedProperties = propertiesData.getMe.properties.map((val) => {
+        return {
+          ...val.property,
+          id: val.id,
+          status: val.status,
+        };
+      });
+      setProperties(mappedProperties);
     }
   }, [propertiesData]);
+
+  // friend request logic
+  useEffect(() => {
+    if (friendRequestError) {
+      setError(createErrorObject(friendRequestError));
+    }
+  }, [friendRequestError]);
+  useEffect(() => {
+    if (friendRequestsData) {
+      console.log("friend request data is", friendRequestsData);
+      setFriendRequests(friendRequestsData.getMe.friendRequests);
+    }
+  }, [friendRequestsData]);
+
+  // friends logic
+  useEffect(() => {
+    if (friendsError) {
+      setError(createErrorObject(friendsError));
+    }
+  }, [friendsError]);
+  useEffect(() => {
+    if (friendsData) {
+      console.log("friend data is", friendsData);
+      setFriends(friendsData.getMe.friends);
+    }
+  }, [friendsData]);
+
+  // search logic
+  useEffect(() => {
+    if (searchError) {
+      setError(createErrorObject(searchError));
+    }
+  }, [searchError]);
+  useEffect(() => {
+    if (searchData) {
+      setSearchedUsers(searchData.searchUsers);
+    }
+  }, [searchData]);
+
+  // sent friend request logic
+  useEffect(() => {
+    if (sendFriendRequestError) {
+      setError(createErrorObject(sendFriendRequestError));
+    }
+  }, [sendFriendRequestError]);
 
   return (
     <UserContext.Provider
@@ -59,6 +151,11 @@ export const UserContextProvider = ({ children }) => {
         setProperties,
         trades,
         getProperties,
+        getFriendRequests,
+        getFriends,
+        searchUsers,
+        searchedUsers,
+        sendFriendRequest,
         error,
         loading,
       }}

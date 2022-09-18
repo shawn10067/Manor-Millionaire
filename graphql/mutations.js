@@ -5,3 +5,11 @@ export const CREATE_ACCOUNT = gql`
     signUp(firebaseId: $firebaseId, username: $username)
   }
 `;
+
+export const SEND_FRIEND_REQUEST = gql`
+  mutation SEND_FRIEND_REQUEST($userId: ID!) {
+    sendFriendRequest(userId: $userId) {
+      id
+    }
+  }
+`;

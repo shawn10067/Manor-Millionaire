@@ -12,6 +12,9 @@ import {
 import { FlatList } from "react-native";
 import { getCountryProperties } from "../utils/countryDecorations";
 import { organizeProperties } from "../services/property/property.service";
+import { CenterView } from "../features/home/components/home.screen.styles";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import theme from "../infrastructure/theme";
 
 const PropertiesFlatlist = ({
   navigation,
@@ -19,6 +22,22 @@ const PropertiesFlatlist = ({
   addType = "none",
   bankrupt = false,
 }) => {
+  // if there are no properties, return the no properties view
+  if (!properties || properties.length === 0) {
+    return (
+      <PropertiesView>
+        <CenterView>
+          <Icon
+            name="home-floor-0"
+            size={100}
+            color={theme.colours.main.white}
+          />
+          <CountryHeaderText>Find some properties!</CountryHeaderText>
+        </CenterView>
+      </PropertiesView>
+    );
+  }
+
   const organizedProperties = organizeProperties(properties);
 
   // bankrupt render property method

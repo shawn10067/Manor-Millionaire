@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FlatList, Text } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import styled from "styled-components/native";
@@ -68,11 +68,19 @@ const OptionsRow = styled.View`
 `;
 
 const ViewFriendsScreen = ({ navigation }) => {
-  const { friends, setFriends } = useContext(UserContext);
+  const { friends, getFriends } = useContext(UserContext);
+
+  useEffect(() => {
+    getFriends();
+  }, []);
+
+  console.log("the friend list is", friends);
 
   // render method
   const renderFriends = ({ item }) => {
     const onRemove = () => {
+      console.log("remove friend", item.id);
+      return;
       const newFriends = friends.filter(
         (val) => val.username !== item.username
       );
@@ -106,19 +114,19 @@ const ViewFriendsScreen = ({ navigation }) => {
             <FlatList
               data={friends}
               renderItem={renderFriends}
-              keyExtractor={(item) => item.username}
+              keyExtractor={(item) => item.id}
               style={{
                 width: "100%",
               }}
             />
           ) : (
             <EmptyTradeView>
-              <EmptySearchText>No friends</EmptySearchText>
               <Icon
                 name="user-friends"
                 size={100}
                 color={theme.colours.main.white}
               />
+              <MainText>No friends</MainText>
             </EmptyTradeView>
           )}
         </UserTradeView>

@@ -31,11 +31,18 @@ import ViewFriendsScreen from "../../features/home/screens/user-friends.screen";
 import ViewFriendRequestsScreen from "../../features/home/screens/view-requests.screen";
 import AddFriendsScreen from "../../features/home/screens/add-friend.screen";
 import { AuthenticationContext } from "../../services/authentication/authentication.context";
+import * as SplashScreen from "expo-splash-screen";
 
 const HomeStack = createNativeStackNavigator();
 
+SplashScreen.preventAutoHideAsync();
+
 const HomeNavigator = () => {
-  const { user } = useContext(AuthenticationContext);
+  const { user, userStateSettled } = useContext(AuthenticationContext);
+  if (userStateSettled) {
+    SplashScreen.hideAsync();
+  }
+
   const initialRoute =
     (user &&
       (user.username

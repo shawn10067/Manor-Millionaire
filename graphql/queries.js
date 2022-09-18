@@ -17,3 +17,12 @@ export const USER_EXISTS = gql`
     userExists(firebaseId: $firebaseId)
   }
 `;
+
+export const SEARCH_USERS = gql`
+  query SEARCH_USERS($searchString: String!) {
+    searchUsers(searchString: $searchString) {
+      id
+      username
+    }
+  }
+`;

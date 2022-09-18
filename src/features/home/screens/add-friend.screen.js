@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { FlatList, Text } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import styled from "styled-components/native";
@@ -59,62 +59,48 @@ const SendTradeButton = styled(RoundedButton)`
   height: 50px;
 `;
 
-const users = [
-  { username: "poopyMachineNet" },
-  { username: "willMaCawkfit" },
-  { username: "dino" },
-  { username: "bofa" },
-  { username: "marcieJohn" },
-];
-
 const AddFriendsScreen = ({ navigation }) => {
-  const { friends, setFriends } = useContext(UserContext);
+  const { searchUsers, searchedUsers, sendFriendRequest, loading } =
+    useContext(UserContext);
 
-  const [userData, setUserData] = useState(users);
-  const [loading, setLoading] = useState(false);
   const usernameString = useRef("");
-
+  const [idSent, setIdSent] = useState(null);
   let pollingInterval;
 
-  const filterUsers = (text) => {
-    "searched with", text;
-    if (text) {
-      const newUsers = users.filter((user) => {
-        return user.username.toLowerCase().includes(text.toLowerCase());
-      });
-      setUserData(newUsers);
-    } else {
-      setUserData(users);
-    }
-  };
-
-  const searchUsers = (text) => {
+  const sendSearch = (text) => {
     if (usernameString.current !== text) {
       usernameString.current = text;
       clearTimeout(pollingInterval);
       pollingInterval = setTimeout(() => {
-        filterUsers(usernameString.current);
+        searchUsers({
+          variables: {
+            searchString: usernameString.current,
+          },
+        });
       }, 1500);
     }
   };
 
   // user render
   const renderUsers = ({ item }) => {
+    const { id, username } = item;
+
     return (
       <UserView>
-        <UserText>{item.username}</UserText>
+        <UserText>{username}</UserText>
         <SendTradeButton
           colour="green"
           text="send"
           fontSize={27}
           onPress={() => {
-            console.log(friends, item);
-            const newFriends = [...friends, item];
-            setFriends(newFriends);
-            setUserData(
-              userData.filter((val) => val.username !== item.username)
-            );
+            sendFriendRequest({
+              variables: {
+                userId: id,
+              },
+            });
+            setIdSent(id);
           }}
+          loading={loading && idSent === id}
         />
       </UserView>
     );
@@ -129,14 +115,14 @@ const AddFriendsScreen = ({ navigation }) => {
             placeholder="username"
             borderColour="blue"
             onChange={(text) => {
-              searchUsers(text);
+              sendSearch(text);
             }}
             onEnd={() => setTimeout(() => clearTimeout(pollingInterval), 1750)}
           />
           <SeperatorBar />
-          {users && users.length !== 0 ? (
+          {searchUsers && searchUsers.length !== 0 ? (
             <FlatList
-              data={userData}
+              data={searchedUsers}
               renderItem={renderUsers}
               keyExtractor={(item) => item.username}
               style={{

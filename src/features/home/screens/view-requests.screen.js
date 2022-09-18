@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FlatList, Text } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import styled from "styled-components/native";
@@ -68,18 +68,28 @@ const OptionsRow = styled.View`
 `;
 
 const ViewFriendRequestsScreen = ({ navigation }) => {
-  const { friends, setFriends, friendRequests, setFriendRequests } =
-    useContext(UserContext);
+  const { friendRequests, getFriendRequests } = useContext(UserContext);
+
+  // calling getFriendRequests using useEffect
+  useEffect(() => {
+    console.log("calling getFriendRequests");
+    getFriendRequests();
+  }, []);
 
   // render method
   const renderFriends = ({ item }) => {
+    const { fromUser, id } = item;
     const onDeny = () => {
+      console.log("deny", id);
+      return;
       const newRequests = friendRequests.filter(
         (val) => val.username !== item.username
       );
       setFriendRequests(newRequests);
     };
     const onAccept = () => {
+      console.log("accept", id);
+      return null;
       const newFriends = [...friends, { username: item.username }];
       const newRequests = friendRequests.filter(
         (val) => val.username !== item.username
@@ -90,7 +100,7 @@ const ViewFriendRequestsScreen = ({ navigation }) => {
     return (
       <UserView>
         <UserTextView>
-          <UserText>{item.username}</UserText>
+          <UserText>{fromUser.username}</UserText>
         </UserTextView>
         <OptionsRow>
           <RemoveFriendButton
@@ -117,18 +127,18 @@ const ViewFriendRequestsScreen = ({ navigation }) => {
         <UserTradeView>
           <MainText>Friend Requests</MainText>
           <SeperatorBar />
-          {friends && friends.length !== 0 ? (
+          {friendRequests && friendRequests.length !== 0 ? (
             <FlatList
               data={friendRequests}
               renderItem={renderFriends}
-              keyExtractor={(item) => item.username}
+              keyExtractor={(item) => item.id}
               style={{
                 width: "100%",
               }}
             />
           ) : (
             <EmptyTradeView>
-              <EmptySearchText>No requests</EmptySearchText>
+              <MainText>No requests</MainText>
               <Icon name="send" size={100} color={theme.colours.main.white} />
             </EmptyTradeView>
           )}

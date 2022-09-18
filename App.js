@@ -30,7 +30,6 @@ if (getApps().length === 0) {
 // apollo client setup, with cache and subscription setup
 import { ApolloProvider } from "@apollo/client";
 import CreateApolloClient from "./src/utils/apolloClientCreator";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const App = () => {
   // client config

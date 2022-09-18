@@ -24,7 +24,13 @@ const ErrorText = styled.Text`
 
 const ViewPropertiesScreen = ({ navigation }) => {
   // getting the properties
-  const { getProperties, loading, error } = useContext(UserContext);
+  const {
+    getProperties,
+    loading,
+    error,
+    properties: userProperties,
+  } = useContext(UserContext);
+  console.log("PROPERTIES", userProperties);
   useEffect(() => {
     getProperties();
   }, []);
@@ -74,7 +80,7 @@ const ViewPropertiesScreen = ({ navigation }) => {
       <SafeAreaView>
         <PropertiesView>
           <PropertiesFlatlist
-            properties={properties()}
+            properties={userProperties}
             navigation={navigation}
           />
         </PropertiesView>

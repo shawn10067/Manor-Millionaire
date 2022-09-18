@@ -72,19 +72,19 @@ const Card = ({
   let buyAction;
   let sellAction;
   switch (status) {
-    case "alone":
+    case "ALONE":
       buyAction = "Add to set";
       sellAction = "Sell property";
       break;
-    case "set":
+    case "SET":
       buyAction = "Buy tier 1️⃣";
       sellAction = "Remove from set";
       break;
-    case "tier1":
+    case "TIER1":
       buyAction = "Buy tier 2️⃣";
       sellAction = "Sell tier 1️⃣";
       break;
-    case "tier2":
+    case "TIER2":
       sellAction = "Sell tier 2️⃣";
       break;
   }
