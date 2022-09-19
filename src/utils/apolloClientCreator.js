@@ -7,6 +7,7 @@ import cache from "../infrastructure/cache/cache";
 const macConfigs = {
   home: "http://10.0.0.243:4000/graphql",
   university: "http://192.168.0.128:4000/graphql",
+  siaPlace: "http://192.168.0.24:4000/graphql",
 };
 const linuxConfigs = {
   home: "idkYet",
@@ -21,7 +22,7 @@ const ipConfigs = {
 const CreateApolloClient = (firebaseIdToken) => {
   if (firebaseIdToken) {
     const httpLink = createHttpLink({
-      uri: ipConfigs.university,
+      uri: ipConfigs.siaPlace,
     });
     console.log("fibaseIDTOKEN", firebaseIdToken);
     const authLink = setContext((_, { headers }) => {
@@ -43,7 +44,7 @@ const CreateApolloClient = (firebaseIdToken) => {
   } else {
     console.log("creating NORMAL client");
     const client = new ApolloClient({
-      uri: ipConfigs.university,
+      uri: ipConfigs.siaPlace,
       cache,
     });
     return client;
