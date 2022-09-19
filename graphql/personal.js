@@ -16,6 +16,7 @@ export const GET_ME = gql`
 export const GET_MY_PROPERTIES = gql`
   query GET_MY_PROPERTIES {
     getMe {
+      id
       properties {
         id
         status
@@ -45,6 +46,7 @@ export const GET_MY_PROPERTIES = gql`
 export const GET_MY_FRIENDS = gql`
   query GET_MY_FRIENDS {
     getMe {
+      id
       friends {
         id
         username
@@ -56,6 +58,7 @@ export const GET_MY_FRIENDS = gql`
 export const GET_MY_FRIEND_REQUESTS = gql`
   query GET_MY_FRIEND_REQUESTS {
     getMe {
+      id
       friendRequests {
         id
         fromUser {
@@ -69,6 +72,7 @@ export const GET_MY_FRIEND_REQUESTS = gql`
 export const GET_MY_TRADES = gql`
   query GET_MY_TRADES {
     getMe {
+      id
       trades {
         id
         fromUser {

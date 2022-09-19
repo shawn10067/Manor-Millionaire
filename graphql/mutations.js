@@ -13,3 +13,23 @@ export const SEND_FRIEND_REQUEST = gql`
     }
   }
 `;
+
+export const ACCEPT_FRIEND_REQUEST = gql`
+  mutation ACCEPT_FRIEND_REQUEST($friendRequestId: ID!) {
+    acceptFriendRequest(friendRequestId: $friendRequestId) {
+      id
+    }
+  }
+`;
+
+export const DENY_FRIEND_REQUEST = gql`
+  mutation DENY_FRIEND_REQUEST($friendRequestId: ID!) {
+    deleteFriendRequest(friendRequestId: $friendRequestId)
+  }
+`;
+
+export const REMOVE_FRIEND = gql`
+  mutation REMOVE_FRIEND($friendId: ID!) {
+    removeFriend(friendId: $friendId)
+  }
+`;

@@ -1,7 +1,16 @@
+import { useMutation } from "@apollo/client";
 import React, { useContext, useEffect, useState } from "react";
 import { FlatList, Text } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import styled from "styled-components/native";
+import {
+  ACCEPT_FRIEND_REQUEST,
+  DENY_FRIEND_REQUEST,
+} from "../../../../graphql/mutations";
+import {
+  GET_MY_FRIENDS,
+  GET_MY_FRIEND_REQUESTS,
+} from "../../../../graphql/personal";
 import BackArrowPressable from "../../../components/BackArrow";
 import BackgroundBlackView from "../../../components/BackgroundBlackView";
 import RoundedButton from "../../../components/RoundedButton";
@@ -61,6 +70,13 @@ const RemoveFriendButton = styled(RoundedButton).attrs({
   height: 45px;
 `;
 
+const LoadingFriendButton = styled(RoundedButton).attrs({
+  fontSize: 32,
+})`
+  width: 100px;
+  height: 45px;
+`;
+
 const OptionsRow = styled.View`
   flex-direction: row;
   justify-content: center;
@@ -68,34 +84,78 @@ const OptionsRow = styled.View`
 `;
 
 const ViewFriendRequestsScreen = ({ navigation }) => {
+  // getting request info and calling getFriendRequests using useEffect
   const { friendRequests, getFriendRequests } = useContext(UserContext);
-
-  // calling getFriendRequests using useEffect
   useEffect(() => {
     console.log("calling getFriendRequests");
     getFriendRequests();
   }, []);
+
+  const [acceptFriendRequst, { loading: acceptLoading, error: acceptError }] =
+    useMutation(ACCEPT_FRIEND_REQUEST);
+
+  const [denyFriendRequest, { error: denyError }] =
+    useMutation(DENY_FRIEND_REQUEST);
+
+  // log any errors from the mutations above
+  useEffect(() => {
+    if (acceptError) {
+      console.log(acceptError);
+    }
+    if (denyError) {
+      console.log(denyError);
+    }
+  }, [acceptError, denyError]);
+
+  // holding loading and id state for the accept button
+  const [loading, setLoading] = useState(false);
+  const [acceptId, setAcceptId] = useState(null);
+
+  // useffect to set loading state
+  useEffect(() => {
+    if (acceptLoading) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+      setAcceptId(null);
+    }
+  }, [acceptLoading]);
 
   // render method
   const renderFriends = ({ item }) => {
     const { fromUser, id } = item;
     const onDeny = () => {
       console.log("deny", id);
-      return;
-      const newRequests = friendRequests.filter(
-        (val) => val.username !== item.username
-      );
-      setFriendRequests(newRequests);
+      denyFriendRequest({
+        variables: {
+          friendRequestId: id,
+        },
+        refetchQueries: [
+          {
+            query: GET_MY_FRIEND_REQUESTS,
+          },
+          {
+            query: GET_MY_FRIENDS,
+          },
+        ],
+      });
     };
     const onAccept = () => {
       console.log("accept", id);
-      return null;
-      const newFriends = [...friends, { username: item.username }];
-      const newRequests = friendRequests.filter(
-        (val) => val.username !== item.username
-      );
-      setFriends(newFriends);
-      setFriendRequests(newRequests);
+      setAcceptId(id);
+      acceptFriendRequst({
+        variables: {
+          friendRequestId: id,
+        },
+        refetchQueries: [
+          {
+            query: GET_MY_FRIEND_REQUESTS,
+          },
+          {
+            query: GET_MY_FRIENDS,
+          },
+        ],
+      });
     };
     return (
       <UserView>
@@ -103,18 +163,24 @@ const ViewFriendRequestsScreen = ({ navigation }) => {
           <UserText>{fromUser.username}</UserText>
         </UserTextView>
         <OptionsRow>
-          <RemoveFriendButton
-            colour="green"
-            text="accept"
-            fontSize={27}
-            onPress={onAccept}
-          />
-          <RemoveFriendButton
-            colour="red"
-            text="deny"
-            fontSize={27}
-            onPress={onDeny}
-          />
+          {loading && id === acceptId ? (
+            <LoadingFriendButton title="Loading..." loading={true} />
+          ) : (
+            <>
+              <RemoveFriendButton
+                colour="green"
+                text="accept"
+                fontSize={27}
+                onPress={onAccept}
+              />
+              <RemoveFriendButton
+                colour="red"
+                text="deny"
+                fontSize={27}
+                onPress={onDeny}
+              />
+            </>
+          )}
         </OptionsRow>
       </UserView>
     );

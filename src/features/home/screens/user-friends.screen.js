@@ -1,7 +1,10 @@
+import { useMutation } from "@apollo/client";
 import React, { useContext, useEffect, useState } from "react";
 import { FlatList, Text } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import styled from "styled-components/native";
+import { REMOVE_FRIEND } from "../../../../graphql/mutations";
+import { GET_MY_FRIENDS } from "../../../../graphql/personal";
 import BackArrowPressable from "../../../components/BackArrow";
 import BackgroundBlackView from "../../../components/BackgroundBlackView";
 import RoundedButton from "../../../components/RoundedButton";
@@ -70,26 +73,54 @@ const OptionsRow = styled.View`
 const ViewFriendsScreen = ({ navigation }) => {
   const { friends, getFriends } = useContext(UserContext);
 
+  // holding loading and id state for the accept button
+  const [loading, setLoading] = useState(false);
+  const [removeId, setRemoveId] = useState(null);
+
+  const [
+    removeFriend,
+    { loading: removeFriendLoading, error: removeFriendError },
+  ] = useMutation(REMOVE_FRIEND);
+
+  // logging error
+  useEffect(() => {
+    if (removeFriendError) {
+      console.log(removeFriendError);
+    }
+  }, [removeFriendError]);
+
+  // set loading state
+  useEffect(() => {
+    if (removeFriendLoading && !loading) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+      setRemoveId(null);
+    }
+  }, [removeFriendLoading]);
+
   useEffect(() => {
     getFriends();
   }, []);
 
-  console.log("the friend list is", friends);
-
   // render method
   const renderFriends = ({ item }) => {
+    const { username, id } = item;
     const onRemove = () => {
-      console.log("remove friend", item.id);
-      return;
-      const newFriends = friends.filter(
-        (val) => val.username !== item.username
-      );
-      setFriends(newFriends);
+      setRemoveId(id);
+      removeFriend({
+        variables: { friendId: id },
+        refetchQueries: [
+          {
+            query: GET_MY_FRIENDS,
+          },
+        ],
+      });
     };
     return (
       <UserView>
         <UserTextView>
-          <UserText>{item.username}</UserText>
+          <UserText>{username}</UserText>
         </UserTextView>
         <OptionsRow>
           <RemoveFriendButton
@@ -97,6 +128,7 @@ const ViewFriendsScreen = ({ navigation }) => {
             text="remove"
             fontSize={27}
             onPress={onRemove}
+            loading={removeId === id && removeFriendLoading}
           />
         </OptionsRow>
       </UserView>
