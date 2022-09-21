@@ -26,3 +26,29 @@ export const SEARCH_USERS = gql`
     }
   }
 `;
+
+export const GET_USER_PROPERTIES = gql`
+  query GET_USER_PROPERTIES($userId: Int!) {
+    getUserPropertiesId(id: $userId) {
+      id
+      property {
+        address
+        id
+        country
+        imageUrl
+        price
+        income {
+          alone
+          set
+          tier1
+          tier2
+        }
+        propertyValue
+        cost {
+          tier1Cost
+          tier2Cost
+        }
+      }
+    }
+  }
+`;

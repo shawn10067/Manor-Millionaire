@@ -4,10 +4,12 @@ import CardSwipeView from "../../../components/CardSwipeView";
 import MoneyCounter from "../../../components/MoneyCounter";
 import SafeAreaAbsoluteView from "../../../components/SafeAreaAbsoluteView";
 import SafeAreaView from "../../../components/SafeAreaView";
+import { defaultProperty } from "../../../services/property/property.service";
 import { TradeContext } from "../../../services/trade/trade.context";
 
 const ViewTradeCardScreen = ({ route, navigation }) => {
   const cardSwipeFunc = () => setTimeout(() => navigation.goBack(), 300);
+  // TODO: remove this "default property" in production so people don't glitch it
   const { property = defaultProperty, addType = "me" } = route.params;
   const { trade, setTrade } = useContext(TradeContext);
   const isPartOfTrade =

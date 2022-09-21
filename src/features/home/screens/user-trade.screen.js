@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { FlatList, Text } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import styled from "styled-components/native";
@@ -62,50 +62,27 @@ const SendTradeButton = styled(RoundedButton)`
 `;
 
 const UserTradeScreen = ({ navigation }) => {
-  const { friends } = useContext(UserContext);
+  const { friends, getFriends, loading } = useContext(UserContext);
   const { setTrade } = useContext(TradeContext);
 
-  const [userData, setUserData] = useState(friends);
-  const [loading, setLoading] = useState(false);
-  const usernameString = useRef("");
-
-  let pollingInterval;
-
-  const filterUsers = (text) => {
-    "searched with", text;
-    if (text) {
-      const newUsers = friends.filter((user) => {
-        return user.username.toLowerCase().includes(text.toLowerCase());
-      });
-      setUserData(newUsers);
-    } else {
-      setUserData(friends);
-    }
-  };
-
-  const searchUsers = (text) => {
-    if (usernameString.current !== text) {
-      usernameString.current = text;
-      clearTimeout(pollingInterval);
-      pollingInterval = setTimeout(() => {
-        filterUsers(usernameString.current);
-      }, 1500);
-    }
-  };
+  // use effect on render
+  useEffect(() => {
+    getFriends();
+  }, []);
 
   // initiating trade
   const startTrade = (user) => {
+    const { id, username } = user;
+    console.log("starting trade with", id, username);
     setTrade({
-      theirUsername: user.username,
-      theirId: "546adf654",
+      theirUsername: username,
+      theirId: id,
       myProperties: [],
       myCash: 0,
       theirProperties: [],
       theirCash: 0,
     });
-    navigation.navigate("My Trade Cash", {
-      property: defaultProperty,
-    });
+    navigation.navigate("My Trade Cash");
   };
 
   // user render
@@ -123,23 +100,29 @@ const UserTradeScreen = ({ navigation }) => {
     );
   };
 
+  if (loading) {
+    return (
+      <BackgroundBlackView>
+        <SafeAreaView>
+          <UserSearchView>
+            <MainText>loading...</MainText>
+          </UserSearchView>
+        </SafeAreaView>
+      </BackgroundBlackView>
+    );
+  }
+
+  console.log(friends);
+
   return (
     <BackgroundBlackView>
       <SafeAreaView>
         <UserSearchView>
           <MainText>Send Trade</MainText>
-          <RoundedTextInput
-            placeholder="username"
-            borderColour="blue"
-            onChange={(text) => {
-              searchUsers(text);
-            }}
-            onEnd={() => setTimeout(() => clearTimeout(pollingInterval), 1750)}
-          />
           <SeperatorBar />
           {friends && friends.length !== 0 ? (
             <FlatList
-              data={userData}
+              data={friends}
               renderItem={renderUsers}
               keyExtractor={(item) => item.username}
               style={{
@@ -148,9 +131,9 @@ const UserTradeScreen = ({ navigation }) => {
             />
           ) : (
             <EmptySearchView>
-              <EmptySearchText>Search friends</EmptySearchText>
+              <EmptySearchText>Add a friend!</EmptySearchText>
               <Icon
-                name="account-search"
+                name="account-group"
                 size={100}
                 color={theme.colours.main.white}
               />

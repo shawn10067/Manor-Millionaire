@@ -22,9 +22,8 @@ const ipConfigs = {
 const CreateApolloClient = (firebaseIdToken) => {
   if (firebaseIdToken) {
     const httpLink = createHttpLink({
-      uri: ipConfigs.university,
+      uri: ipConfigs.home,
     });
-    console.log("fibaseIDTOKEN", firebaseIdToken);
     const authLink = setContext((_, { headers }) => {
       // return the headers to the context so httpLink can read them
       return {
@@ -44,7 +43,7 @@ const CreateApolloClient = (firebaseIdToken) => {
   } else {
     console.log("creating NORMAL client");
     const client = new ApolloClient({
-      uri: ipConfigs.university,
+      uri: ipConfigs.home,
       cache,
     });
     return client;

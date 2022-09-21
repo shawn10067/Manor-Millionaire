@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import BackgroundBlackView from "../../../components/BackgroundBlackView";
 import { Text } from "react-native";
 import styled from "styled-components/native";
@@ -6,6 +6,13 @@ import PropertiesFlatlist from "../../../components/PropertiesFlatlistView";
 import RoundedButton from "../../../components/RoundedButton";
 import SafeAreaView from "../../../components/SafeAreaView";
 import { properties } from "../../../services/property/property.service";
+import { TradeContext } from "../../../services/trade/trade.context";
+import { useQuery } from "@apollo/client";
+import { GET_USER_PROPERTIES } from "../../../../graphql/queries";
+import { PropertiesView } from "../components/view-properties.screen.styles";
+import { CenterView } from "../components/home.screen.styles";
+import { ActivityIndicator } from "react-native-paper";
+import BackArrowPressable from "../../../components/BackArrow";
 
 const HeadingText = styled(Text)`
   font-family: FuturaPTHeavy;
@@ -26,6 +33,45 @@ const ContinueButton = styled(RoundedButton)`
 `;
 
 const TheirPropertiesTradeScreen = ({ navigation }) => {
+  const { trade } = useContext(TradeContext);
+  const { theirId } = trade;
+
+  const { data, loading, error } = useQuery(GET_USER_PROPERTIES, {
+    variables: { userId: theirId },
+  });
+
+  if (loading) {
+    return (
+      <BackgroundBlackView>
+        <SafeAreaView>
+          <PropertiesView>
+            <CenterView>
+              <ActivityIndicator color="white" size={150} />
+            </CenterView>
+            <BackArrowPressable navigation={navigation} />
+          </PropertiesView>
+        </SafeAreaView>
+      </BackgroundBlackView>
+    );
+  }
+
+  // if there's an error
+  if (error) {
+    console.log("error");
+    return (
+      <BackgroundBlackView>
+        <SafeAreaView>
+          <PropertiesView>
+            <CenterView>
+              <Text style={{ color: "white" }}>{error.message}</Text>
+            </CenterView>
+            <BackArrowPressable navigation={navigation} />
+          </PropertiesView>
+        </SafeAreaView>
+      </BackgroundBlackView>
+    );
+  }
+
   return (
     <BackgroundBlackView>
       <SafeAreaView>
@@ -33,7 +79,7 @@ const TheirPropertiesTradeScreen = ({ navigation }) => {
           <HeadingText>Sending Properties?</HeadingText>
           <PropertiesFlatlist
             addType="them"
-            properties={properties()}
+            properties={data.getUserPropertiesId}
             navigation={navigation}
           />
           <ContinueButton

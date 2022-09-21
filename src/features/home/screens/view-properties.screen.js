@@ -30,19 +30,13 @@ const ViewPropertiesScreen = ({ navigation }) => {
     error,
     properties: userProperties,
   } = useContext(UserContext);
-  console.log("PROPERTIES", userProperties);
   useEffect(() => {
     getProperties();
   }, []);
 
-  // logging all the context values
-  console.log("loading", loading);
-  console.log("error", error);
-
   // returning the appropriate views
   // if we're loading, return the loading view
   if (loading) {
-    console.log("loading");
     return (
       <BackgroundBlackView>
         <SafeAreaView>
