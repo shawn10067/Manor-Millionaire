@@ -21,8 +21,8 @@ export const MapView = styled.View`
 `;
 
 export const PropertiesButton = styled(RoundedButton)`
-  height: 70px;
-  width: 230px;
+  height: 60px;
+  width: 170px;
 `;
 
 export const TradeButton = styled(RoundedButton).attrs({

@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import NotiIcon from "react-native-vector-icons/MaterialIcons";
 import AnimationFadeInOut from "../../../components/AnimationFadeInOut";
 import BackgroundView from "../../../components/BackgroundView";
 import MoneyCounter from "../../../components/MoneyCounter";
@@ -13,7 +12,6 @@ import {
   IconView,
   MapLottie,
   MapView,
-  MenuFriendsButton,
   MenuView,
   PropertiesButton,
   SpinRoundedButton,
@@ -23,7 +21,6 @@ import SpinButtonProgressBar from "../../../components/SpinButtonProgressBar";
 import { SpinContext } from "../../../services/spin/spin.context";
 import SpinProgress from "../components/SpinProgress";
 import { BankruptcyContext } from "../../../services/bankruptcy/bankruptcy.context";
-import { Pressable } from "react-native";
 
 const HomeScreen = ({ navigation }) => {
   const { trade } = useContext(TradeContext);
@@ -89,12 +86,6 @@ const HomeScreen = ({ navigation }) => {
           >
             <AnimationFadeInOut>
               <CenterView>
-                <PropertiesButton
-                  text="View Properties"
-                  colour="red"
-                  fontSize={25}
-                  onPress={() => navigation.navigate("View Properties")}
-                />
                 <TradeButton
                   onPress={() => navigation.navigate("Trade Options")}
                   fontSize={30}
@@ -102,6 +93,12 @@ const HomeScreen = ({ navigation }) => {
                 <FriendsButton
                   onPress={() => navigation.navigate("Friends Options")}
                   fontSize={30}
+                />
+                <PropertiesButton
+                  text="Properties"
+                  colour="red"
+                  fontSize={30}
+                  onPress={() => navigation.navigate("View Properties")}
                 />
               </CenterView>
             </AnimationFadeInOut>

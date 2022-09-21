@@ -62,6 +62,19 @@ export const AuthenticationContextProvider = ({
     }
   }
 
+  // reset function
+  const client = useApolloClient();
+  const reset = () => {
+    getAuth().signOut();
+    client.clearStore();
+    setUser(null);
+    setUserToken(null);
+    setFirebaseIdToken(null);
+    setError(null);
+    setIsLoading(false);
+    setUserExists(false);
+  };
+
   // console.log("me data is ", meError);
 
   // error use effects --------
@@ -171,13 +184,14 @@ export const AuthenticationContextProvider = ({
     const app = getApp();
     const auth = getAuth(app);
     onAuthStateChanged(auth, (existingUser) => {
-      if (existingUser && !user) {
+      if (existingUser) {
         existingUser.getIdToken().then((token) => {
           if (token) {
             setFirebaseIdToken(token);
           }
         });
       } else {
+        reset();
         setUserStateSettled(true);
       }
     });
@@ -209,17 +223,9 @@ export const AuthenticationContextProvider = ({
   };
 
   // getting the apollo client and logging out
-  const client = useApolloClient();
   const logout = async () => {
-    client.clearStore();
     signOut(auth);
-    setUser(null);
-    setUserToken(null);
-    setFirebaseIdToken(null);
-    setError(null);
-    setIsLoading(false);
-    setUserExists(false);
-    setUserStateSettled(false);
+    reset();
   };
 
   // firebase create account method

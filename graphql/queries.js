@@ -29,7 +29,7 @@ export const SEARCH_USERS = gql`
 
 export const GET_USER_PROPERTIES = gql`
   query GET_USER_PROPERTIES($userId: Int!) {
-    getUserPropertiesId(id: $userId) {
+    getUserPropertiesId(userId: $userId) {
       id
       property {
         address

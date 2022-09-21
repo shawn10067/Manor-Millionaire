@@ -6,9 +6,11 @@ import cache from "../infrastructure/cache/cache";
 // configs for apollo client depending on the laptop
 const macConfigs = {
   home: "http://10.0.0.243:4000/graphql",
+  basement: "http://192.168.3.101:4000/graphql",
   university: "http://192.168.0.128:4000/graphql",
   siaPlace: "http://192.168.0.24:4000/graphql",
 };
+
 const linuxConfigs = {
   home: "idkYet",
   university: "http://192.168.0.247:4000/graphql",
@@ -22,9 +24,10 @@ const ipConfigs = {
 const CreateApolloClient = (firebaseIdToken) => {
   if (firebaseIdToken) {
     const httpLink = createHttpLink({
-      uri: ipConfigs.home,
+      uri: ipConfigs.basement,
     });
     const authLink = setContext((_, { headers }) => {
+      console.log("firebaseToken", firebaseIdToken);
       // return the headers to the context so httpLink can read them
       return {
         headers: {
@@ -43,7 +46,7 @@ const CreateApolloClient = (firebaseIdToken) => {
   } else {
     console.log("creating NORMAL client");
     const client = new ApolloClient({
-      uri: ipConfigs.home,
+      uri: ipConfigs.basement,
       cache,
     });
     return client;

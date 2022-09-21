@@ -33,3 +33,23 @@ export const REMOVE_FRIEND = gql`
     removeFriend(friendId: $friendId)
   }
 `;
+
+export const SEND_TRADE = gql`
+  mutation SEND_TRADE(
+    $theirUserId: ID!
+    $propertiesYouWant: [ID!]!
+    $cashYouWant: Float!
+    $propertiesGiving: [ID!]!
+    $cashGiving: Float!
+  ) {
+    sendTrade(
+      theirUserId: $theirUserId
+      propertiesYouWant: $propertiesYouWant
+      cashYouWant: $cashYouWant
+      propertiesGiving: $propertiesGiving
+      cashGiving: $cashGiving
+    ) {
+      id
+    }
+  }
+`;

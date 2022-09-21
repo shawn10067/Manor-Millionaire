@@ -28,7 +28,7 @@ const RoundedButton = ({
   const Button = styled(Pressable).attrs()`
     border-color: ${({ theme }) =>
       theme.colours.main[colour] ? theme.colours.main[colour] : colour};
-    border-radius: 30px;
+    border-radius: 25px;
     border-width: 4px;
     background-color: ${normalBG};
     margin: 10px;

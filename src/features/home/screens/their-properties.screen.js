@@ -13,6 +13,7 @@ import { PropertiesView } from "../components/view-properties.screen.styles";
 import { CenterView } from "../components/home.screen.styles";
 import { ActivityIndicator } from "react-native-paper";
 import BackArrowPressable from "../../../components/BackArrow";
+import mapProperties from "../../../utils/propertiesMapper";
 
 const HeadingText = styled(Text)`
   font-family: FuturaPTHeavy;
@@ -36,8 +37,12 @@ const TheirPropertiesTradeScreen = ({ navigation }) => {
   const { trade } = useContext(TradeContext);
   const { theirId } = trade;
 
+  console.log("theirId", theirId);
   const { data, loading, error } = useQuery(GET_USER_PROPERTIES, {
-    variables: { userId: theirId },
+    fetchPolicy: "no-cache",
+    variables: {
+      userId: parseInt(theirId),
+    },
   });
 
   if (loading) {
@@ -79,7 +84,7 @@ const TheirPropertiesTradeScreen = ({ navigation }) => {
           <HeadingText>Sending Properties?</HeadingText>
           <PropertiesFlatlist
             addType="them"
-            properties={data.getUserPropertiesId}
+            properties={mapProperties(data.getUserPropertiesId)}
             navigation={navigation}
           />
           <ContinueButton

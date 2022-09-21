@@ -1,10 +1,13 @@
-import React, { useContext } from "react";
-import { FlatList, ImageBackground, Text } from "react-native";
+import { useMutation } from "@apollo/client";
+import React, { useContext, useEffect, useState } from "react";
+import { FlatList, Text } from "react-native";
 import styled from "styled-components/native";
+import { SEND_TRADE } from "../../../../graphql/mutations";
 import BackgroundBlackView from "../../../components/BackgroundBlackView";
 import RoundedButton from "../../../components/RoundedButton";
 import SafeAreaView from "../../../components/SafeAreaView";
 import { TradeContext } from "../../../services/trade/trade.context";
+import propertiesToIDArray from "../../../utils/propertiesToIDArray";
 import {
   PropertyItemImage,
   PropertyItemPressable,
@@ -85,6 +88,38 @@ const DeclineButton = styled(RoundedButton).attrs({
 const ReviewTradeScreen = ({ navigation, route }) => {
   const { trade } = useContext(TradeContext);
   const { type } = route.params;
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  // mutation and useEffect
+  const [sendTrade, { data, error: tradeError, loading: tradeLoading }] =
+    useMutation(SEND_TRADE, {
+      fetchPolicy: "no-cache",
+    });
+  useEffect(() => {
+    if (tradeLoading && !loading) {
+      setLoading(true);
+    } else if (!tradeLoading && loading) {
+      setLoading(false);
+    }
+  }, [tradeLoading]);
+  useEffect(() => {
+    if (tradeError && !error) {
+      console.log("tradeError", tradeError);
+      setError(tradeError);
+    } else if (!tradeError && error) {
+      setError(null);
+    }
+  }, [tradeError]);
+
+  // if there is data, navigate to home screen
+  useEffect(() => {
+    if (data) {
+      setTimeout(() => {
+        navigation.navigate("Home");
+      }, 500);
+    }
+  }, [data]);
 
   const isView = type === "view";
 
@@ -100,13 +135,17 @@ const ReviewTradeScreen = ({ navigation, route }) => {
 
   // accept view trade button
   const onSubmit = () => {
-    new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve();
-      }, 6000);
-    }).then(() => navigation.navigate("Transaction Fail"));
-
-    navigation.navigate("Transaction");
+    //console.log("submitting trade", trade);
+    const { myCash, myProperties, theirCash, theirProperties, theirId } = trade;
+    sendTrade({
+      variables: {
+        theirUserId: theirId,
+        propertiesYouWant: propertiesToIDArray(theirProperties),
+        cashYouWant: theirCash,
+        propertiesGiving: propertiesToIDArray(myProperties),
+        cashGiving: myCash,
+      },
+    });
   };
 
   // rendering properties
@@ -186,7 +225,7 @@ const ReviewTradeScreen = ({ navigation, route }) => {
             </MyView>
           </TradeView>
           {!isView ? (
-            <SendButton onPress={onSubmit} />
+            <SendButton onPress={onSubmit} loading={loading} />
           ) : (
             <ViewTradeButtonView>
               <AcceptButton onPress={onAccept} />

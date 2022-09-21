@@ -8,6 +8,7 @@ import {
 } from "../../../graphql/personal";
 import { SEARCH_USERS } from "../../../graphql/queries";
 import { SEND_FRIEND_REQUEST } from "../../../graphql/mutations";
+import mapProperties from "../../utils/propertiesMapper";
 
 export const UserContext = createContext();
 
@@ -84,13 +85,7 @@ export const UserContextProvider = ({ children }) => {
   }, [propertiesError]);
   useEffect(() => {
     if (propertiesData) {
-      const mappedProperties = propertiesData.getMe.properties.map((val) => {
-        return {
-          ...val.property,
-          id: val.id,
-          status: val.status,
-        };
-      });
+      const mappedProperties = mapProperties(propertiesData.getMe.properties);
       setProperties(mappedProperties);
     }
   }, [propertiesData]);

@@ -12,7 +12,7 @@ import { Audio } from "expo-av";
 import { useEffect, useState } from "react";
 
 // firebase setup
-import { getApp, getApps, initializeApp } from "firebase/app";
+import { getApps, initializeApp } from "firebase/app";
 import { AuthenticationContextProvider } from "./src/services/authentication/authentication.context";
 const firebaseConfig = {
   apiKey: "AIzaSyBgT5huxjtJtGNhAXPUrph2Uy4ofcAyVLw",
@@ -49,14 +49,14 @@ const App = () => {
     );
     if (!soundtrack) {
       setSoundtrack(sound);
-      await sound.playAsync();
+      // await sound.playAsync();
     }
     const playback = new Audio.Sound();
     playback.setIsLoopingAsync(true);
   };
   useEffect(() => {
     if (!soundtrack) {
-      playSound();
+      // playSound();
     }
     return soundtrack
       ? () => {

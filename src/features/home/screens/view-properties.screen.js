@@ -2,12 +2,15 @@ import React, { useContext, useEffect } from "react";
 import BackgroundBlackView from "../../../components/BackgroundBlackView";
 import SafeAreaView from "../../../components/SafeAreaView";
 import { PropertiesView } from "../components/view-properties.screen.styles";
-import { properties } from "../../../services/property/property.service";
 import BackArrowPressable from "../../../components/BackArrow";
 import PropertiesFlatlist from "../../../components/PropertiesFlatlistView";
 import { UserContext } from "../../../services/user/user.context";
 import { ActivityIndicator } from "react-native-paper";
 import styled from "styled-components/native";
+import { IconView } from "../components/home.screen.styles";
+import theme from "../../../infrastructure/theme";
+import { BankruptcyContext } from "../../../services/bankruptcy/bankruptcy.context";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const ActivityView = styled.View`
   flex: 1;
@@ -23,6 +26,7 @@ const ErrorText = styled.Text`
 `;
 
 const ViewPropertiesScreen = ({ navigation }) => {
+  const { setBankruptTrade } = useContext(BankruptcyContext);
   // getting the properties
   const {
     getProperties,
@@ -79,6 +83,20 @@ const ViewPropertiesScreen = ({ navigation }) => {
           />
         </PropertiesView>
         <BackArrowPressable onPress={() => navigation.goBack()} />
+        <IconView
+          onPress={() => {
+            setBankruptTrade({
+              properties: [],
+            });
+            navigation.navigate("Bankruptcy Properties");
+          }}
+        >
+          <Icon
+            name="home-edit-outline"
+            size={40}
+            color={theme.colours.main.blue}
+          />
+        </IconView>
       </SafeAreaView>
     </BackgroundBlackView>
   );
