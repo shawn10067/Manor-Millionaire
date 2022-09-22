@@ -3,6 +3,7 @@ import { Pressable } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import styled from "styled-components/native";
 import theme from "../infrastructure/theme";
+import * as Haptics from "expo-haptics";
 
 const RoundedButton = ({
   colour = "green",
@@ -12,6 +13,7 @@ const RoundedButton = ({
   pressedBackgroundColor = "#C9C5C6",
   shadow = true,
   loading = false,
+  onPress = null,
   ...props
 }) => {
   // getting the pressed background colour based on if its in the pallate or not
@@ -55,6 +57,11 @@ const RoundedButton = ({
       theme.colours.main[colour] ? theme.colours.main[colour] : colour};
   `;
 
+  const onButtonPress = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.selectionAsync);
+    onPress && onPress();
+  };
+
   // passing text in the pressable
   return (
     <Button
@@ -64,6 +71,7 @@ const RoundedButton = ({
         props.style,
       ]}
       disabled={loading}
+      onPress={onButtonPress}
     >
       {loading ? <CustomActivityIndicator /> : <Text>{text}</Text>}
     </Button>

@@ -2,13 +2,14 @@ import React from "react";
 import { Pressable } from "react-native";
 import styled from "styled-components/native";
 import theme from "../infrastructure/theme";
+import * as Haptics from "expo-haptics";
 
 const RoundedButtonContainer = ({
   colour = "green",
-  fontSize = 40,
   normalBackgroundColor = "white",
   pressedBackgroundColor = "#C9C5C6",
   children,
+  onPress = null,
   ...props
 }) => {
   // getting the pressed background colour based on if its in the pallate or not
@@ -37,6 +38,11 @@ const RoundedButtonContainer = ({
     box-shadow: 0px 5px rgba(0, 0, 0, 0.4);
   `;
 
+  const onButtonPress = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.selectionAsync);
+    onPress && onPress();
+  };
+
   // passing text in the pressable
   return (
     <Button
@@ -45,6 +51,7 @@ const RoundedButtonContainer = ({
         pressed && { backgroundColor: pressedBG },
         props.style,
       ]}
+      onPress={onButtonPress}
     >
       {children}
     </Button>

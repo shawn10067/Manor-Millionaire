@@ -52,3 +52,57 @@ export const GET_USER_PROPERTIES = gql`
     }
   }
 `;
+
+export const GET_SPECIFIC_TRADE = gql`
+  query GET_SPECIFIC_TRADE($tradeId: Int!) {
+    getTradeId(id: $tradeId) {
+      id
+      theirProperties {
+        id
+        property {
+          id
+          country
+          address
+          imageUrl
+          price
+          income {
+            alone
+            set
+            tier1
+            tier2
+          }
+          propertyValue
+          cost {
+            tier1Cost
+            tier2Cost
+          }
+        }
+        status
+      }
+      requestedCash
+      recievingCash
+      recievingProperties {
+        id
+        status
+        property {
+          id
+          country
+          address
+          imageUrl
+          price
+          income {
+            alone
+            set
+            tier1
+            tier2
+          }
+          propertyValue
+          cost {
+            tier1Cost
+            tier2Cost
+          }
+        }
+      }
+    }
+  }
+`;

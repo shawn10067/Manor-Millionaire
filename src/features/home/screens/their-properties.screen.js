@@ -5,7 +5,6 @@ import styled from "styled-components/native";
 import PropertiesFlatlist from "../../../components/PropertiesFlatlistView";
 import RoundedButton from "../../../components/RoundedButton";
 import SafeAreaView from "../../../components/SafeAreaView";
-import { properties } from "../../../services/property/property.service";
 import { TradeContext } from "../../../services/trade/trade.context";
 import { useQuery } from "@apollo/client";
 import { GET_USER_PROPERTIES } from "../../../../graphql/queries";

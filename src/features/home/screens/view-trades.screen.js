@@ -1,13 +1,20 @@
+import { useQuery } from "@apollo/client";
 import React from "react";
 import { FlatList, Text } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import styled from "styled-components/native";
+import { GET_MY_TRADES } from "../../../../graphql/personal";
 import BackArrowPressable from "../../../components/BackArrow";
 import BackgroundBlackView from "../../../components/BackgroundBlackView";
 import RoundedButton from "../../../components/RoundedButton";
 import SafeAreaView from "../../../components/SafeAreaView";
 import theme from "../../../infrastructure/theme";
-import { SeperatorBar } from "../components/view-properties.screen.styles";
+import { CenterView } from "../components/home.screen.styles";
+import {
+  PropertiesView,
+  SeperatorBar,
+} from "../components/view-properties.screen.styles";
 
 const UserTradeView = styled.View`
   flex: 1;
@@ -57,46 +64,86 @@ const ViewTradeButton = styled(RoundedButton)`
   height: 55px;
 `;
 
-const users = [
-  { username: "sheenMachine" },
-  { username: "karan343" },
-  { username: "raju293" },
-  { username: "singhamRockx" },
-  { username: "ummy" },
-  { username: "Peebody" },
-  { username: "EuRekA247" },
-  { username: "zimbdestroyer" },
-  { username: "luniwoney496565" },
-];
-
-const renderUsers = ({ item }) => {
-  return (
-    <UserView>
-      <UserText>{item.username}</UserText>
-      <ViewTradeButton colour="blue" text="view" fontSize={27} />
-    </UserView>
-  );
-};
-
 const ViewTradesScreen = ({ navigation }) => {
+  const { data, error, loading } = useQuery(GET_MY_TRADES);
+
+  const renderUsers = ({ item }) => {
+    const { fromUser } = item;
+    const onTradePress = () => {
+      console.log("you want to trade with id: ", item.id);
+      navigation.navigate("Review Trade", {
+        type: "view",
+        tradeId: item.id,
+        theirUsername: fromUser.username,
+      });
+    };
+    return (
+      <UserView>
+        <UserText>{fromUser.username}</UserText>
+        <ViewTradeButton
+          colour="blue"
+          text="view"
+          fontSize={27}
+          onPress={onTradePress}
+        />
+      </UserView>
+    );
+  };
+
+  // returning the appropriate views
+  // if we're loading, return the loading view
+  if (loading) {
+    return (
+      <BackgroundBlackView>
+        <SafeAreaView>
+          <PropertiesView>
+            <CenterView>
+              <ActivityIndicator color="white" size={150} />
+            </CenterView>
+            <BackArrowPressable navigation={navigation} />
+          </PropertiesView>
+        </SafeAreaView>
+      </BackgroundBlackView>
+    );
+  }
+
+  // if there's an error
+  if (error) {
+    console.log("error");
+    return (
+      <BackgroundBlackView>
+        <SafeAreaView>
+          <PropertiesView>
+            <CenterView>
+              <MainText>{error.message}</MainText>
+            </CenterView>
+            <BackArrowPressable navigation={navigation} />
+          </PropertiesView>
+        </SafeAreaView>
+      </BackgroundBlackView>
+    );
+  }
+
+  const trades = data.getMe.trades;
+
   return (
     <BackgroundBlackView>
       <SafeAreaView>
         <UserTradeView>
           <MainText>View Trades</MainText>
           <SeperatorBar />
-          {users && users.length !== 0 ? (
+          {trades && trades.length !== 0 ? (
             <FlatList
-              data={users}
+              data={trades}
               renderItem={renderUsers}
-              keyExtractor={(item) => item.username}
+              keyExtractor={(trade) => trade.id}
               style={{
                 width: "100%",
               }}
             />
           ) : (
             <EmptyTradeView>
-              <EmptySearchText>No trades</EmptySearchText>
+              <EmptyTradeText>No trades</EmptyTradeText>
               <Icon
                 name="cube-send"
                 size={100}

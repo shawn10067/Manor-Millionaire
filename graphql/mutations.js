@@ -53,3 +53,17 @@ export const SEND_TRADE = gql`
     }
   }
 `;
+
+export const DELETE_TRADE = gql`
+  mutation DELETE_TRADE($tradeId: ID!) {
+    deleteTrade(tradeId: $tradeId)
+  }
+`;
+
+export const ACCEPT_TRADE = gql`
+  mutation ACCEPT_TRADE($tradeId: ID!) {
+    acceptTrade(tradeId: $tradeId) {
+      id
+    }
+  }
+`;
