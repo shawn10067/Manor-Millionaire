@@ -1,4 +1,4 @@
-import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import React, { useContext, useEffect, useState } from "react";
 import { FlatList, Text } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
@@ -100,20 +100,12 @@ const ReviewTradeScreen = ({ navigation, route }) => {
     data: getTradeData,
     loading: getTradeLoading,
     error: getTradeError,
-    called,
   } = useQuery(GET_SPECIFIC_TRADE, {
     skip: !tradeId,
     variables: {
-      tradeId: parseInt(tradeId),
+      tradeId: tradeId ? parseInt(tradeId) : null,
     },
   });
-
-  // use effect for called
-  useEffect(() => {
-    if (called) {
-      console.log("called");
-    }
-  }, [called]);
 
   // logging the trade error with useEffect
   useEffect(() => {
@@ -123,6 +115,7 @@ const ReviewTradeScreen = ({ navigation, route }) => {
   }, [getTradeError]);
 
   let trade = isView ? getTradeData && getTradeData.getTradeId : contextTrade;
+  // const parsedTrade =
 
   useEffect(() => {
     if (getTradeData) {
@@ -152,7 +145,7 @@ const ReviewTradeScreen = ({ navigation, route }) => {
     }
   }, [tradeError]);
 
-  // if there is data, navigate to home screen
+  // if we sent the trade (whether successfully or not), navigate to home screen
   useEffect(() => {
     if (data) {
       setTimeout(() => {
@@ -171,7 +164,7 @@ const ReviewTradeScreen = ({ navigation, route }) => {
     navigation.navigate("Home");
   };
 
-  // accept view trade button
+  // submit function for sending a trade
   const onSubmit = () => {
     const { myCash, myProperties, theirCash, theirProperties, theirId } = trade;
     sendTrade({
@@ -207,20 +200,7 @@ const ReviewTradeScreen = ({ navigation, route }) => {
     );
   };
 
-  console.log(
-    "trade",
-    trade,
-    getTradeData,
-    loading,
-    called,
-    isView,
-    getTradeLoading,
-    getTradeError,
-    error
-  );
-
   if (isView && getTradeLoading) {
-    console.log("loading");
     return (
       <BackgroundBlackView>
         <CenterView>
@@ -229,18 +209,6 @@ const ReviewTradeScreen = ({ navigation, route }) => {
       </BackgroundBlackView>
     );
   }
-
-  console.log(
-    "trade",
-    trade,
-    getTradeData,
-    loading,
-    called,
-    isView,
-    getTradeLoading,
-    getTradeError,
-    error
-  );
 
   const myCash = isView ? trade.requestedCash : trade.theirCash;
   const theirCash = isView ? trade.recievingCash : trade.myCash;
@@ -263,7 +231,6 @@ const ReviewTradeScreen = ({ navigation, route }) => {
 
   // render my trade if I only have properties
   const renderMyProperties = () => {
-    console.log("rendering PROPERTIES: ", isView, trade);
     const selectedProperties = isView
       ? trade.theirProperties
       : trade.myProperties;
