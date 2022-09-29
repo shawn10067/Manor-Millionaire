@@ -72,10 +72,10 @@ export const GET_MY_FRIEND_REQUESTS = gql`
 export const GET_MY_TRADES = gql`
   query GET_MY_TRADES {
     getMe {
-      id
       trades {
         id
-        fromUser {
+        senderUser {
+          id
           username
         }
       }

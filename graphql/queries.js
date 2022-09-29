@@ -57,7 +57,7 @@ export const GET_SPECIFIC_TRADE = gql`
   query GET_SPECIFIC_TRADE($tradeId: Int!) {
     getTradeId(id: $tradeId) {
       id
-      theirProperties {
+      recieverProperties {
         id
         property {
           id
@@ -79,9 +79,9 @@ export const GET_SPECIFIC_TRADE = gql`
         }
         status
       }
-      requestedCash
-      recievingCash
-      recievingProperties {
+      recieverCash
+      senderCash
+      senderProperties {
         id
         status
         property {
