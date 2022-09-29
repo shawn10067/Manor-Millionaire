@@ -103,7 +103,9 @@ const ReviewTradeScreen = ({ navigation, route }) => {
     called,
   } = useQuery(GET_SPECIFIC_TRADE, {
     skip: !tradeId,
-    variables: { tradeId: parseInt(tradeId) },
+    variables: {
+      tradeId: parseInt(tradeId),
+    },
   });
 
   // use effect for called
