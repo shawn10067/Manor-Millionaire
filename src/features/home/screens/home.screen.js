@@ -1,11 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import AnimationFadeInOut from "../../../components/AnimationFadeInOut";
 import BackgroundView from "../../../components/BackgroundView";
 import MoneyCounter from "../../../components/MoneyCounter";
 import SafeAreaView from "../../../components/SafeAreaView";
 import theme from "../../../infrastructure/theme";
-import { TradeContext } from "../../../services/trade/trade.context";
 import {
   CenterView,
   FriendsButton,
@@ -19,41 +18,42 @@ import {
 } from "../components/home.screen.styles";
 import SpinButtonProgressBar from "../../../components/SpinButtonProgressBar";
 import { SpinContext } from "../../../services/spin/spin.context";
-import SpinProgress from "../components/SpinProgress";
 import { BankruptcyContext } from "../../../services/bankruptcy/bankruptcy.context";
+import { useLazyQuery } from "@apollo/client";
+import { GET_SPIN_OUTCOME } from "../../../../graphql/queries";
 
 const HomeScreen = ({ navigation }) => {
-  const { trade } = useContext(TradeContext);
+  const [loading, setLoading] = useState(false);
+  const { setBankruptTrade } = useContext(BankruptcyContext);
+  const [getSpinOutcome, { data: spinData, loading: spinLoading }] =
+    useLazyQuery(GET_SPIN_OUTCOME, {
+      fetchPolicy: "no-cache",
+    });
 
-  const { bankruptTrade, setBankruptTrade } = useContext(BankruptcyContext);
+  const { nextSpinTime, previousSpinTime, hasSpun } = useContext(SpinContext);
 
-  const {
-    updateNextSpinTime,
-    updatePreviousSpinTime,
-    nextSpinTime,
-    previousSpinTime,
-    setHasSpun,
-    hasSpun,
-  } = useContext(SpinContext);
+  useEffect(() => {
+    if (spinData) {
+      const { spin } = spinData;
+      console.log("spin data ", spin);
+    }
+  }, [spinData]);
+
+  useEffect(() => {
+    if (spinLoading) {
+      setLoading(true);
+    } else if (loading && !spinLoading) {
+      setLoading(false);
+    }
+  }, [spinLoading]);
 
   const onSpinPress = () => {
+    // TODO: update spin pressed when user is done the whole spin process
+    console.log("spin pressed");
     // in reality, update this state when spin flow is done (finish later)
-    setHasSpun(true);
 
-    updateNextSpinTime();
-    updatePreviousSpinTime();
-
-    setTimeout(() => setHasSpun(false), 1000);
-
-    navigation.navigate("Spin Idle Screen");
-    console.log("-------bankrupt");
-    console.log(bankruptTrade);
-    console.log("-------trade");
-    console.log(trade);
-  };
-
-  const RunOnSpinReached = () => {
-    setHasSpun(false);
+    getSpinOutcome();
+    // navigation.navigate("Spin Idle Screen");
   };
 
   return (
@@ -106,10 +106,12 @@ const HomeScreen = ({ navigation }) => {
           <SpinButtonProgressBar
             timeTill={nextSpinTime.getTime()}
             startTime={previousSpinTime.getTime()}
-          >
-            <SpinProgress RunOnSpinReached={RunOnSpinReached} />
-          </SpinButtonProgressBar>
-          <SpinRoundedButton onPress={() => onSpinPress()} disabled={hasSpun} />
+          ></SpinButtonProgressBar>
+          <SpinRoundedButton
+            onPress={onSpinPress}
+            disabled={hasSpun}
+            loading={loading}
+          />
         </MapView>
       </SafeAreaView>
     </BackgroundView>

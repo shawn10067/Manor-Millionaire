@@ -9,6 +9,7 @@ import BackgroundBlackView from "../../../components/BackgroundBlackView";
 import RoundedButton from "../../../components/RoundedButton";
 import SafeAreaView from "../../../components/SafeAreaView";
 import { TradeContext } from "../../../services/trade/trade.context";
+import parseTrade from "../../../utils/parseTrade";
 import mapProperties from "../../../utils/propertiesMapper";
 import propertiesToIDArray from "../../../utils/propertiesToIDArray";
 import { CenterView } from "../components/home.screen.styles";
@@ -115,7 +116,7 @@ const ReviewTradeScreen = ({ navigation, route }) => {
   }, [getTradeError]);
 
   let trade = isView ? getTradeData && getTradeData.getTradeId : contextTrade;
-  // const parsedTrade =
+  const parsedTrade = trade && parseTrade(trade, isView);
 
   useEffect(() => {
     if (getTradeData) {
@@ -210,18 +211,13 @@ const ReviewTradeScreen = ({ navigation, route }) => {
     );
   }
 
-  const myCash = isView ? trade.requestedCash : trade.theirCash;
-  const theirCash = isView ? trade.recievingCash : trade.myCash;
-
   const renderTheirProperties = () => {
-    const theirProperties = isView
-      ? trade.recievingProperties
-      : trade.theirProperties;
+    const { theirProperties } = parsedTrade;
     if (theirProperties.length > 0) {
       return (
         <FlatList
           horizontal
-          data={mapProperties(theirProperties)}
+          data={isView ? mapProperties(theirProperties) : theirProperties}
           renderItem={renderPropertySection}
           keyExtractor={(item) => item.id}
         />
@@ -231,15 +227,13 @@ const ReviewTradeScreen = ({ navigation, route }) => {
 
   // render my trade if I only have properties
   const renderMyProperties = () => {
-    const selectedProperties = isView
-      ? trade.theirProperties
-      : trade.myProperties;
+    const selectedProperties = parsedTrade.myProperties;
     // if I have only properties and no cash, include my username
     if (selectedProperties.length > 0) {
       return (
         <FlatList
           horizontal
-          data={mapProperties(selectedProperties)}
+          data={isView ? mapProperties(selectedProperties) : selectedProperties}
           renderItem={renderPropertySection}
           keyExtractor={(item) => item.id}
         />
@@ -256,8 +250,10 @@ const ReviewTradeScreen = ({ navigation, route }) => {
               <UserText>
                 {isView ? theirUsername : trade.theirUsername}
                 {" gives "}
-                {theirCash !== 0 && (
-                  <GreenSubHeadingText>${theirCash}</GreenSubHeadingText>
+                {parsedTrade.theirCash !== 0 && (
+                  <GreenSubHeadingText>
+                    ${parsedTrade.theirCash}
+                  </GreenSubHeadingText>
                 )}
               </UserText>
               {renderTheirProperties()}
@@ -266,8 +262,10 @@ const ReviewTradeScreen = ({ navigation, route }) => {
             <MyView>
               <UserText>
                 You{" give "}
-                {myCash !== 0 && (
-                  <GreenSubHeadingText>${myCash}</GreenSubHeadingText>
+                {parsedTrade.myCash !== 0 && (
+                  <GreenSubHeadingText>
+                    ${parsedTrade.myCash}
+                  </GreenSubHeadingText>
                 )}
               </UserText>
               {renderMyProperties()}

@@ -10,6 +10,7 @@ export const SeperatorBar = styled.View`
   height: 10px;
   width: 80%;
   background-color: #b4adea;
+  background-color: ${({ theme }) => theme.colours.main.blue};
   border-radius: 4px;
   margin: 8px;
 `;
@@ -19,6 +20,7 @@ export const CountryHeaderText = styled(Text)`
   font-family: FuturaPTHeavy;
   color: ${({ theme }) => theme.colours.main.white};
   margin: 8px;
+  text-align: center;
 `;
 
 export const PropertyItemView = styled.View`

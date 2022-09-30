@@ -19,6 +19,8 @@ const HeadingText = styled(Text)`
   color: ${({ theme }) => theme.colours.main.white};
   font-size: 25px;
   margin: 8px;
+  background-color: ${({ theme }) => theme.colours.main.grey};
+  padding: 10px;
 `;
 
 const MainPropertySelectionContainer = styled.View`
@@ -80,7 +82,7 @@ const TheirPropertiesTradeScreen = ({ navigation }) => {
     <BackgroundBlackView>
       <SafeAreaView>
         <MainPropertySelectionContainer>
-          <HeadingText>Sending Properties?</HeadingText>
+          <HeadingText>Requesting Properties?</HeadingText>
           <PropertiesFlatlist
             addType="them"
             properties={mapProperties(data.getUserPropertiesId)}

@@ -68,18 +68,18 @@ const ViewTradesScreen = ({ navigation }) => {
   const { data, error, loading } = useQuery(GET_MY_TRADES);
 
   const renderUsers = ({ item }) => {
-    const { fromUser } = item;
+    const { senderUser } = item;
     const onTradePress = () => {
       console.log("you want to trade with id: ", item.id);
       navigation.navigate("Review Trade", {
         type: "view",
         tradeId: item.id,
-        theirUsername: fromUser.username,
+        theirUsername: senderUser.username,
       });
     };
     return (
       <UserView>
-        <UserText>{fromUser.username}</UserText>
+        <UserText>{senderUser.username}</UserText>
         <ViewTradeButton
           colour="blue"
           text="view"

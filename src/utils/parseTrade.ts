@@ -1,32 +1,25 @@
+import { useContext } from "react";
+import { Trade, ParsedTrade } from "../../graphql";
+import { AuthenticationContext } from "../services/authentication/authentication.context";
 
-type ParsedTrade {
-  theirUsername: string;
-  theirCash: number;
-  theirProperties: string[];
-  myUsername: string;
-  myCash: number;
-  myProperties: string[];
-}
-
-const parseTrade = (trade, isView: boolean) => {
+const parseTrade = (trade: ParsedTrade | Trade, isView: boolean) => {
+  console.log(`isView is ${isView} `, "parsing trade: ", trade);
+  const { user } = useContext(AuthenticationContext);
   if (isView) {
+    console.log("parsing db trade");
+    const dbTrade = trade as Trade;
     return {
-      theirUsername: trade.recievingUsername,
-      theirCash: trade.recievingCash,
-      theirProperties: trade.recievingProperties,
-      myUsername: trade.theirUsername,
-      myCash: trade.myCash,
-      myProperties: trade.myProperties,
+      theirCash: dbTrade.senderCash,
+      theirProperties: dbTrade.senderProperties,
+      myUsername: user.username,
+      myCash: dbTrade.recieverCash,
+      myProperties: dbTrade.recieverProperties,
     };
   } else {
-    return {
-      theirUsername: trade.theirUsername,
-      theirCash: trade.theirCash,
-      theirProperties: trade.theirProperties,
-      myUsername: trade.requestedUsername,
-      myCash: trade.requestedCash,
-      myProperties: trade.requestedProperties,
-    };
+    console.log("parsing local trade");
+    const dbTrade = trade as ParsedTrade;
+    console.log("db trade ", dbTrade);
+    return dbTrade;
   }
 };
 

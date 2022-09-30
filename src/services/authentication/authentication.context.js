@@ -65,7 +65,6 @@ export const AuthenticationContextProvider = ({
   // reset function
   const client = useApolloClient();
   const reset = () => {
-    getAuth().signOut();
     client.clearStore();
     setUser(null);
     setUserToken(null);
@@ -73,6 +72,7 @@ export const AuthenticationContextProvider = ({
     setError(null);
     setIsLoading(false);
     setUserExists(false);
+    getAuth().signOut();
   };
 
   // console.log("me data is ", meError);
@@ -190,9 +190,6 @@ export const AuthenticationContextProvider = ({
             setFirebaseIdToken(token);
           }
         });
-      } else {
-        reset();
-        setUserStateSettled(true);
       }
     });
   }, []);

@@ -40,6 +40,7 @@ const LottieAnimation = ({
         ref={lottieRef}
         speed={speed}
         loop={loopStatus}
+        renderMode={"SOFTWARE"}
       />
       {children}
     </View>

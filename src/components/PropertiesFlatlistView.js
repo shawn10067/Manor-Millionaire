@@ -32,7 +32,11 @@ const PropertiesFlatlist = ({
             size={100}
             color={theme.colours.main.white}
           />
-          <CountryHeaderText>Find some properties!</CountryHeaderText>
+          <CountryHeaderText>
+            {addType === "none"
+              ? "Find some properties!"
+              : "They don't have any properties"}
+          </CountryHeaderText>
         </CenterView>
       </PropertiesView>
     );
