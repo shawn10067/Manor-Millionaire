@@ -52,8 +52,6 @@ const HomeNavigator = () => {
         : "Username Selection")) ||
     "Username Selection";
 
-  console.log("navigating with user", user, initialRoute);
-
   return (
     <HomeStack.Navigator
       screenOptions={{

@@ -14,10 +14,10 @@ export const MapLottie = styled(LottieAnimation)`
   width: 150%;
 `;
 
-export const MapView = styled.View`
-  flex: 1;
+export const MapContentView = styled.View`
   justify-content: center;
   align-items: center;
+  background-color: aliceblue;
 `;
 
 export const PropertiesButton = styled(RoundedButton)`

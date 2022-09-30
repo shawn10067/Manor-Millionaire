@@ -9,60 +9,60 @@ import {
   CenterView,
   FriendsButton,
   IconView,
+  MapContentView,
   MapLottie,
-  MapView,
   MenuView,
   PropertiesButton,
   SpinRoundedButton,
   TradeButton,
 } from "../components/home.screen.styles";
+import MapView from "react-native-maps";
 import SpinButtonProgressBar from "../../../components/SpinButtonProgressBar";
 import { SpinContext } from "../../../services/spin/spin.context";
 import { BankruptcyContext } from "../../../services/bankruptcy/bankruptcy.context";
-import { useLazyQuery } from "@apollo/client";
-import { GET_SPIN_OUTCOME } from "../../../../graphql/queries";
+import styled from "styled-components/native";
+import RoundedButtonIcon from "../../../components/RoundedButtonIcon";
+
+const BackGroundMapView = styled(MapView)`
+  height: 100%;
+  width: 100%;
+  padding-top: 30px;
+  padding-bottom: 10px;
+`;
 
 const HomeScreen = ({ navigation }) => {
-  const [loading, setLoading] = useState(false);
   const { setBankruptTrade } = useContext(BankruptcyContext);
-  const [getSpinOutcome, { data: spinData, loading: spinLoading }] =
-    useLazyQuery(GET_SPIN_OUTCOME, {
-      fetchPolicy: "no-cache",
-    });
 
   const { nextSpinTime, previousSpinTime, hasSpun } = useContext(SpinContext);
-
-  useEffect(() => {
-    if (spinData) {
-      const { spin } = spinData;
-      console.log("spin data ", spin);
-    }
-  }, [spinData]);
-
-  useEffect(() => {
-    if (spinLoading) {
-      setLoading(true);
-    } else if (loading && !spinLoading) {
-      setLoading(false);
-    }
-  }, [spinLoading]);
-
   const onSpinPress = () => {
     // TODO: update spin pressed when user is done the whole spin process
     console.log("spin pressed");
-    // in reality, update this state when spin flow is done (finish later)
 
-    getSpinOutcome();
-    // navigation.navigate("Spin Idle Screen");
+    // in reality, update this state when spin flow is done (finish later)
+    navigation.navigate("Spin Idle Screen");
   };
+
+  const MenuButton = styled(RoundedButtonIcon)`
+    width: 80px;
+    height: 80px;
+  `;
 
   return (
     <BackgroundView>
-      <SafeAreaView>
-        <MapView>
+      <BackGroundMapView>
+        <CenterView>
+          <MenuButton
+            name="menu"
+            fontSize={56}
+            color={theme.colours.main.white}
+          />
           <MenuView>
             <IconView onPress={() => navigation.navigate("Settings")}>
-              <Icon name="menu" size={56} color={theme.colours.main.white} />
+              <RoundedButtonIcon
+                name="menu"
+                fontSize={56}
+                color={theme.colours.main.white}
+              />
             </IconView>
             <IconView
               onPress={() => {
@@ -79,13 +79,17 @@ const HomeScreen = ({ navigation }) => {
               />
             </IconView>
           </MenuView>
-          <MoneyCounter />
-          <MapLottie
-            source={require("../../../../assets/earth-plane.json")}
-            speed={0.5}
-          >
+        </CenterView>
+        <MoneyCounter />
+      </BackGroundMapView>
+    </BackgroundView>
+  );
+};
+
+/* the former menu
+
             <AnimationFadeInOut>
-              <CenterView>
+              <CenterView style={{ backgroundColor: "blue" }}>
                 <TradeButton
                   onPress={() => navigation.navigate("Trade Options")}
                   fontSize={30}
@@ -102,20 +106,6 @@ const HomeScreen = ({ navigation }) => {
                 />
               </CenterView>
             </AnimationFadeInOut>
-          </MapLottie>
-          <SpinButtonProgressBar
-            timeTill={nextSpinTime.getTime()}
-            startTime={previousSpinTime.getTime()}
-          ></SpinButtonProgressBar>
-          <SpinRoundedButton
-            onPress={onSpinPress}
-            disabled={hasSpun}
-            loading={loading}
-          />
-        </MapView>
-      </SafeAreaView>
-    </BackgroundView>
-  );
-};
+            */
 
 export default HomeScreen;

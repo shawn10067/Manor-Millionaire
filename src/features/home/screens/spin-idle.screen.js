@@ -3,6 +3,8 @@ import BackgroundView from "../../../components/BackgroundView";
 import SafeAreaView from "../../../components/SafeAreaView";
 import styled from "styled-components/native";
 import LottieAnimation from "../../../components/LottieAnimation";
+import { GET_SPIN_OUTCOME } from "../../../../graphql/queries";
+import { useQuery } from "@apollo/client";
 
 const WorldTourLottieView = styled.View`
   flex: 1;
@@ -35,12 +37,25 @@ const getAScreenOption = () => {
 };
 
 const SpinIdleScreen = ({ navigation }) => {
+  const { data: spinData } = useQuery(GET_SPIN_OUTCOME, {
+    networkPolicy: "cache-only",
+  });
   useEffect(() => {
-    setTimeout(() => {
-      const option = getAScreenOption();
-      navigation.navigate(option);
-    }, 5000);
-  }, []);
+    if (spinData) {
+      const { spin } = spinData;
+      console.log("using spin data", spin);
+      if (spin === "PAY_BILLS") {
+        navigation.navigate("Landed Property Screen");
+      } else if (spin === "GET_PROPERTY") {
+        navigation.navigate("House Selection");
+      } else if (spin === "JAIL") {
+        navigation.navigate("Jail Screen");
+      } else {
+        navigation.navigate("Home");
+      }
+    }
+  }, [spinData]);
+
   return (
     <BackgroundView>
       <SafeAreaView>
