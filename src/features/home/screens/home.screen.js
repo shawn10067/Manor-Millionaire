@@ -49,39 +49,13 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <BackgroundView>
-      <BackGroundMapView>
-        <CenterView>
-          <MenuButton
-            name="menu"
-            fontSize={56}
-            color={theme.colours.main.white}
-          />
-          <MenuView>
-            <IconView onPress={() => navigation.navigate("Settings")}>
-              <RoundedButtonIcon
-                name="menu"
-                fontSize={56}
-                color={theme.colours.main.white}
-              />
-            </IconView>
-            <IconView
-              onPress={() => {
-                setBankruptTrade({
-                  properties: [],
-                });
-                navigation.navigate("Bankruptcy Properties");
-              }}
-            >
-              <Icon
-                name="home-edit-outline"
-                size={40}
-                color={theme.colours.main.blue}
-              />
-            </IconView>
-          </MenuView>
-        </CenterView>
-        <MoneyCounter />
-      </BackGroundMapView>
+      <BackGroundMapView
+        userInterfaceStyle={"dark"}
+        rotateEnabled={false}
+        showsPointsOfInterest={false}
+        mapType="terrain"
+        showsTraffic
+      ></BackGroundMapView>
     </BackgroundView>
   );
 };
