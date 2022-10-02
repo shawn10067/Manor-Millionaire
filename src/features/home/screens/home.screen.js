@@ -23,7 +23,8 @@ import { BankruptcyContext } from "../../../services/bankruptcy/bankruptcy.conte
 import styled from "styled-components/native";
 import RoundedButtonIcon from "../../../components/RoundedButtonIcon";
 import CustomMapView from "../../../components/CustomMapView";
-import { BlurView } from "@react-native-community/blur";
+import { BlurView } from "expo-blur";
+import BlurBlackView from "../../../components/BlurBlackView";
 
 const BackGroundMapView = styled(MapView)`
   height: 100%;
@@ -56,7 +57,7 @@ const HomeScreen = ({ navigation }) => {
   return (
     <BackgroundView>
       <CustomMapView>
-        <WholeBlur intensity={90} tint="dark" />
+        <BlurBlackView />
       </CustomMapView>
     </BackgroundView>
   );

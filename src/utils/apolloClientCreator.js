@@ -15,10 +15,11 @@ const macConfigs = {
 const linuxConfigs = {
   home: "idkYet",
   university: "http://192.168.0.247:4000/graphql",
+  siaPlace: "http://192.168.0.11:4000/graphql",
 };
 
 const ipConfigs = {
-  ...macConfigs,
+  ...linuxConfigs,
   heroku: "https://manor-millionaire-server.herokuapp.com/graphql",
   localhost: "http://localhost:4000/graphql",
 };
@@ -26,7 +27,7 @@ const ipConfigs = {
 const CreateApolloClient = (firebaseIdToken) => {
   if (firebaseIdToken) {
     const httpLink = createHttpLink({
-      uri: ipConfigs.university,
+      uri: ipConfigs.siaPlace,
     });
     const authLink = setContext((_, { headers }) => {
       console.log("firebaseToken", firebaseIdToken);
@@ -46,9 +47,9 @@ const CreateApolloClient = (firebaseIdToken) => {
 
     return client;
   } else {
-    console.log("creating NORMAL client");
+    console.log("creating NORMAL client with uri", ipConfigs.siaPlace);
     const client = new ApolloClient({
-      uri: ipConfigs.university,
+      uri: ipConfigs.siaPlace,
       cache,
     });
     return client;
