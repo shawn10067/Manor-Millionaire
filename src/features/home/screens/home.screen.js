@@ -22,6 +22,8 @@ import { SpinContext } from "../../../services/spin/spin.context";
 import { BankruptcyContext } from "../../../services/bankruptcy/bankruptcy.context";
 import styled from "styled-components/native";
 import RoundedButtonIcon from "../../../components/RoundedButtonIcon";
+import CustomMapView from "../../../components/CustomMapView";
+import { BlurView } from "@react-native-community/blur";
 
 const BackGroundMapView = styled(MapView)`
   height: 100%;
@@ -47,15 +49,15 @@ const HomeScreen = ({ navigation }) => {
     height: 80px;
   `;
 
+  const WholeBlur = styled(BlurView)`
+    flex: 1;
+  `;
+
   return (
     <BackgroundView>
-      <BackGroundMapView
-        userInterfaceStyle={"dark"}
-        rotateEnabled={false}
-        showsPointsOfInterest={false}
-        mapType="terrain"
-        showsTraffic
-      ></BackGroundMapView>
+      <CustomMapView>
+        <WholeBlur intensity={90} tint="dark" />
+      </CustomMapView>
     </BackgroundView>
   );
 };

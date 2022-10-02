@@ -32,7 +32,12 @@ export const AuthenticationContextProvider = ({
   // queries
   const [
     createAccountMutation,
-    { data: createData, loading: createLoading, error: createAccountError },
+    {
+      data: createData,
+      loading: createLoading,
+      error: createAccountError,
+      called: createAccountCalled,
+    },
   ] = useMutation(CREATE_ACCOUNT);
   const [
     checkIfUserExists,
@@ -261,6 +266,7 @@ export const AuthenticationContextProvider = ({
         userExists,
         setUserExists,
         userStateSettled,
+        createAccountCalled,
       }}
     >
       {children}

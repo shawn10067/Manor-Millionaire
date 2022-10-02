@@ -30,6 +30,7 @@ if (getApps().length === 0) {
 // apollo client setup, with cache and subscription setup
 import { ApolloProvider } from "@apollo/client";
 import CreateApolloClient from "./src/utils/apolloClientCreator";
+import { Platform } from "react-native";
 
 const App = () => {
   // client config
@@ -88,7 +89,11 @@ const App = () => {
                 <NavigationContainer>
                   <ThemeProvider theme={theme}>
                     <Navigation />
-                    <StatusBar style="light" />
+                    {Platform.OS === "android" ? (
+                      <StatusBar style="auto" />
+                    ) : (
+                      <StatusBar style="light" />
+                    )}
                   </ThemeProvider>
                 </NavigationContainer>
               </TradeContextProvider>

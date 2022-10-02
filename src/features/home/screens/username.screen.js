@@ -32,10 +32,19 @@ const UsernameAnimatedView = styled.View`
 const UsernameScreen = ({ navigation }) => {
   const [error, setError] = useState(null);
   const usernameRef = useRef();
-  const { createAccountMutation, firebaseIdToken, logout, loading, user } =
-    useContext(AuthenticationContext);
+  const {
+    createAccountMutation,
+    firebaseIdToken,
+    logout,
+    loading,
+    user,
+    createAccountCalled,
+  } = useContext(AuthenticationContext);
 
   if (user) {
+    if (!createAccountCalled) {
+      navigation.navigate("Home");
+    }
     console.log("USER CREATED", user);
     navigation.navigate("Tutorial");
   }
