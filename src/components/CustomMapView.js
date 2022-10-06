@@ -15,8 +15,8 @@ const CustomMap = styled(MapView).attrs({
   height: 100%;
 `;
 
-const CustomMapView = ({ children }) => {
-  return <CustomMap>{children}</CustomMap>;
+const CustomMapView = ({ children, ...props }) => {
+  return <CustomMap {...props}>{children}</CustomMap>;
 };
 
 export default CustomMapView;

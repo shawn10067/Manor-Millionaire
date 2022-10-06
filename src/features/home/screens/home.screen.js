@@ -23,7 +23,7 @@ import styled from "styled-components/native";
 import RoundedButtonIcon from "../../../components/RoundedButtonIcon";
 import CustomMapView from "../../../components/CustomMapView";
 import RoundedButton from "../../../components/RoundedButton";
-import { Dimensions } from "react-native";
+import { Dimensions, FlatList, Pressable } from "react-native";
 import BlurBlackViewComponent from "../../../components/BlurBlackViewComponent";
 const { height } = Dimensions.get("window");
 const BlurBarHeight = 238;
@@ -33,6 +33,7 @@ import {
   countryProperties,
 } from "../../../utils/countryDecorations";
 import DropDownPicker from "react-native-dropdown-picker";
+import { Button, Divider, Menu, Provider } from "react-native-paper";
 
 const SpinButton = styled(RoundedButton).attrs({
   text: "SPIN",
@@ -105,6 +106,15 @@ const CountrySelectionView = styled(BlurBlackViewComponent)`
   border-radius: 20px;
 `;
 
+const CountrySelectionFlatListView = styled(BlurBlackViewComponent)`
+  align-self: center;
+  position: absolute;
+  top: 120px;
+  width: 200px;
+  height: 160px;
+  border-radius: 20px;
+`;
+
 const CountrySelectionPicker = styled.View`
   flex: 1;
   flex-direction: row;
@@ -118,8 +128,16 @@ const CountryText = styled.Text`
   color: ${({ theme }) => theme.colours.main.white};
 `;
 
+const CountrySelectionPressable = styled(Pressable)`
+  width: 100%;
+  height: 50px;
+  justify-content: center;
+  align-items: center;
+`;
+
 const HomeScreen = ({ navigation }) => {
   const [countrySelection, setCountrySelection] = useState("canada");
+  const [open, setOpen] = useState(false);
   const { setBankruptTrade } = useContext(BankruptcyContext);
 
   const { nextSpinTime, previousSpinTime, hasSpun } = useContext(SpinContext);
@@ -138,42 +156,79 @@ const HomeScreen = ({ navigation }) => {
       value: key,
     };
   });
-  const [items, setItems] = useState(mappedCountryValues);
-  const [open, setOpen] = useState(false);
+
+  const renderCountrySelection = ({ item }) => {
+    const { label, value } = item;
+    return (
+      <BlurBlackViewComponent>
+        <CountrySelectionPressable
+          onPress={() => {
+            setOpen(false);
+            setCountrySelection(value);
+          }}
+        >
+          <CountryText>{label}</CountryText>
+        </CountrySelectionPressable>
+      </BlurBlackViewComponent>
+    );
+  };
 
   return (
-    <BackgroundView>
-      <CustomMapView />
-      <CountrySelectionView />
-      <CountrySelectionView>
-        <CountrySelectionPicker>
-          <Icon
-            size={30}
-            name="arrow-down-drop-circle-outline"
-            color={theme.colours.main.white}
-          />
-        </CountrySelectionPicker>
-      </CountrySelectionView>
-      <BlurBar>
-        <AnimationFadeInOut>
-          <IconsTray>
-            <TradeButtonIcon
-              onPress={() => navigation.navigate("Trade Options")}
+    <Provider>
+      <BackgroundView>
+        <CustomMapView onPanDrag={() => setOpen(false)} />
+        <CountrySelectionView>
+          <Pressable onPress={() => setOpen(!open)} style={{ flex: 1 }}>
+            <CountrySelectionPicker>
+              <CountryText>{`${countrySelection} ${countryProperties[countrySelection].emoji}`}</CountryText>
+              <Icon
+                size={30}
+                name={
+                  open
+                    ? "arrow-up-drop-circle-outline"
+                    : "arrow-down-drop-circle-outline"
+                }
+                color={theme.colours.main.white}
+              />
+            </CountrySelectionPicker>
+          </Pressable>
+        </CountrySelectionView>
+        {open && (
+          <CountrySelectionFlatListView>
+            <FlatList
+              style={{ flex: 1 }}
+              data={mappedCountryValues}
+              keyExtractor={(val) => val.value}
+              renderItem={renderCountrySelection}
             />
-            <BankruptsyButtonIcon />
-            <FriendsButtonIcon
-              onPress={() => navigation.navigate("Friends Options")}
-            />
-            <PropertiesButtonIcon
-              onPress={() => navigation.navigate("View Properties")}
-            />
-          </IconsTray>
-          <SpinButtonView>
-            <SpinButton />
-          </SpinButtonView>
-        </AnimationFadeInOut>
-      </BlurBar>
-    </BackgroundView>
+          </CountrySelectionFlatListView>
+        )}
+        <BlurBar>
+          <AnimationFadeInOut>
+            <IconsTray>
+              <TradeButtonIcon
+                onPress={() => navigation.navigate("Trade Options")}
+              />
+              <BankruptsyButtonIcon
+                onPress={() => {
+                  setBankruptTrade({});
+                  navigation.navigate("Bankruptcy Properties");
+                }}
+              />
+              <FriendsButtonIcon
+                onPress={() => navigation.navigate("Friends Options")}
+              />
+              <PropertiesButtonIcon
+                onPress={() => navigation.navigate("View Properties")}
+              />
+            </IconsTray>
+            <SpinButtonView>
+              <SpinButton />
+            </SpinButtonView>
+          </AnimationFadeInOut>
+        </BlurBar>
+      </BackgroundView>
+    </Provider>
   );
 };
 
