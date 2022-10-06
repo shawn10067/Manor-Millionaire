@@ -6,6 +6,8 @@ export const countryProperties = {
     coordinates: {
       latitude: 40,
       longitude: -4,
+      latitudeDelta: 19.645947594652817,
+      longitudeDelta: 12.883136987394181,
     },
   },
   canada: {
@@ -16,6 +18,8 @@ export const countryProperties = {
     coordinates: {
       latitude: 60,
       longitude: -95,
+      latitudeDelta: 72.5084333150806,
+      longitudeDelta: 65.57004543582211,
     },
   },
   france: {
@@ -26,6 +30,8 @@ export const countryProperties = {
     coordinates: {
       latitude: 42,
       longitude: 2,
+      latitudeDelta: 21.064859405905686,
+      longitudeDelta: 15.047326504785673,
     },
   },
   switzerland: {
@@ -36,6 +42,8 @@ export const countryProperties = {
     coordinates: {
       latitude: 47,
       longitude: 8,
+      latitudeDelta: 7.809750001074285,
+      longitudeDelta: 5.7734484024101675,
     },
   },
   italy: {
@@ -46,6 +54,8 @@ export const countryProperties = {
     coordinates: {
       latitude: 42.8333,
       longitude: 12.8333,
+      latitudeDelta: 21.792062956511828,
+      longitudeDelta: 14.68179847103417,
     },
   },
   usa: {
@@ -56,6 +66,8 @@ export const countryProperties = {
     coordinates: {
       latitude: 38,
       longitude: -97,
+      latitudeDelta: 67.38074554774582,
+      longitudeDelta: 43.09117164358568,
     },
   },
   australia: {
@@ -66,6 +78,8 @@ export const countryProperties = {
     coordinates: {
       latitude: -27,
       longitude: 133,
+      latitudeDelta: 60.742242639966506,
+      longitudeDelta: 36.526005189352475,
     },
   },
   germany: {
@@ -76,6 +90,8 @@ export const countryProperties = {
     coordinates: {
       latitude: 51,
       longitude: 9,
+      latitudeDelta: 15.991937534785798,
+      longitudeDelta: 12.44785966204094,
     },
   },
 };

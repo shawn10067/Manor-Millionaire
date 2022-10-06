@@ -159,12 +159,12 @@ const HomeScreen = ({ navigation }) => {
   });
 
   const { coordinates } = countryProperties[countrySelection];
-  const { latitude, longitude } = coordinates;
+  const { latitude, longitude, latitudeDelta, longitudeDelta } = coordinates;
   const animateRegion = {
     latitude,
     longitude,
-    latitudeDelta: 20,
-    longitudeDelta: 30,
+    latitudeDelta,
+    longitudeDelta,
   };
 
   useEffect(() => {
@@ -201,6 +201,10 @@ const HomeScreen = ({ navigation }) => {
           ref={(map) => (mapRef.current = map)}
           onPanDrag={() => setOpen(false)}
           initialRegion={animateRegion}
+          onRegionChangeComplete={(reg) => {
+            return;
+            // console.log("region changed with ", reg)
+          }}
         />
         <CountrySelectionView>
           <Pressable onPress={() => setOpen(!open)} style={{ flex: 1 }}>
