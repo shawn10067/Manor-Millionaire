@@ -2,7 +2,7 @@ import React from "react";
 import MapView from "react-native-maps";
 import styled from "styled-components/native";
 
-const CustomMap = styled(MapView).attrs({
+const CustomMap = styled(MapView.Animated).attrs({
   type: "terrain",
   userInterfaceStyle: "dark",
   rotateEnabled: false,

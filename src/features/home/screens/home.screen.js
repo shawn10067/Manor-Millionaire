@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import AnimationFadeInOut from "../../../components/AnimationFadeInOut";
 import BackgroundView from "../../../components/BackgroundView";
@@ -139,6 +139,7 @@ const HomeScreen = ({ navigation }) => {
   const [countrySelection, setCountrySelection] = useState("canada");
   const [open, setOpen] = useState(false);
   const { setBankruptTrade } = useContext(BankruptcyContext);
+  const mapRef = useRef(null);
 
   const { nextSpinTime, previousSpinTime, hasSpun } = useContext(SpinContext);
   const onSpinPress = () => {
@@ -156,6 +157,19 @@ const HomeScreen = ({ navigation }) => {
       value: key,
     };
   });
+
+  const { coordinates } = countryProperties[countrySelection];
+  const { latitude, longitude } = coordinates;
+  const animateRegion = {
+    latitude,
+    longitude,
+    latitudeDelta: 20,
+    longitudeDelta: 30,
+  };
+
+  useEffect(() => {
+    mapRef.current && mapRef.current.animateToRegion(animateRegion, 1500);
+  }, [countrySelection]);
 
   const renderCountrySelection = ({ item }) => {
     const { label, value } = item;
@@ -176,7 +190,18 @@ const HomeScreen = ({ navigation }) => {
   return (
     <Provider>
       <BackgroundView>
-        <CustomMapView onPanDrag={() => setOpen(false)} />
+        <MapView
+          style={{ flex: 1 }}
+          type="terrain"
+          userInterfaceStyle="dark"
+          rotateEnabled={false}
+          showsPointsOfInterest={false}
+          mapType="terrain"
+          showsTraffic={true}
+          ref={(map) => (mapRef.current = map)}
+          onPanDrag={() => setOpen(false)}
+          initialRegion={animateRegion}
+        />
         <CountrySelectionView>
           <Pressable onPress={() => setOpen(!open)} style={{ flex: 1 }}>
             <CountrySelectionPicker>
