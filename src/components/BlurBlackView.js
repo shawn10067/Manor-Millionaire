@@ -18,7 +18,11 @@ const WholeBlur = styled(BlurView)`
 
 const BlurBlackView = ({ children }) => {
   if (!isAndoid) {
-    return <WholeBlur tint="dark" intensity={50} />;
+    return (
+      <WholeBlur tint="dark" intensity={50}>
+        {children}
+      </WholeBlur>
+    );
   } else {
     return <TintedView>{children}</TintedView>;
   }

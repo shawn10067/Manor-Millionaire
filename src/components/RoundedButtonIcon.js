@@ -5,6 +5,7 @@ import styled from "styled-components/native";
 import theme from "../infrastructure/theme";
 import * as Haptics from "expo-haptics";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import CenterView from "./CenterView";
 
 const RoundedButtonIcon = ({
   colour = "green",
@@ -31,7 +32,7 @@ const RoundedButtonIcon = ({
   const Button = styled(Pressable).attrs()`
     border-color: ${({ theme }) =>
       theme.colours.main[colour] ? theme.colours.main[colour] : colour};
-    border-radius: 25px;
+    border-radius: 28px;
     border-width: 4px;
     background-color: ${normalBG};
     margin: 10px;
@@ -39,20 +40,27 @@ const RoundedButtonIcon = ({
     width: 220px;
     justify-content: center;
     align-items: center;
+    flex: 1;
     ${shadow && `elevation: 10;`};
-    ${shadow && `box-shadow: 0px 6px rgba(0, 0, 0, 0.7)`};
+    ${shadow && `box-shadow: 0px 3px rgba(0, 0, 0, 0.6)`};
+  `;
+
+  const IconView = styled.View`
+    flex: 1;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
   `;
 
   const SpecificIcon = styled(Icon).attrs({
     name,
     size: fontSize,
   })`
+    text-align: center;
     width: 100%;
-    height: 100%;
     color: ${({ theme }) =>
       theme.colours.main[colour] ? theme.colours.main[colour] : colour};
-    justify-content: center;
-    align-items: center;
   `;
 
   const CustomActivityIndicator = styled(ActivityIndicator).attrs({
@@ -78,7 +86,9 @@ const RoundedButtonIcon = ({
       disabled={loading}
       onPress={onButtonPress}
     >
-      {loading ? <CustomActivityIndicator /> : <SpecificIcon />}
+      <IconView>
+        {loading ? <CustomActivityIndicator /> : <SpecificIcon />}
+      </IconView>
     </Button>
   );
 };

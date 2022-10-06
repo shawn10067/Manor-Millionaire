@@ -1,4 +1,4 @@
-const countryProperties = {
+export const countryProperties = {
   spain: {
     emoji: "🇪🇸",
     borderColour: "#FFBB00",

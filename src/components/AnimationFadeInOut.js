@@ -2,7 +2,7 @@ import React from "react";
 import { Animated } from "react-native";
 
 // returns an component that uses react animated api to fade in its children and fades out when they are unmounted
-const AnimationFadeInOut = ({ children, ...props }) => {
+const AnimationFadeInOut = ({ center = true, children, ...props }) => {
   const fadeAnim = React.useRef(new Animated.Value(0)).current;
   const [isVisible, setIsVisible] = React.useState(true);
   React.useEffect(() => {
@@ -28,8 +28,8 @@ const AnimationFadeInOut = ({ children, ...props }) => {
         ...props.style,
         flex: 1,
         opacity: fadeAnim,
-        justifyContent: "center",
-        alignItems: "center",
+        justifyContent: center ? "center" : null,
+        alignItems: center ? "center" : null,
       }}
     >
       {children}
