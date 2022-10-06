@@ -190,21 +190,10 @@ const HomeScreen = ({ navigation }) => {
   return (
     <Provider>
       <BackgroundView>
-        <MapView
-          style={{ flex: 1 }}
-          type="terrain"
-          userInterfaceStyle="dark"
-          rotateEnabled={false}
-          showsPointsOfInterest={false}
-          mapType="terrain"
-          showsTraffic={true}
-          ref={(map) => (mapRef.current = map)}
-          onPanDrag={() => setOpen(false)}
-          initialRegion={animateRegion}
-          onRegionChangeComplete={(reg) => {
-            return;
-            // console.log("region changed with ", reg)
-          }}
+        <CustomMapView
+          mapRef={mapRef}
+          animateRegion={animateRegion}
+          setOpen={setOpen}
         />
         <CountrySelectionView>
           <Pressable onPress={() => setOpen(!open)} style={{ flex: 1 }}>
