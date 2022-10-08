@@ -1,5 +1,5 @@
 // apollo client setup, with cache and subscription setup
-import { ApolloClient, createHttpLink } from "@apollo/client";
+import { ApolloClient, createHttpLink, HttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import cache from "../infrastructure/cache/cache";
 
@@ -25,9 +25,10 @@ const ipConfigs = {
 };
 
 const CreateApolloClient = (firebaseIdToken) => {
+  console.log("creating firebase client with id token of: ", firebaseIdToken);
   if (firebaseIdToken) {
     const httpLink = createHttpLink({
-      uri: ipConfigs.heroku,
+      uri: ipConfigs.home,
     });
     const authLink = setContext((_, { headers }) => {
       console.log("firebaseToken", firebaseIdToken);
@@ -45,10 +46,14 @@ const CreateApolloClient = (firebaseIdToken) => {
       cache,
     });
 
+    console.log("client's link is: ", client.link);
     return client;
   } else {
+    const link = new HttpLink({
+      uri: ipConfigs.home,
+    });
     const client = new ApolloClient({
-      uri: ipConfigs.heroku,
+      link,
       cache,
     });
     return client;

@@ -67,6 +67,17 @@ const FriendsButtonIcon = styled(RoundedButtonIcon).attrs({
   width: 60px;
 `;
 
+const SettingsButtonIcon = styled(RoundedButtonIcon).attrs({
+  name: "cog-outline",
+  colour: "black",
+})`
+  position: absolute;
+  height: 50px;
+  width: 50px;
+  top: 45px;
+  right: 5px;
+`;
+
 const PropertiesButtonIcon = styled(RoundedButtonIcon).attrs({
   name: "home-edit-outline",
   colour: "blue",
@@ -124,7 +135,7 @@ const CountrySelectionPicker = styled.View`
 
 const CountryText = styled.Text`
   font-family: "FuturaPTHeavy";
-  font-size: 20px;
+  font-size: 18px;
   color: ${({ theme }) => theme.colours.main.white};
 `;
 
@@ -153,7 +164,7 @@ const HomeScreen = ({ navigation }) => {
 
   const mappedCountryValues = Object.keys(countryProperties).map((key) => {
     return {
-      label: `${key}  ${countryProperties[key].emoji}`,
+      label: `${key.toLocaleUpperCase()}  ${countryProperties[key].emoji}`,
       value: key,
     };
   });
@@ -195,12 +206,16 @@ const HomeScreen = ({ navigation }) => {
           animateRegion={animateRegion}
           setOpen={setOpen}
         />
+
+        <SettingsButtonIcon onPress={() => navigation.navigate("Settings")} />
         <CountrySelectionView>
           <Pressable onPress={() => setOpen(!open)} style={{ flex: 1 }}>
             <CountrySelectionPicker>
-              <CountryText>{`${countrySelection} ${countryProperties[countrySelection].emoji}`}</CountryText>
+              <CountryText>{`${countrySelection.toLocaleUpperCase()} ${
+                countryProperties[countrySelection].emoji
+              }`}</CountryText>
               <Icon
-                size={30}
+                size={25}
                 name={
                   open
                     ? "arrow-up-drop-circle-outline"

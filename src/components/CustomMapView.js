@@ -1,5 +1,7 @@
 import React from "react";
-import MapView from "react-native-maps";
+import { Platform, View } from "react-native";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import customMapStyle from "../utils/customMapStyle.json";
 
 const CustomMapView = ({
   children,
@@ -8,22 +10,27 @@ const CustomMapView = ({
   mapRef = null,
   ...props
 }) => {
+  console.log("custom style", customMapStyle);
+  const isAndroid = Platform.OS === "android";
   return (
     <MapView
-      style={{ flex: 1 }}
-      type="terrain"
+      style={{
+        flex: 1,
+      }}
       userInterfaceStyle="dark"
       rotateEnabled={false}
+      provider={isAndroid ? PROVIDER_GOOGLE : null}
       showsPointsOfInterest={false}
+      initialRegion={animateRegion}
       mapType="terrain"
-      showsTraffic={true}
       ref={(map) => mapRef && (mapRef.current = map)}
       onPanDrag={() => setOpen && setOpen(false)}
-      initialRegion={animateRegion}
       onRegionChangeComplete={(reg) => {
         // console.log("region changed with ", reg);
         return;
       }}
+      customMapStyle={customMapStyle}
+      {...props}
     >
       {children}
     </MapView>

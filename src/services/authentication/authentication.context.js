@@ -80,7 +80,7 @@ export const AuthenticationContextProvider = ({
     getAuth().signOut();
   };
 
-  // console.log("me data is ", meError);
+  console.log("me error is ", meError);
 
   // error use effects --------
   useEffect(() => {
@@ -95,11 +95,13 @@ export const AuthenticationContextProvider = ({
   }, [checkError]);
   useEffect(() => {
     if (loginError) {
+      console.log("login error");
       setError(createErrorObject(loginError));
     }
   }, [checkError]);
   useEffect(() => {
     if (meError) {
+      console.log("me error occured", meError);
       setError(createErrorObject(meError));
     }
   }, [meError]);
@@ -195,6 +197,8 @@ export const AuthenticationContextProvider = ({
             setFirebaseIdToken(token);
           }
         });
+      } else {
+        setUserStateSettled(true);
       }
     });
   }, []);
@@ -202,6 +206,7 @@ export const AuthenticationContextProvider = ({
   // login method
   const auth = getAuth();
   const login = async (email, password) => {
+    setUserStateSettled(false);
     setError(null);
     try {
       if (!email || !password) {
