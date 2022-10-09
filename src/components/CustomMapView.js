@@ -1,7 +1,5 @@
 import React from "react";
-import { Platform, View } from "react-native";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
-import customMapStyle from "../utils/customMapStyle.json";
+import MapView from "react-native-maps";
 
 const CustomMapView = ({
   children,
@@ -10,8 +8,6 @@ const CustomMapView = ({
   mapRef = null,
   ...props
 }) => {
-  console.log("custom style", customMapStyle);
-  const isAndroid = Platform.OS === "android";
   return (
     <MapView
       style={{
@@ -19,7 +15,6 @@ const CustomMapView = ({
       }}
       userInterfaceStyle="dark"
       rotateEnabled={false}
-      provider={isAndroid ? PROVIDER_GOOGLE : null}
       showsPointsOfInterest={false}
       initialRegion={animateRegion}
       mapType="terrain"
@@ -29,7 +24,6 @@ const CustomMapView = ({
         // console.log("region changed with ", reg);
         return;
       }}
-      customMapStyle={customMapStyle}
       {...props}
     >
       {children}
