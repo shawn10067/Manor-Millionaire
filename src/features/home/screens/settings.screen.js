@@ -7,6 +7,7 @@ import RoundedButton from "../../../components/RoundedButton";
 import { UserContext } from "../../../services/user/user.context";
 import { Image } from "react-native";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
+import BackgroundBlackView from "../../../components/BackgroundBlackView";
 
 const MainView = styled.View`
   flex: 1;
@@ -85,7 +86,7 @@ const SettingsScreen = ({ navigation }) => {
   };
 
   return (
-    <BackgroundView>
+    <BackgroundBlackView>
       <SafeAreaView>
         <MainView>
           <LogoView>
@@ -109,7 +110,7 @@ const SettingsScreen = ({ navigation }) => {
         </MainView>
         <BackArrowPressable onPress={() => navigation.navigate("Home")} />
       </SafeAreaView>
-    </BackgroundView>
+    </BackgroundBlackView>
   );
 };
 

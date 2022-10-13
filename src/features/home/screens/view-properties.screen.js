@@ -83,20 +83,6 @@ const ViewPropertiesScreen = ({ navigation }) => {
           />
         </PropertiesView>
         <BackArrowPressable onPress={() => navigation.goBack()} />
-        <IconView
-          onPress={() => {
-            setBankruptTrade({
-              properties: [],
-            });
-            navigation.navigate("Bankruptcy Properties");
-          }}
-        >
-          <Icon
-            name="home-edit-outline"
-            size={40}
-            color={theme.colours.main.blue}
-          />
-        </IconView>
       </SafeAreaView>
     </BackgroundBlackView>
   );

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   BeachLottie,
   BeachLottieView,
@@ -16,6 +16,7 @@ import { getAuth } from "firebase/auth";
 import { useRef } from "react";
 import AnimationFadeInOut from "../../../components/AnimationFadeInOut";
 import styled from "styled-components/native";
+import { BackHandler } from "react-native";
 
 const UsernameAnimated = styled(AnimationFadeInOut)`
   height: 100%;

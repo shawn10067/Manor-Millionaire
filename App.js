@@ -30,7 +30,7 @@ if (getApps().length === 0) {
 // apollo client setup, with cache and subscription setup
 import { ApolloProvider } from "@apollo/client";
 import CreateApolloClient from "./src/utils/apolloClientCreator";
-import { Platform } from "react-native";
+import { BackHandler, Platform } from "react-native";
 
 const App = () => {
   // client config
@@ -65,6 +65,12 @@ const App = () => {
         }
       : undefined;
   }, [soundtrack]);
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      return true;
+    });
+  });
 
   // font load
   const [fontLoaded, fontError] = useFonts({

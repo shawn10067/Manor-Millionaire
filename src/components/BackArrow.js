@@ -2,6 +2,7 @@ import React from "react";
 import { Pressable } from "react-native";
 import styled from "styled-components/native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import RoundedButtonIcon from "./RoundedButtonIcon";
 
 export const BackArrowView = styled.View`
   width: 27%;
@@ -15,7 +16,19 @@ export const BackArrowView = styled.View`
   border-radius: 15px;
 `;
 
+const BackButtonIcon = styled(RoundedButtonIcon).attrs({
+  name: "backburger",
+  colour: "black",
+})`
+  position: absolute;
+  height: 60px;
+  width: 90px;
+  bottom: 75px;
+  left: 5px;
+`;
+
 const BackArrowPressable = (props) => {
+  return <BackButtonIcon {...props} />;
   return (
     <BackArrowView>
       <Pressable

@@ -73,9 +73,9 @@ const SettingsButtonIcon = styled(RoundedButtonIcon).attrs({
 })`
   position: absolute;
   height: 50px;
-  width: 50px;
+  width: 70px;
   top: 45px;
-  right: 5px;
+  right: 0px;
 `;
 
 const PropertiesButtonIcon = styled(RoundedButtonIcon).attrs({
@@ -151,6 +151,14 @@ const HomeScreen = ({ navigation }) => {
   const [open, setOpen] = useState(false);
   const { setBankruptTrade } = useContext(BankruptcyContext);
   const mapRef = useRef(null);
+
+  useEffect(
+    () =>
+      navigation.addListener("beforeRemove", (e) => {
+        e.preventDefault();
+      }),
+    [navigation]
+  );
 
   const { nextSpinTime, previousSpinTime, hasSpun } = useContext(SpinContext);
   const onSpinPress = () => {

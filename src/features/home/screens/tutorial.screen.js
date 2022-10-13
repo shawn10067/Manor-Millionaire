@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Image } from "react-native";
 import styled from "styled-components/native";
 import BackgroundView from "../../../components/BackgroundView";

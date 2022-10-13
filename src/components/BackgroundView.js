@@ -1,4 +1,6 @@
 import styled from "styled-components/native";
+import BlurBlackView from "./BlurBlackView";
+import CustomMapView from "./CustomMapView";
 
 const BackgroundView = styled.View`
   height: 100%;

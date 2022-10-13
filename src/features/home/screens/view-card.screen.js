@@ -4,12 +4,13 @@ import CardSwipeView from "../../../components/CardSwipeView";
 import MoneyCounter from "../../../components/MoneyCounter";
 import SafeAreaAbsoluteView from "../../../components/SafeAreaAbsoluteView";
 import SafeAreaView from "../../../components/SafeAreaView";
+import BackgroundBlackView from "../../../components/BackgroundBlackView";
 
 const ViewCardScreen = ({ route, navigation }) => {
   const cardSwipeFunc = () => setTimeout(() => navigation.goBack(), 300);
   const { property, buttonsDisabled = false } = route.params;
   return (
-    <BackgroundView>
+    <BackgroundBlackView>
       <SafeAreaView>
         <SafeAreaAbsoluteView>
           <MoneyCounter />
@@ -23,7 +24,7 @@ const ViewCardScreen = ({ route, navigation }) => {
           />
         </SafeAreaAbsoluteView>
       </SafeAreaView>
-    </BackgroundView>
+    </BackgroundBlackView>
   );
 };
 

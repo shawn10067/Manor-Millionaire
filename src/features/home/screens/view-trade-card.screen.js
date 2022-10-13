@@ -6,6 +6,7 @@ import SafeAreaAbsoluteView from "../../../components/SafeAreaAbsoluteView";
 import SafeAreaView from "../../../components/SafeAreaView";
 import { defaultProperty } from "../../../services/property/property.service";
 import { TradeContext } from "../../../services/trade/trade.context";
+import BackgroundBlackView from "../../../components/BackgroundBlackView";
 
 const ViewTradeCardScreen = ({ route, navigation }) => {
   const cardSwipeFunc = () => setTimeout(() => navigation.goBack(), 300);
@@ -56,7 +57,7 @@ const ViewTradeCardScreen = ({ route, navigation }) => {
   };
 
   return (
-    <BackgroundView>
+    <BackgroundBlackView>
       <SafeAreaView>
         <SafeAreaAbsoluteView>
           <MoneyCounter />
@@ -71,7 +72,7 @@ const ViewTradeCardScreen = ({ route, navigation }) => {
           />
         </SafeAreaAbsoluteView>
       </SafeAreaView>
-    </BackgroundView>
+    </BackgroundBlackView>
   );
 };
 

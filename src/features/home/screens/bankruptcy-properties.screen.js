@@ -1,6 +1,7 @@
 import React from "react";
 import { Text } from "react-native";
 import styled from "styled-components/native";
+import BackArrowPressable from "../../../components/BackArrow";
 import BackgroundBlackView from "../../../components/BackgroundBlackView";
 import PropertiesFlatlist from "../../../components/PropertiesFlatlistView";
 import RoundedButton from "../../../components/RoundedButton";
@@ -24,7 +25,7 @@ const MainPropertySelectionContainer = styled.View`
 `;
 
 const ContinueButton = styled(RoundedButton)`
-  width: 65%;
+  width: 45%;
   height: 70px;
 `;
 
@@ -41,6 +42,12 @@ const BankruptcyPropertyScreen = ({ navigation }) => {
               bankrupt
             />
           </PropertiesView>
+          <BackArrowPressable
+            onPress={() => {
+              console.log("yur");
+              navigation.goBack();
+            }}
+          />
           <ContinueButton
             text="Continue"
             onPress={() =>

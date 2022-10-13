@@ -71,12 +71,13 @@ export const AuthenticationContextProvider = ({
   const client = useApolloClient();
   const reset = () => {
     client.clearStore();
-    setUser(null);
-    setUserToken(null);
-    setFirebaseIdToken(null);
     setError(null);
     setIsLoading(false);
+    setUser(null);
     setUserExists(false);
+    setUserStateSettled(false);
+    setUserToken(null);
+    setFirebaseIdToken(null);
     getAuth().signOut();
   };
 
@@ -231,7 +232,6 @@ export const AuthenticationContextProvider = ({
 
   // getting the apollo client and logging out
   const logout = async () => {
-    signOut(auth);
     reset();
   };
 
