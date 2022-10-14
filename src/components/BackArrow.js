@@ -18,13 +18,13 @@ export const BackArrowView = styled.View`
 
 const BackButtonIcon = styled(RoundedButtonIcon).attrs({
   name: "backburger",
-  colour: "black",
+  colour: "blue",
 })`
   position: absolute;
   height: 60px;
   width: 90px;
-  bottom: 75px;
-  left: 5px;
+  bottom: 50px;
+  left: 8px;
 `;
 
 const BackArrowPressable = (props) => {

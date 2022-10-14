@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useRef } from "react";
 import { useEffect } from "react";
+import BackArrowPressable from "../../../components/BackArrow";
 import BackgroundView from "../../../components/BackgroundView";
 import RoundedTextInput from "../../../components/RoundedTextInput";
 import SafeAreaView from "../../../components/SafeAreaView";
@@ -69,6 +70,7 @@ const SignUpEmailScreen = ({ navigation }) => {
           <CreateButtonSubmit onPress={onCreate} loading={loading} />
         </FormView>
       </SafeAreaView>
+      <BackArrowPressable onPress={() => navigation.goBack()} />
     </BackgroundView>
   );
 };
