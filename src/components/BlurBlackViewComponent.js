@@ -21,7 +21,7 @@ const BlurBlackViewComponent = ({ children, ...props }) => {
         <BlurView
           blurAmount={10}
           style={{ flex: 1 }}
-          blurType="regular"
+          blurType={isAndoid ? "light" : "regular"}
           reducedTransparencyFallbackColor="white"
         >
           {children}

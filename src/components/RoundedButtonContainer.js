@@ -57,7 +57,7 @@ const RoundedButtonContainer = ({
         onPress={onButtonPress}
       >
         <BlurView
-          blurType="thinMaterialDark"
+          blurType="dark"
           style={{
             height: "100%",
             width: "100%",
