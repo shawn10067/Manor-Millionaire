@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Manor-Millionaire",
+    "name": "Manor Millionaire",
     "slug": "Manor-Millionaire",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -15,12 +15,19 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.shawn10067.Manor-Millionaire"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.shawn10067.ManorMillionaire"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9073e463-3e86-4c8b-9cb3-9ceead38edf1"
       }
     }
   }

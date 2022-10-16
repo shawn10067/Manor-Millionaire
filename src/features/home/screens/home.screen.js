@@ -34,6 +34,8 @@ import {
 } from "../../../utils/countryDecorations";
 import DropDownPicker from "react-native-dropdown-picker";
 import { Button, Divider, Menu, Provider } from "react-native-paper";
+import RoundedButtonContainer from "../../../components/RoundedButtonContainer";
+import { VibrancyView } from "@react-native-community/blur";
 
 const SpinButton = styled(RoundedButton).attrs({
   text: "SPIN",
@@ -67,15 +69,24 @@ const FriendsButtonIcon = styled(RoundedButtonIcon).attrs({
   width: 60px;
 `;
 
-const SettingsButtonIcon = styled(RoundedButtonIcon).attrs({
-  name: "cog-outline",
-  colour: "black",
+const SettingsIcon = styled(Icon).attrs({
+  name: "account-cog",
+  color: "white",
+  size: 50,
 })`
   position: absolute;
-  height: 50px;
-  width: 70px;
-  top: 45px;
-  right: 0px;
+  top: 55px;
+  left: 15px;
+`;
+
+const PlayContainer = styled(RoundedButtonContainer).attrs({
+  colour: "white",
+  vibrant: true,
+})`
+  justify-content: center;
+  align-items: center;
+  height: 70px;
+  width: 185px;
 `;
 
 const PropertiesButtonIcon = styled(RoundedButtonIcon).attrs({
@@ -214,8 +225,8 @@ const HomeScreen = ({ navigation }) => {
           animateRegion={animateRegion}
           setOpen={setOpen}
         />
+        <SettingsIcon onPress={() => navigation.navigate("Settings")} />
 
-        <SettingsButtonIcon onPress={() => navigation.navigate("Settings")} />
         <CountrySelectionView>
           <Pressable onPress={() => setOpen(!open)} style={{ flex: 1 }}>
             <CountrySelectionPicker>
@@ -263,8 +274,11 @@ const HomeScreen = ({ navigation }) => {
                 onPress={() => navigation.navigate("View Properties")}
               />
             </IconsTray>
+
             <SpinButtonView>
-              <SpinButton />
+              <PlayContainer>
+                <Icon name="controller-classic" size={65} color="white" />
+              </PlayContainer>
             </SpinButtonView>
           </AnimationFadeInOut>
         </BlurBar>

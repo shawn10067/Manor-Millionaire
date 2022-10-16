@@ -21,11 +21,6 @@ const AccountScreen = ({ navigation }) => {
       <LogoView>
         <LogoImage />
       </LogoView>
-      <GlobeView>
-        <GlobeLottie>
-          <PlaneView></PlaneView>
-        </GlobeLottie>
-      </GlobeView>
       <AccountOptionsView>
         <SignUpButton
           onPress={() => {

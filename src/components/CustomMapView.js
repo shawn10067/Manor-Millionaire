@@ -17,7 +17,6 @@ const CustomMapView = ({
       rotateEnabled={false}
       showsPointsOfInterest={false}
       initialRegion={animateRegion}
-      mapType="terrain"
       ref={(map) => mapRef && (mapRef.current = map)}
       onPanDrag={() => setOpen && setOpen(false)}
       onRegionChangeComplete={(reg) => {

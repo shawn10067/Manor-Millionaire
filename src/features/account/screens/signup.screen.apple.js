@@ -14,6 +14,7 @@ import {
   PlaneLottie,
   PlaneView,
 } from "../components/account.screen.styles";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const AppleImage = styled(Image).attrs({
   source: require("../../../../assets/apple-logo.png"),
@@ -28,20 +29,13 @@ const SignUpScreenApple = ({ navigation }) => {
       <LogoView>
         <LogoImage />
       </LogoView>
-      <GlobeView>
-        <GlobeLottie>
-          <PlaneView>
-            <PlaneLottie>
-              <CoinsLottie />
-            </PlaneLottie>
-          </PlaneView>
-        </GlobeLottie>
-      </GlobeView>
       <AccountOptionsView>
         <LoginButtonApple>
           <AppleImage />
         </LoginButtonApple>
-        <LoginEmailButton onPress={() => navigation.navigate("Email Signup")} />
+        <LoginButtonApple onPress={() => navigation.navigate("Email Login")}>
+          <Icon name="email" size={50} color="white" />
+        </LoginButtonApple>
       </AccountOptionsView>
     </SafeAreaAccountView>
   );

@@ -3,6 +3,7 @@ import { Pressable } from "react-native";
 import styled from "styled-components/native";
 import theme from "../infrastructure/theme";
 import * as Haptics from "expo-haptics";
+import { BlurView, VibrancyView } from "@react-native-community/blur";
 
 const RoundedButtonContainer = ({
   colour = "green",
@@ -10,6 +11,7 @@ const RoundedButtonContainer = ({
   pressedBackgroundColor = "#C9C5C6",
   children,
   onPress = null,
+  vibrant = false,
   ...props
 }) => {
   // getting the pressed background colour based on if its in the pallate or not
@@ -28,7 +30,7 @@ const RoundedButtonContainer = ({
       theme.colours.main[colour] ? theme.colours.main[colour] : colour};
     border-radius: 25px;
     border-width: 4px;
-    background-color: ${normalBG};
+    background-color: ${vibrant ? "rgba(0,0,0,0.0)" : normalBG};
     margin: 10px;
     height: 70px;
     width: 220px;
@@ -42,6 +44,32 @@ const RoundedButtonContainer = ({
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.selectionAsync);
     onPress && onPress();
   };
+
+  if (vibrant) {
+    return (
+      <Button
+        {...props}
+        style={({ pressed }) => [
+          pressed && { backgroundColor: pressedBG },
+          { overflow: "hidden" },
+          props.style,
+        ]}
+        onPress={onButtonPress}
+      >
+        <BlurView
+          blurType="thinMaterialDark"
+          style={{
+            height: "100%",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {children}
+        </BlurView>
+      </Button>
+    );
+  }
 
   // passing text in the pressable
   return (

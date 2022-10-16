@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components/native";
-import { BlurView } from "expo-blur";
 import { Platform } from "react-native";
+import { BlurView } from "@react-native-community/blur";
 
 const isAndoid = Platform.OS === "android";
 
@@ -19,10 +19,10 @@ const BlurBlackViewComponent = ({ children, ...props }) => {
     return (
       <SurroundingBlurView {...props}>
         <BlurView
-          tint="dark"
-          intensity={50}
-          blurAmount={90}
+          blurAmount={10}
           style={{ flex: 1 }}
+          blurType="regular"
+          reducedTransparencyFallbackColor="white"
         >
           {children}
         </BlurView>

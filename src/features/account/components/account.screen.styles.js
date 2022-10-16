@@ -5,7 +5,7 @@ import RoundedButton from "../../../components/RoundedButton";
 import RoundedButtonContainer from "../../../components/RoundedButtonContainer";
 
 export const LogoView = styled.View`
-  flex: 0.25;
+  flex: 0.65;
   justify-content: center;
   align-items: center;
 `;
@@ -94,6 +94,15 @@ export const LoginButtonApple = styled(RoundedButtonContainer).attrs({
   margin: 10px;
 `;
 
+export const LoginButtonEmail = styled(RoundedButtonContainer).attrs({
+  normalBackgroundColor: "grey",
+  pressedBackgroundColor: "white",
+  fontSize: 47,
+})`
+  width: 275px;
+  height: 85px;
+  margin: 10px;
+`;
 export const LoginEmailButton = styled(RoundedButton).attrs({
   text: "Email",
   normalBackgroundColor: "grey",
