@@ -9,12 +9,27 @@ import {
   PropertyItemView,
   SeperatorBar,
 } from "../features/home/components/view-properties.screen.styles";
-import { FlatList } from "react-native";
+import { FlatList, View } from "react-native";
 import { getCountryProperties } from "../utils/countryDecorations";
 import { organizeProperties } from "../services/property/property.service";
 import { CenterView } from "../features/home/components/home.screen.styles";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import theme from "../infrastructure/theme";
+import Carousel from "pinar";
+import styled from "styled-components/native";
+import AnimatedLinearGradient, {
+  presetColors,
+} from "react-native-animated-linear-gradient";
+
+const CountryCarosel = styled(Carousel)`
+  height: 250px;
+  width: 100%;
+  padding: 10px;
+  margin: 10px;
+  color: white;
+  justify-content: center;
+  align-items: center;
+`;
 
 const PropertiesFlatlist = ({
   navigation,
@@ -107,13 +122,92 @@ const PropertiesFlatlist = ({
         <CountryHeaderText>
           {item.country} {emoji}
         </CountryHeaderText>
-        <FlatList
+        <Carousel
+          loop
+          autoplay
+          autoplayInterval={2250}
           horizontal
-          data={countryProperties}
-          renderItem={
-            bankrupt ? renderPropertySectionBankrupty : renderPropertySection
-          }
-        />
+          style={{
+            width: "100%",
+            height: 250,
+          }}
+          containerStyle={{
+            borderRadius: 10,
+          }}
+          contentContainerStyle={{
+            alignContent: "center",
+            justifyContent: "center",
+          }}
+          dotStyle={{
+            backgroundColor: "rgba(255, 255, 255, 0.92)",
+          }}
+          activeDotStyle={{
+            backgroundColor: theme.colours.main.white,
+          }}
+          controlsTextStyle={{
+            fontSize: 80,
+            color: theme.colours.main.white,
+          }}
+        >
+          {countryProperties.map((property, index) => {
+            return (
+              <View
+                key={index}
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <PropertyItemView>
+                  <PropertyItemPressable
+                    onPress={() => {
+                      if (addType === "me") {
+                        navigation.navigate("View Trade Card", {
+                          property: property,
+                          addType: "me",
+                        });
+                      }
+                      if (addType === "them") {
+                        navigation.navigate("View Trade Card", {
+                          property: property,
+                          addType: "them",
+                        });
+                      }
+                      if (addType === "none") {
+                        navigation.navigate("View House", {
+                          property: property,
+                          downMessage: "back",
+                        });
+                      }
+                    }}
+                  >
+                    <PropertyItemImage>
+                      <PropertyItemTintForeground>
+                        <AnimatedLinearGradient
+                          customColors={presetColors.instagram}
+                          speed={4000}
+                          style={{
+                            height: "100%",
+                            width: "100%",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: 10,
+                            margin: 10,
+                          }}
+                        >
+                          <PropertyItemText>
+                            {property.address}
+                          </PropertyItemText>
+                        </AnimatedLinearGradient>
+                      </PropertyItemTintForeground>
+                    </PropertyItemImage>
+                  </PropertyItemPressable>
+                </PropertyItemView>
+              </View>
+            );
+          })}
+        </Carousel>
       </PropertiesView>
     );
   };
@@ -124,7 +218,17 @@ const PropertiesFlatlist = ({
         data={organizedProperties}
         renderItem={renderCountrySection}
         keyExtractor={(item) => item.id}
-        ItemSeparatorComponent={() => <SeperatorBar />}
+        ItemSeparatorComponent={() => (
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              margin: 8,
+            }}
+          >
+            <SeperatorBar />
+          </View>
+        )}
       />
     </PropertiesView>
   );

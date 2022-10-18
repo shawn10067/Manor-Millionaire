@@ -1,6 +1,9 @@
 import { Image, ImageBackground } from "react-native";
 import styled from "styled-components/native";
 import RoundedButton from "../RoundedButton";
+import AnimatedLinearGradient, {
+  presetColors,
+} from "react-native-animated-linear-gradient";
 
 //various views
 export const MainCardView = styled.View`
@@ -11,9 +14,18 @@ export const BaseCardView = styled.View`
   width: 100%;
   height: 100%;
   border-width: 2px;
-  border: 4px solid
+  border: 3px solid
     ${({ borderColour }) => (borderColour ? borderColour : "#ffbb00")};
-  background-color: ${({ theme }) => theme.colours.main.white};
+  background-color: rgba(252, 247, 248, 0.45);
+`;
+
+export const AnimatedBaseCardView = styled(AnimatedLinearGradient).attrs({
+  customColors: presetColors.sunset,
+  speed: 2000,
+})`
+  width: 100%;
+  height: 100%;
+  border-width: 2px;
 `;
 
 export const ContentView = styled.View`

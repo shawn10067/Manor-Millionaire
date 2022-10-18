@@ -135,6 +135,7 @@ const CountrySelectionFlatListView = styled(BlurBlackViewComponent)`
   width: 200px;
   height: 160px;
   border-radius: 20px;
+  overflow: hidden;
 `;
 
 const CountrySelectionPicker = styled.View`
@@ -277,7 +278,12 @@ const HomeScreen = ({ navigation }) => {
 
             <SpinButtonView>
               <PlayContainer>
-                <Icon name="controller-classic" size={65} color="white" />
+                <Icon
+                  name="controller-classic"
+                  size={65}
+                  color="white"
+                  style={{ textAlign: "center" }}
+                />
               </PlayContainer>
             </SpinButtonView>
           </AnimationFadeInOut>

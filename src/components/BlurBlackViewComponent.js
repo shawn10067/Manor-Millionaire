@@ -6,7 +6,7 @@ import { BlurView } from "@react-native-community/blur";
 const isAndoid = Platform.OS === "android";
 
 const TintedView = styled.View`
-  background-color: rgba(0, 0, 0, 0.55);
+  background-color: rgba(154, 206, 224, 0.6);
   justify-content: center;
 `;
 

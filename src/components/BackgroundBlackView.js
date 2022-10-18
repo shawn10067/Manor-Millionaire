@@ -1,4 +1,4 @@
-import { BlurView } from "expo-blur";
+import { BlurView } from "@react-native-community/blur";
 import { Platform } from "react-native";
 import styled from "styled-components/native";
 import CustomMapView from "./CustomMapView";
@@ -21,7 +21,10 @@ const TintedView = styled.View`
   left: 0px;
 `;
 
-const WholeBlur = styled(BlurView)`
+const WholeBlur = styled(BlurView).attrs({
+  blurType: "ultraThinMaterialDark",
+  blurAmount: 100,
+})`
   height: 100%;
   width: 100%;
   position: absolute;
@@ -30,15 +33,10 @@ const WholeBlur = styled(BlurView)`
 `;
 
 const BlurBlackView = ({ children, ...props }) => {
-  if (!isAndoid) {
-    return (
-      <WholeBlur tint="dark" intensity={50} {...props}>
-        {children}
-      </WholeBlur>
-    );
-  } else {
+  if (isAndoid) {
     return <TintedView {...props}>{children}</TintedView>;
   }
+  return <WholeBlur {...props}>{children}</WholeBlur>;
 };
 
 const BackgroundBlackView = ({ children, ...props }) => {

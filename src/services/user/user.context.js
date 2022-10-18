@@ -33,6 +33,7 @@ export const UserContextProvider = ({ children }) => {
       data: propertiesData,
       loading: propertiesLoading,
       error: propertiesError,
+      called: getPropertiesCalled,
     },
   ] = useLazyQuery(GET_MY_PROPERTIES);
   const [
@@ -153,6 +154,7 @@ export const UserContextProvider = ({ children }) => {
         sendFriendRequest,
         error,
         loading,
+        getPropertiesCalled,
       }}
     >
       {children}

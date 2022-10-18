@@ -25,7 +25,9 @@
       },
       "package": "com.shawn10067.ManorMillionaire",
       "config": {
-        "googleMobileAdsAppId": "ca-app-pub-3940256099942544~3347511713"
+        "googleMaps": {
+          "apiKey": "AIzaSyDZBtaDEzFspGhMwjrW2N5TIkWpGb2gF8I"
+        }
       }
     },
     "extra": {
@@ -34,6 +36,17 @@
           "apiKey": "AIzaSyDZBtaDEzFspGhMwjrW2N5TIkWpGb2gF8I"
         }
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 22,
+            "kotlinVersion": "1.6.10"
+          }
+        }
+      ]
+    ]
   }
 }

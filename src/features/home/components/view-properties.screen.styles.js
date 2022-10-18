@@ -10,7 +10,7 @@ export const SeperatorBar = styled.View`
   height: 10px;
   width: 80%;
   background-color: #b4adea;
-  background-color: ${({ theme }) => theme.colours.main.blue};
+  background-color: ${({ theme }) => theme.colours.main.grey};
   border-radius: 4px;
   margin: 8px;
 `;
@@ -24,13 +24,17 @@ export const CountryHeaderText = styled(Text)`
 `;
 
 export const PropertyItemView = styled.View`
-  height: 150px;
-  width: 150px;
+  height: 175px;
+  width: 250px;
   margin: 10px;
   border-radius: 30px;
 `;
 
-export const PropertyItemPressable = styled(Pressable)``;
+export const PropertyItemPressable = styled(Pressable)`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
 
 export const PropertyItemImage = styled(ImageBackground).attrs({
   source: require("../../../../assets/castle.jpg"),

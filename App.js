@@ -95,11 +95,7 @@ const App = () => {
                 <NavigationContainer>
                   <ThemeProvider theme={theme}>
                     <Navigation />
-                    {Platform.OS === "android" ? (
-                      <StatusBar style="auto" />
-                    ) : (
-                      <StatusBar style="light" />
-                    )}
+                    <StatusBar style="light" />
                   </ThemeProvider>
                 </NavigationContainer>
               </TradeContextProvider>

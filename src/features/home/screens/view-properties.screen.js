@@ -26,7 +26,6 @@ const ErrorText = styled.Text`
 `;
 
 const ViewPropertiesScreen = ({ navigation }) => {
-  const { setBankruptTrade } = useContext(BankruptcyContext);
   // getting the properties
   const {
     getProperties,

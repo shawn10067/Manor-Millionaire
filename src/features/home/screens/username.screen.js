@@ -36,20 +36,21 @@ const UsernameScreen = ({ navigation }) => {
   const {
     createAccountMutation,
     firebaseIdToken,
-    logout,
     loading,
     user,
     createAccountCalled,
+    createData,
   } = useContext(AuthenticationContext);
 
-  if (user) {
-    if (!createAccountCalled) {
-      navigation.navigate("Home");
+  useEffect(() => {
+    if (user) {
+      if (createAccountCalled === false) {
+        navigation.navigate("Home");
+      } else {
+        navigation.navigate("Tutorial");
+      }
     }
-    console.log("USER CREATED", user);
-    navigation.navigate("Tutorial");
-  }
-
+  }, [user, createAccountCalled, createData]);
   // function to create database user
   const onUsernameSubmit = async () => {
     if (!usernameRef.current) {

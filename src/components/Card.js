@@ -1,6 +1,7 @@
 import React from "react";
 import { toMoneyString } from "../utils/money";
 import {
+  AnimatedBaseCardView,
   ArrowPairContainer,
   ArrowView,
   BackCardHeadingText,
@@ -98,51 +99,53 @@ const Card = ({
       swipeUp={swipeUp}
       swipeDown={swipeDown}
     >
-      <BaseCardView borderColour={borderColour}>
-        <ContentView>
-          <HeaderView borderColour={borderColour}>
-            <HeaderImage source={{ uri: headerImage }}>
-              <TintForeground>
-                <HeadingPairContainer>
-                  <CardHeadingText>{address}</CardHeadingText>
-                  <CardEmojiText>{emoji}</CardEmojiText>
-                </HeadingPairContainer>
-              </TintForeground>
-            </HeaderImage>
-          </HeaderView>
-          <PictureView>
-            <HouseImage source={require("../../assets/castle.jpg")} />
-          </PictureView>
-          <InformationView>
-            <MainPairContainer>
-              <PriceHeadingText>Price</PriceHeadingText>
-              <PropertyPriceText>${priceString}</PropertyPriceText>
-            </MainPairContainer>
-            <MainPairContainer>
-              <PriceHeadingText>Income️</PriceHeadingText>
-              <RentText>${aloneRentString}</RentText>
-            </MainPairContainer>
-            <PairContainer>
-              <SubRentText>With set</SubRentText>
-              <SubRentText>${rentSetString}</SubRentText>
-            </PairContainer>
-            <PairContainer>
-              <SubRentText>With tier 1️⃣</SubRentText>
-              <SubRentText>${tier1RentString}</SubRentText>
-            </PairContainer>
-            <PairContainer>
-              <SubRentText>With tier 2️⃣</SubRentText>
-              <SubRentText>${tier2RentString}</SubRentText>
-            </PairContainer>
-          </InformationView>
-        </ContentView>
-        <ArrowView>
-          <ArrowPairContainer>
-            <View />
-            <Icon name="arrow-left-l" size={35} color="black" />
-          </ArrowPairContainer>
-        </ArrowView>
-      </BaseCardView>
+      <AnimatedBaseCardView>
+        <BaseCardView borderColour={borderColour}>
+          <ContentView>
+            <HeaderView borderColour={borderColour}>
+              <HeaderImage source={{ uri: headerImage }}>
+                <TintForeground>
+                  <HeadingPairContainer>
+                    <CardHeadingText>{address}</CardHeadingText>
+                    <CardEmojiText>{emoji}</CardEmojiText>
+                  </HeadingPairContainer>
+                </TintForeground>
+              </HeaderImage>
+            </HeaderView>
+            <PictureView>
+              <HouseImage source={require("../../assets/castle.jpg")} />
+            </PictureView>
+            <InformationView>
+              <MainPairContainer>
+                <PriceHeadingText>Price</PriceHeadingText>
+                <PropertyPriceText>${priceString}</PropertyPriceText>
+              </MainPairContainer>
+              <MainPairContainer>
+                <PriceHeadingText>Income️</PriceHeadingText>
+                <RentText>${aloneRentString}</RentText>
+              </MainPairContainer>
+              <PairContainer>
+                <SubRentText>With set</SubRentText>
+                <SubRentText>${rentSetString}</SubRentText>
+              </PairContainer>
+              <PairContainer>
+                <SubRentText>With tier 1️⃣</SubRentText>
+                <SubRentText>${tier1RentString}</SubRentText>
+              </PairContainer>
+              <PairContainer>
+                <SubRentText>With tier 2️⃣</SubRentText>
+                <SubRentText>${tier2RentString}</SubRentText>
+              </PairContainer>
+            </InformationView>
+          </ContentView>
+          <ArrowView>
+            <ArrowPairContainer>
+              <View />
+              <Icon name="arrow-left-l" size={35} color="black" />
+            </ArrowPairContainer>
+          </ArrowView>
+        </BaseCardView>
+      </AnimatedBaseCardView>
     </SwipeView>
   );
 
@@ -153,59 +156,61 @@ const Card = ({
       swipeUp={swipeUp}
       swipeDown={swipeDown}
     >
-      <BaseCardView borderColour={borderColour}>
-        <BackContentView>
-          <BackCardHeadingText>
-            {address}
-            {"  "}
-            {emoji}
-          </BackCardHeadingText>
-          <InformationView>
-            <MainPairContainer>
-              <PriceHeadingText>Property Value</PriceHeadingText>
-            </MainPairContainer>
-            <PairContainer>
-              <SubRentText>${propertyValueString}</SubRentText>
-            </PairContainer>
-            <MainPairContainer>
-              <PriceHeadingText>Costs</PriceHeadingText>
-              <View style={{ width: 200, height: 40 }} />
-            </MainPairContainer>
-            <PairContainer>
-              <SubRentText>Tier 1️⃣ </SubRentText>
-              <SubRentText>${tier1CostString}</SubRentText>
-            </PairContainer>
-            <PairContainer>
-              <SubRentText>Tier 2️⃣</SubRentText>
-              <SubRentText>${tier2CostString}</SubRentText>
-            </PairContainer>
-            {!swipeUp && !buttonsDisabled && (
-              <ButtonView>
-                {buyAction && (
-                  <BuyActionButton
-                    text={buyAction}
-                    colour="green"
-                    fontSize={20}
-                  />
-                )}
-                {sellAction && (
-                  <SellActionButton
-                    text={sellAction}
-                    colour="red"
-                    fontSize={20}
-                  />
-                )}
-              </ButtonView>
-            )}
-          </InformationView>
-        </BackContentView>
-        <ArrowView>
-          <ArrowPairContainer>
-            <View />
-            <Icon name="arrow-left-l" size={35} color="black" />
-          </ArrowPairContainer>
-        </ArrowView>
-      </BaseCardView>
+      <AnimatedBaseCardView>
+        <BaseCardView borderColour={borderColour}>
+          <BackContentView>
+            <BackCardHeadingText>
+              {address}
+              {"  "}
+              {emoji}
+            </BackCardHeadingText>
+            <InformationView>
+              <MainPairContainer>
+                <PriceHeadingText>Property Value</PriceHeadingText>
+              </MainPairContainer>
+              <PairContainer>
+                <SubRentText>${propertyValueString}</SubRentText>
+              </PairContainer>
+              <MainPairContainer>
+                <PriceHeadingText>Costs</PriceHeadingText>
+                <View style={{ width: 200, height: 40 }} />
+              </MainPairContainer>
+              <PairContainer>
+                <SubRentText>Tier 1️⃣ </SubRentText>
+                <SubRentText>${tier1CostString}</SubRentText>
+              </PairContainer>
+              <PairContainer>
+                <SubRentText>Tier 2️⃣</SubRentText>
+                <SubRentText>${tier2CostString}</SubRentText>
+              </PairContainer>
+              {!swipeUp && !buttonsDisabled && (
+                <ButtonView>
+                  {buyAction && (
+                    <BuyActionButton
+                      text={buyAction}
+                      colour="green"
+                      fontSize={20}
+                    />
+                  )}
+                  {sellAction && (
+                    <SellActionButton
+                      text={sellAction}
+                      colour="red"
+                      fontSize={20}
+                    />
+                  )}
+                </ButtonView>
+              )}
+            </InformationView>
+          </BackContentView>
+          <ArrowView>
+            <ArrowPairContainer>
+              <View />
+              <Icon name="arrow-left-l" size={35} color="black" />
+            </ArrowPairContainer>
+          </ArrowView>
+        </BaseCardView>
+      </AnimatedBaseCardView>
     </SwipeView>
   );
 
