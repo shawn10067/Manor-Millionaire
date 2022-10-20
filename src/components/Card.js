@@ -4,6 +4,7 @@ import {
   AnimatedBaseCardView,
   ArrowPairContainer,
   ArrowView,
+  BackBaseCardView,
   BackCardHeadingText,
   BackContentView,
   BaseCardView,
@@ -33,6 +34,7 @@ import styled from "styled-components/native";
 import { Dimensions, View } from "react-native";
 import Icon from "react-native-vector-icons/Fontisto";
 import { getCountryProperties } from "../utils/countryDecorations";
+import { CardText } from "./CardSwipeView";
 
 // card flip view styling
 const CardFlipView = styled(GestureFlipView)`
@@ -69,6 +71,9 @@ const Card = ({
   const tier2CostString = toMoneyString(tier2Cost);
   const propertyValueString = toMoneyString(propertyValue);
 
+  // holds card flip view ref
+  const cardFlipViewRef = React.useRef(null);
+
   // for displaying card buttons
   let buyAction;
   let sellAction;
@@ -98,6 +103,9 @@ const Card = ({
       onSwipeDown={onSwipeDown}
       swipeUp={swipeUp}
       swipeDown={swipeDown}
+      style={{
+        overflow: "hidden",
+      }}
     >
       <AnimatedBaseCardView>
         <BaseCardView borderColour={borderColour}>
@@ -139,8 +147,10 @@ const Card = ({
             </InformationView>
           </ContentView>
           <ArrowView>
-            <ArrowPairContainer>
-              <View />
+            <ArrowPairContainer
+              onPress={() => cardFlipViewRef.current?.flipLeft()}
+            >
+              <CardText style={{ paddingRight: 10 }}>double tap</CardText>
               <Icon name="arrow-left-l" size={35} color="black" />
             </ArrowPairContainer>
           </ArrowView>
@@ -157,7 +167,7 @@ const Card = ({
       swipeDown={swipeDown}
     >
       <AnimatedBaseCardView>
-        <BaseCardView borderColour={borderColour}>
+        <BackBaseCardView borderColour={borderColour}>
           <BackContentView>
             <BackCardHeadingText>
               {address}
@@ -204,18 +214,24 @@ const Card = ({
             </InformationView>
           </BackContentView>
           <ArrowView>
-            <ArrowPairContainer>
+            <ArrowPairContainer
+              onPress={() => cardFlipViewRef.current?.flipLeft()}
+            >
               <View />
               <Icon name="arrow-left-l" size={35} color="black" />
             </ArrowPairContainer>
           </ArrowView>
-        </BaseCardView>
+        </BackBaseCardView>
       </AnimatedBaseCardView>
     </SwipeView>
   );
 
   return (
-    <CardFlipView height={height * 0.7} width={width - 10}>
+    <CardFlipView
+      height={height * 0.7}
+      width={width - 10}
+      ref={(cardRef) => (cardFlipViewRef.current = cardRef)}
+    >
       {CardFrontSide()}
       {CardBackSide()}
     </CardFlipView>

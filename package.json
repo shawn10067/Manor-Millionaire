@@ -54,6 +54,7 @@
     "react-native-uuid": "^2.0.1",
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "~0.18.7",
+    "rgb2hex": "^0.2.5",
     "rn-scratch-card": "^1.0.0",
     "sharp-cli": "^3.0.0",
     "styled-components": "^5.3.5",

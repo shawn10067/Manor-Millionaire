@@ -14,7 +14,7 @@ const isAndoid = Platform.OS === "android";
 const TintedView = styled.View`
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.75);
+  background-color: rgba(0, 0, 0, 0.6);
   justify-content: center;
   position: absolute;
   top: 0px;

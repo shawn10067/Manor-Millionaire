@@ -4,6 +4,8 @@ import RoundedButton from "../RoundedButton";
 import AnimatedLinearGradient, {
   presetColors,
 } from "react-native-animated-linear-gradient";
+import { Pressable } from "react-native";
+import { ThemeContext } from "styled-components";
 
 //various views
 export const MainCardView = styled.View`
@@ -11,20 +13,39 @@ export const MainCardView = styled.View`
 `;
 
 export const BaseCardView = styled.View`
+  flex: 1;
   width: 100%;
   height: 100%;
   border-width: 2px;
   border: 3px solid
     ${({ borderColour }) => (borderColour ? borderColour : "#ffbb00")};
-  background-color: rgba(252, 247, 248, 0.45);
+  border: 3px solid whitesmoke;
+  background-color: rgba(252, 247, 248, 0.6);
+  overflow: hidden;
+  border-radius: 8px;
+`;
+
+export const BackBaseCardView = styled.View`
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  border-width: 2px;
+  border: 3px solid
+    ${({ borderColour }) => (borderColour ? borderColour : "#ffbb00")};
+  border: 3px solid whitesmoke;
+  background-color: ${({ theme }) => theme.colours.main.white};
+  overflow: hidden;
+  border-radius: 8px;
 `;
 
 export const AnimatedBaseCardView = styled(AnimatedLinearGradient).attrs({
   customColors: presetColors.sunset,
   speed: 2000,
 })`
+  flex: 1;
   width: 100%;
   height: 100%;
+  overflow: hidden;
   border-width: 2px;
 `;
 
@@ -45,6 +66,8 @@ export const HeaderView = styled.View`
   margin-right: 5px;
   border: 4px solid
     ${({ borderColour }) => (borderColour ? borderColour : "#ffbb00")};
+
+  border: 3px solid whitesmoke;
 `;
 
 export const PictureView = styled.View`
@@ -84,7 +107,7 @@ export const PairContainer = styled.View`
   padding-right: 8px;
 `;
 
-export const ArrowPairContainer = styled.View`
+export const ArrowPairContainer = styled(Pressable)`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -165,7 +188,6 @@ export const DisclaimerText = styled.Text`
 export const HouseImage = styled(Image)`
   width: 100%;
   height: 100%;
-  border-radius: 5px;
 `;
 
 export const HeaderImage = styled(ImageBackground)`
@@ -183,10 +205,10 @@ export const TintForeground = styled.View`
 
 export const BuyActionButton = styled(RoundedButton)`
   height: 50px;
-  width: 75%;
+  width: 55%;
 `;
 
 export const SellActionButton = styled(RoundedButton)`
   height: 50px;
-  width: 75%;
+  width: 55%;
 `;

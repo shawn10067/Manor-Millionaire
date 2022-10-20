@@ -19,7 +19,10 @@ import Carousel from "pinar";
 import styled from "styled-components/native";
 import AnimatedLinearGradient, {
   presetColors,
-} from "react-native-animated-linear-gradient";
+} from "../components/gradient/LinearGradientAnimated";
+// import AnimatedLinearGradient, {
+//   presetColors,
+// } from "react-native-animated-linear-gradient";
 
 const CountryCarosel = styled(Carousel)`
   height: 250px;
@@ -185,11 +188,12 @@ const PropertiesFlatlist = ({
                     <PropertyItemImage>
                       <PropertyItemTintForeground>
                         <AnimatedLinearGradient
-                          customColors={presetColors.instagram}
+                          customColors={presetColors.rare}
                           speed={4000}
                           style={{
                             height: "100%",
                             width: "100%",
+                            flex: 1,
                             justifyContent: "center",
                             alignItems: "center",
                             borderRadius: 10,
