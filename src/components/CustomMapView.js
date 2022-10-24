@@ -48,7 +48,7 @@ const CustomMapView = ({
             title: property.address,
             description: property.address,
           };
-          console.log("callout", callout);
+          // console.log("callout", callout);
           setCallouts((callouts) => [
             ...callouts,
             {
@@ -69,7 +69,7 @@ const CustomMapView = ({
       if (properties.length > 0) {
         console.log("user has properties");
         properties.map((property) => {
-          console.log("property", property);
+          // console.log("property", property);
         });
       }
     } else {
@@ -101,7 +101,7 @@ const CustomMapView = ({
       {...props}
     >
       {callouts.map(({ callout }, index) => {
-        console.log("callout ref", calloutRef);
+        // console.log("callout ref", calloutRef);
 
         calloutRef &&
           calloutRef.current &&

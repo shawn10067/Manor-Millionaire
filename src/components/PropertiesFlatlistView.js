@@ -20,6 +20,7 @@ import styled from "styled-components/native";
 import AnimatedLinearGradient, {
   presetColors,
 } from "../components/gradient/LinearGradientAnimated";
+import CustomLinearGradient from "./gradient/CustomLinearGradient";
 // import AnimatedLinearGradient, {
 //   presetColors,
 // } from "react-native-animated-linear-gradient";
@@ -187,8 +188,7 @@ const PropertiesFlatlist = ({
                   >
                     <PropertyItemImage>
                       <PropertyItemTintForeground>
-                        <AnimatedLinearGradient
-                          customColors={presetColors.rare}
+                        <CustomLinearGradient
                           speed={4000}
                           style={{
                             height: "100%",
@@ -203,7 +203,7 @@ const PropertiesFlatlist = ({
                           <PropertyItemText>
                             {property.address}
                           </PropertyItemText>
-                        </AnimatedLinearGradient>
+                        </CustomLinearGradient>
                       </PropertyItemTintForeground>
                     </PropertyItemImage>
                   </PropertyItemPressable>

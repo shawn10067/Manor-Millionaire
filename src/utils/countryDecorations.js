@@ -16,7 +16,7 @@ export const countryProperties = {
     headerImage:
       "https://mediaim.expedia.com/destination/7/3224f0c851f315db5f5d3d377f63a537.jpg",
     coordinates: {
-      latitude: 60,
+      latitude: 40,
       longitude: -95,
       latitudeDelta: 72.5084333150806,
       longitudeDelta: 65.57004543582211,

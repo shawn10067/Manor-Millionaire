@@ -34,7 +34,12 @@ import styled from "styled-components/native";
 import { Dimensions, View } from "react-native";
 import Icon from "react-native-vector-icons/Fontisto";
 import { getCountryProperties } from "../utils/countryDecorations";
-import { CardText } from "./CardSwipeView";
+
+const CardText = styled.Text`
+  color: ${({ theme }) => theme.colours.main.green};
+  font-size: 20px;
+  font-family: FuturaPTMedium;
+`;
 
 // card flip view styling
 const CardFlipView = styled(GestureFlipView)`

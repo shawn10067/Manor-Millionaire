@@ -3,9 +3,8 @@ import styled from "styled-components/native";
 import RoundedButton from "../RoundedButton";
 import AnimatedLinearGradient, {
   presetColors,
-} from "react-native-animated-linear-gradient";
+} from "../gradient/CustomLinearGradient";
 import { Pressable } from "react-native";
-import { ThemeContext } from "styled-components";
 
 //various views
 export const MainCardView = styled.View`
@@ -46,7 +45,7 @@ export const AnimatedBaseCardView = styled(AnimatedLinearGradient).attrs({
   width: 100%;
   height: 100%;
   overflow: hidden;
-  border-width: 2px;
+  border-radius: 8px;
 `;
 
 export const ContentView = styled.View`

@@ -218,6 +218,8 @@ const HomeScreen = ({ navigation }) => {
     );
   };
 
+  // TODO: put an animated linear gradient underneath the play button
+
   return (
     <Provider>
       <BackgroundView>
