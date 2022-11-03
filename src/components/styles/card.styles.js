@@ -19,7 +19,7 @@ export const BaseCardView = styled.View`
   border: 3px solid
     ${({ borderColour }) => (borderColour ? borderColour : "#ffbb00")};
   border: 3px solid whitesmoke;
-  background-color: rgba(252, 247, 248, 0.6);
+  background-color: rgba(230, 230, 230, 0.5);
   overflow: hidden;
   border-radius: 8px;
 `;
@@ -38,8 +38,8 @@ export const BackBaseCardView = styled.View`
 `;
 
 export const AnimatedBaseCardView = styled(AnimatedLinearGradient).attrs({
-  customColors: presetColors.sunset,
   speed: 2000,
+  staticGrad: false,
 })`
   flex: 1;
   width: 100%;
@@ -65,7 +65,6 @@ export const HeaderView = styled.View`
   margin-right: 5px;
   border: 4px solid
     ${({ borderColour }) => (borderColour ? borderColour : "#ffbb00")};
-
   border: 3px solid whitesmoke;
 `;
 
@@ -74,6 +73,7 @@ export const PictureView = styled.View`
   margin-left: 5px;
   margin-right: 5px;
   margin-top: 10px;
+  border: 3px solid whitesmoke;
 `;
 
 export const InformationView = styled.View`
@@ -137,7 +137,7 @@ export const CardHeadingText = styled.Text`
 `;
 
 export const BackCardHeadingText = styled.Text`
-  color: ${({ theme }) => theme.colours.main.grey};
+  color: ${({ theme }) => theme.colours.main.black};
   font-size: 30px;
   font-family: FuturaPTHeavy;
   text-transform: capitalize;
@@ -146,33 +146,33 @@ export const BackCardHeadingText = styled.Text`
 `;
 
 export const CardEmojiText = styled.Text`
-  color: ${({ theme }) => theme.colours.main.white};
-  font-size: 40px;
+  color: ${({ theme }) => theme.colours.main.black};
+  font-size: 30px;
   font-family: FuturaPTHeavy;
   text-transform: capitalize;
 `;
 
 export const PriceHeadingText = styled.Text`
-  color: ${({ theme }) => theme.colours.main.grey};
+  color: ${({ theme }) => theme.colours.main.black};
   font-size: 22px;
   font-family: FuturaPTHeavy;
   text-decoration: underline;
 `;
 
 export const PropertyPriceText = styled.Text`
-  color: ${({ theme }) => theme.colours.main.grey};
+  color: ${({ theme }) => theme.colours.main.black};
   font-size: 23px;
   font-family: FuturaPTMedium;
 `;
 
 export const RentText = styled.Text`
-  color: ${({ theme }) => theme.colours.main.grey};
+  color: ${({ theme }) => theme.colours.main.black};
   font-size: 20px;
   font-family: FuturaPTMedium;
 `;
 
 export const SubRentText = styled.Text`
-  color: ${({ theme }) => theme.colours.main.grey};
+  color: ${({ theme }) => theme.colours.main.black};
   font-size: 18px;
   font-family: FuturaPTMedium;
 `;
@@ -202,12 +202,16 @@ export const TintForeground = styled.View`
 
 // back card buttons
 
-export const BuyActionButton = styled(RoundedButton)`
+export const BuyActionButton = styled(RoundedButton).attrs({
+  fontSize: 18,
+})`
   height: 50px;
   width: 55%;
 `;
 
-export const SellActionButton = styled(RoundedButton)`
+export const SellActionButton = styled(RoundedButton).attrs({
+  fontSize: 18,
+})`
   height: 50px;
   width: 55%;
 `;

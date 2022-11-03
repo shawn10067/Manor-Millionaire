@@ -434,32 +434,56 @@ export const properties = () => {
   });
 };
 
-export const organizeProperties = (inputProperties) => {
-  return inputProperties
-    .reduce((countryPropertiesArray, currentProperty) => {
-      const hasCountryIndex = countryPropertiesArray.findIndex(
-        (countryProperty) => countryProperty.country === currentProperty.country
-      );
+// property object
+export const propertyObject = {
+  ultraRare: {
+    upperBound: 150000000,
+    lowerBound: 100000000,
+  },
+  rare: {
+    upperBound: 100000000,
+    lowerBound: 70000000,
+  },
+  uncommon: {
+    upperBound: 70000000,
+    lowerBound: 40000000,
+  },
+  common: {
+    upperBound: 40000000,
+    lowerBound: 5000000,
+  },
+};
 
-      if (hasCountryIndex !== -1) {
-        const newCountryProperties = countryPropertiesArray;
-        newCountryProperties[hasCountryIndex].properties = [
-          ...newCountryProperties[hasCountryIndex].properties,
-          currentProperty,
-        ];
-        return newCountryProperties;
-      } else {
-        // uuid is there for temp flatlist purposes
-        // TODO: remove uuid in favour of db id for actual data fetching
-        return [
-          ...countryPropertiesArray,
-          {
-            country: currentProperty.country,
-            properties: [currentProperty],
-            id: uuid.v4(),
-          },
-        ];
-      }
-    }, [])
-    .sort((a, b) => a.country.length > b.country.length);
+// function to get the property rarity from a price
+export const getPropertyRarity = (price) => {
+  if (price >= propertyObject.ultraRare.lowerBound) {
+    return "ultraRare";
+  } else if (price >= propertyObject.rare.lowerBound) {
+    return "rare";
+  } else if (price >= propertyObject.uncommon.lowerBound) {
+    return "uncommon";
+  } else {
+    return "common";
+  }
+};
+
+export const organizeProperties = (inputProperties) => {
+  const rarityProperties = ["common", "uncommon", "rare", "ultraRare"];
+
+  // do exactly as above but with .map
+  const newPropertyArray = rarityProperties.map((rarity) => {
+    const newPropertyObject = {};
+    newPropertyObject.properties = inputProperties.filter((property) => {
+      return (
+        property.price <= propertyObject[rarity].upperBound &&
+        property.price >= propertyObject[rarity].lowerBound
+      );
+    });
+    newPropertyObject.id = uuid.v4();
+    newPropertyObject.rarity = rarity;
+
+    return newPropertyObject;
+  });
+
+  return newPropertyArray;
 };

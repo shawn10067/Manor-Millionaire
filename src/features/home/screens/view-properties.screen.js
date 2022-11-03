@@ -7,7 +7,7 @@ import PropertiesFlatlist from "../../../components/PropertiesFlatlistView";
 import { UserContext } from "../../../services/user/user.context";
 import { ActivityIndicator } from "react-native-paper";
 import styled from "styled-components/native";
-import { IconView } from "../components/home.screen.styles";
+import { CenterView, IconView } from "../components/home.screen.styles";
 import theme from "../../../infrastructure/theme";
 import { BankruptcyContext } from "../../../services/bankruptcy/bankruptcy.context";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -33,9 +33,6 @@ const ViewPropertiesScreen = ({ navigation }) => {
     error,
     properties: userProperties,
   } = useContext(UserContext);
-  useEffect(() => {
-    getProperties();
-  }, []);
 
   // returning the appropriate views
   // if we're loading, return the loading view
@@ -75,12 +72,12 @@ const ViewPropertiesScreen = ({ navigation }) => {
   return (
     <BackgroundBlackView>
       <SafeAreaView>
-        <PropertiesView>
+        <CenterView>
           <PropertiesFlatlist
             properties={userProperties}
             navigation={navigation}
           />
-        </PropertiesView>
+        </CenterView>
         <BackArrowPressable onPress={() => navigation.goBack()} />
       </SafeAreaView>
     </BackgroundBlackView>

@@ -37,7 +37,7 @@ const CustomMapView = ({
   // creating the callouts from the properties if they exist
   useEffect(() => {
     if (properties) {
-      properties.forEach((property) => {
+      const markerProperties = properties.forEach((property) => {
         // create random logitude and latitude
         const randomLat = Math.random() * 50;
         const randomLong = Math.random() * 50;
@@ -48,16 +48,40 @@ const CustomMapView = ({
             title: property.address,
             description: property.address,
           };
-          // console.log("callout", callout);
-          setCallouts((callouts) => [
-            ...callouts,
-            {
-              callout,
-            },
-          ]);
+
+          const { latitude, longitude, title, description } = callout;
+          return (
+            <Marker
+              coordinate={{ latitude, longitude }}
+              key={property.id}
+              ref={(markerRef) => (calloutRef.current = markerRef)}
+            >
+              <Callout
+                onPress={() => console.log("callout pressed", title)}
+                style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
+              >
+                <View style={{ height: 90, width: 90 }}>
+                  <Text> {title} </Text>
+                  <Svg width={80} height={80}>
+                    <ImageSvg
+                      width={"100%"}
+                      height={"100%"}
+                      preserveAspectRatio="xMidYMid slice"
+                      href={{ uri: "https://picsum.photos/200" }}
+                    />
+                  </Svg>
+                </View>
+              </Callout>
+            </Marker>
+          );
         }
       });
+
+      setCallouts(markerProperties);
     }
+    return () => {
+      setCallouts([]);
+    };
   }, [properties]);
 
   // if the user state is settled and the user exists, call the getProperties function
@@ -100,41 +124,7 @@ const CustomMapView = ({
       customMapStyle={Platform.OS === "android" ? customStyle : null}
       {...props}
     >
-      {callouts.map(({ callout }, index) => {
-        // console.log("callout ref", calloutRef);
-
-        calloutRef &&
-          calloutRef.current &&
-          calloutRef.current.showCallout &&
-          calloutRef.current.showCallout();
-
-        const { latitude, longitude, title, description } = callout;
-
-        return (
-          <Marker
-            coordinate={{ latitude, longitude }}
-            key={index}
-            ref={(markerRef) => (calloutRef.current = markerRef)}
-          >
-            <Callout
-              onPress={() => console.log("callout pressed", title)}
-              style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
-            >
-              <View style={{ height: 90, width: 90 }}>
-                <Text> {title} </Text>
-                <Svg width={80} height={80}>
-                  <ImageSvg
-                    width={"100%"}
-                    height={"100%"}
-                    preserveAspectRatio="xMidYMid slice"
-                    href={{ uri: "https://picsum.photos/200" }}
-                  />
-                </Svg>
-              </View>
-            </Callout>
-          </Marker>
-        );
-      })}
+      {callouts}
       {children}
     </MapView>
   );

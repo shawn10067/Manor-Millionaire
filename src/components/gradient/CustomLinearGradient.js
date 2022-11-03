@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Platform } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import Animated, {
   Easing,
@@ -55,8 +56,22 @@ const CustomLinearGradient = ({
   },
   style,
   speed = 4000,
+  staticGrad = false,
 }) => {
-  console.log("rendered");
+  // if its android, just render the gradient
+  if (Platform.OS === "android" || staticGrad) {
+    return (
+      <LinearGradient
+        colors={customColors}
+        start={points.start}
+        end={points.end}
+        style={style}
+      >
+        {children}
+      </LinearGradient>
+    );
+  }
+
   // holding the shared values
   const color0 = useSharedValue(0);
   const color1 = useSharedValue(0);
@@ -77,6 +92,11 @@ const CustomLinearGradient = ({
   // starting the animation on mount
   useEffect(() => {
     startAnimation();
+
+    return () => {
+      console.log("unmounting");
+      [color0, color1].forEach((color) => (color.value = 0));
+    };
   }, []);
 
   // creating the two prefer color animations
@@ -94,8 +114,7 @@ const CustomLinearGradient = ({
       return interpolateColor(
         color.value,
         Array.from({ length: customColors.length }, (_, i) => i),
-        preferColors[index],
-        "RGB"
+        preferColors[index]
       );
     });
 
@@ -109,7 +128,7 @@ const CustomLinearGradient = ({
       animatedProps={colors}
       start={points.start}
       end={points.end}
-      style={style}
+      style={[style, { flex: 1 }]}
     >
       {children}
     </Animated.NativeLinearGradient>

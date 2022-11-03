@@ -14,9 +14,12 @@ const ViewBankruptCardScreen = ({ route, navigation }) => {
   const { bankruptTrade, setBankruptTrade } = useContext(BankruptcyContext);
 
   // replace with bankrupt trade context
-  const isPartOfTrade = bankruptTrade.properties.find(
-    (propertyElement) => propertyElement.id === property.id
-  );
+  const isPartOfTrade =
+    bankruptTrade && bankruptTrade.properties
+      ? bankruptTrade.properties.find(
+          (propertyElement) => propertyElement.id === property.id
+        )
+      : false;
 
   // replace with bankrupt trade context
   const addToTrade = () => {

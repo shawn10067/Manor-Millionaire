@@ -1,9 +1,14 @@
-import { ImageBackground, Pressable, Text } from "react-native";
+import { BlurView } from "@react-native-community/blur";
+import { ImageBackground, Platform, Pressable, Text, View } from "react-native";
 import styled from "styled-components/native";
 
 export const PropertiesView = styled.View`
   flex: 1;
   width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+  padding: 2px;
 `;
 
 export const SeperatorBar = styled.View`
@@ -23,11 +28,17 @@ export const CountryHeaderText = styled(Text)`
   text-align: center;
 `;
 
+export const PropertySectionView = styled.View`
+  width: 92%;
+  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 16px;
+`;
+
 export const PropertyItemView = styled.View`
-  height: 175px;
-  width: 250px;
-  margin: 10px;
-  border-radius: 30px;
+  height: 200px;
+  width: 100%;
+  padding: 8px;
 `;
 
 export const PropertyItemPressable = styled(Pressable)`
@@ -37,27 +48,27 @@ export const PropertyItemPressable = styled(Pressable)`
 `;
 
 export const PropertyItemImage = styled(ImageBackground).attrs({
-  source: require("../../../../assets/castle.jpg"),
+  source: {
+    uri: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/bojnice-castle-1603142898.jpg?crop=1.00xw:0.752xh;0,0.0240xh&resize=980:*",
+  },
 })`
-  border-radius: 10px;
-  height: 100%;
+  flex: 0.8;
   width: 100%;
   overflow: hidden;
+  border-radius: 6px;
 `;
 
 export const PropertyItemTintForeground = styled.View`
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.2);
   justify-content: center;
   align-items: center;
   border-radius: 10px;
 `;
 
 export const PropertyItemText = styled(Text)`
-  font-size: 25px;
+  font-size: 16px;
   font-family: FuturaPTHeavy;
   color: ${({ theme }) => theme.colours.main.white};
   text-align: center;
-  padding: 8px;
 `;

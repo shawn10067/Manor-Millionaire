@@ -34,6 +34,8 @@ import styled from "styled-components/native";
 import { Dimensions, View } from "react-native";
 import Icon from "react-native-vector-icons/Fontisto";
 import { getCountryProperties } from "../utils/countryDecorations";
+import { getPropertyRarity } from "../services/property/property.service";
+import { gradientRartiyMaps } from "../utils/colorRarityMap";
 
 const CardText = styled.Text`
   color: ${({ theme }) => theme.colours.main.green};
@@ -42,9 +44,7 @@ const CardText = styled.Text`
 `;
 
 // card flip view styling
-const CardFlipView = styled(GestureFlipView)`
-  background-color: aliceblue;
-`;
+const CardFlipView = styled(GestureFlipView)``;
 
 const Card = ({
   property,
@@ -76,20 +76,24 @@ const Card = ({
   const tier2CostString = toMoneyString(tier2Cost);
   const propertyValueString = toMoneyString(propertyValue);
 
+  // get rarity
+  const rarity = getPropertyRarity(price);
+
   // holds card flip view ref
   const cardFlipViewRef = React.useRef(null);
+  const { emoji, borderColour, headerImage } = getCountryProperties(country);
 
   // for displaying card buttons
   let buyAction;
   let sellAction;
   switch (status) {
     case "ALONE":
-      buyAction = "Add to set";
+      buyAction = `Add to set ${emoji}`;
       sellAction = "Sell property";
       break;
     case "SET":
       buyAction = "Buy tier 1️⃣";
-      sellAction = "Remove from set";
+      sellAction = `Remove from set ${emoji}`;
       break;
     case "TIER1":
       buyAction = "Buy tier 2️⃣";
@@ -99,8 +103,6 @@ const Card = ({
       sellAction = "Sell tier 2️⃣";
       break;
   }
-
-  const { emoji, borderColour, headerImage } = getCountryProperties(country);
 
   const CardFrontSide = () => (
     <SwipeView
@@ -112,7 +114,7 @@ const Card = ({
         overflow: "hidden",
       }}
     >
-      <AnimatedBaseCardView>
+      <AnimatedBaseCardView customColors={gradientRartiyMaps[rarity]}>
         <BaseCardView borderColour={borderColour}>
           <ContentView>
             <HeaderView borderColour={borderColour}>
@@ -156,7 +158,7 @@ const Card = ({
               onPress={() => cardFlipViewRef.current?.flipLeft()}
             >
               <CardText style={{ paddingRight: 10 }}>double tap</CardText>
-              <Icon name="arrow-left-l" size={35} color="black" />
+              <Icon name="arrow-left-l" size={35} color="white" />
             </ArrowPairContainer>
           </ArrowView>
         </BaseCardView>

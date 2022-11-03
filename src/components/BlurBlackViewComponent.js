@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components/native";
 import { Platform } from "react-native";
 import { BlurView } from "@react-native-community/blur";
-
+import Animated from "react-native-reanimated";
 const isAndoid = Platform.OS === "android";
 
 const TintedView = styled.View`
@@ -10,7 +10,7 @@ const TintedView = styled.View`
   justify-content: center;
 `;
 
-const SurroundingBlurView = styled.View`
+const SurroundingBlurView = styled(Animated.View)`
   overflow: hidden;
 `;
 

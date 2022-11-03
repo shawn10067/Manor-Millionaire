@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { uuid } from "react-native-uuid";
 import {
   CountryHeaderText,
   PropertiesView,
@@ -7,9 +8,10 @@ import {
   PropertyItemText,
   PropertyItemTintForeground,
   PropertyItemView,
+  PropertySectionView,
   SeperatorBar,
 } from "../features/home/components/view-properties.screen.styles";
-import { FlatList, View } from "react-native";
+import { Dimensions, FlatList, View } from "react-native";
 import { getCountryProperties } from "../utils/countryDecorations";
 import { organizeProperties } from "../services/property/property.service";
 import { CenterView } from "../features/home/components/home.screen.styles";
@@ -17,23 +19,12 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import theme from "../infrastructure/theme";
 import Carousel from "pinar";
 import styled from "styled-components/native";
-import AnimatedLinearGradient, {
+import CustomLinearGradient, {
   presetColors,
-} from "../components/gradient/LinearGradientAnimated";
-import CustomLinearGradient from "./gradient/CustomLinearGradient";
-// import AnimatedLinearGradient, {
-//   presetColors,
-// } from "react-native-animated-linear-gradient";
-
-const CountryCarosel = styled(Carousel)`
-  height: 250px;
-  width: 100%;
-  padding: 10px;
-  margin: 10px;
-  color: white;
-  justify-content: center;
-  align-items: center;
-`;
+} from "./gradient/CustomLinearGradient";
+import { gradientRartiyMaps } from "../utils/colorRarityMap";
+import { Text } from "react-native-paper";
+import { FlashList } from "@shopify/flash-list";
 
 const PropertiesFlatlist = ({
   navigation,
@@ -64,177 +55,141 @@ const PropertiesFlatlist = ({
   const organizedProperties = organizeProperties(properties);
 
   // bankrupt render property method
-  const renderPropertySectionBankrupty = ({ item }) => {
-    return (
-      <PropertyItemView>
-        <PropertyItemPressable
-          onPress={() => {
-            navigation.navigate("View Bankrupt Property", {
-              property: item,
-            });
-          }}
-        >
-          <PropertyItemImage>
-            <PropertyItemTintForeground>
-              <PropertyItemText>{item.address}</PropertyItemText>
-            </PropertyItemTintForeground>
-          </PropertyItemImage>
-        </PropertyItemPressable>
-      </PropertyItemView>
-    );
-  };
+  // const renderPropertySectionBankrupty = ({ item }) => {
+  //   return (
+  //     <PropertyItemView>
+  //       <PropertyItemPressable
+  //         onPress={() => {
+  //           navigation.navigate("View Bankrupt Property", {
+  //             property: item,
+  //           });
+  //         }}
+  //       >
+  //         <PropertyItemImage>
+  //           <PropertyItemTintForeground>
+  //             <PropertyItemText>{item.address}</PropertyItemText>
+  //           </PropertyItemTintForeground>
+  //         </PropertyItemImage>
+  //       </PropertyItemPressable>
+  //     </PropertyItemView>
+  //   );
+  // };
   // --------- end of bankrupt property render
 
-  const renderPropertySection = ({ item }) => {
+  const renderTheProperties = ({ item }) => {
+    const property = item;
     return (
       <PropertyItemView>
         <PropertyItemPressable
           onPress={() => {
-            if (addType === "me") {
-              navigation.navigate("View Trade Card", {
-                property: item,
-                addType: "me",
-              });
-            } else if (addType === "them") {
-              navigation.navigate("View Trade Card", {
-                property: item,
-                addType: "them",
+            if (bankrupt) {
+              navigation.navigate("View Bankrupt Property", {
+                property: property,
               });
             } else {
-              navigation.navigate("View House", {
-                property: item,
-                downMessage: "back",
-              });
+              if (addType === "me") {
+                navigation.navigate("View Trade Card", {
+                  property: property,
+                  addType: "me",
+                });
+              }
+              if (addType === "them") {
+                navigation.navigate("View Trade Card", {
+                  property: property,
+                  addType: "them",
+                });
+              }
+              if (addType === "none") {
+                navigation.navigate("View House", {
+                  property: property,
+                  downMessage: "back",
+                });
+              }
             }
           }}
         >
           <PropertyItemImage>
-            <PropertyItemTintForeground>
-              <PropertyItemText>{item.address}</PropertyItemText>
-            </PropertyItemTintForeground>
+            <PropertyItemTintForeground></PropertyItemTintForeground>
           </PropertyItemImage>
         </PropertyItemPressable>
+        <PropertyItemText>{property.address}</PropertyItemText>
+        <CustomLinearGradient
+          customColors={gradientRartiyMaps[property.rarity]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={{
+            width: "80%",
+            height: 8,
+            borderRadius: 5,
+            alignSelf: "center",
+            margin: 5,
+          }}
+          staticGrad
+        />
       </PropertyItemView>
     );
   };
 
   const renderCountrySection = ({ item }) => {
-    const countryProperties = item.properties;
-    const { emoji } = getCountryProperties(item.country);
+    const countryProperties = item.properties.map((val) => {
+      return {
+        ...val,
+        rarity: item.rarity,
+      };
+    });
     return (
       <PropertiesView>
-        <CountryHeaderText>
-          {item.country} {emoji}
-        </CountryHeaderText>
-        <Carousel
-          loop
-          autoplay
-          autoplayInterval={2250}
-          horizontal
+        <CustomLinearGradient
+          customColors={gradientRartiyMaps[item.rarity]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
           style={{
-            width: "100%",
-            height: 250,
-          }}
-          containerStyle={{
-            borderRadius: 10,
-          }}
-          contentContainerStyle={{
-            alignContent: "center",
+            width: "90%",
+            height: 64,
+            alignSelf: "center",
+            borderRadius: 40,
+            margin: 20,
             justifyContent: "center",
-          }}
-          dotStyle={{
-            backgroundColor: "rgba(255, 255, 255, 0.92)",
-          }}
-          activeDotStyle={{
-            backgroundColor: theme.colours.main.white,
-          }}
-          controlsTextStyle={{
-            fontSize: 80,
-            color: theme.colours.main.white,
+            alignItems: "center",
           }}
         >
-          {countryProperties.map((property, index) => {
-            return (
-              <View
-                key={index}
-                style={{
-                  flex: 1,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <PropertyItemView>
-                  <PropertyItemPressable
-                    onPress={() => {
-                      if (addType === "me") {
-                        navigation.navigate("View Trade Card", {
-                          property: property,
-                          addType: "me",
-                        });
-                      }
-                      if (addType === "them") {
-                        navigation.navigate("View Trade Card", {
-                          property: property,
-                          addType: "them",
-                        });
-                      }
-                      if (addType === "none") {
-                        navigation.navigate("View House", {
-                          property: property,
-                          downMessage: "back",
-                        });
-                      }
-                    }}
-                  >
-                    <PropertyItemImage>
-                      <PropertyItemTintForeground>
-                        <CustomLinearGradient
-                          speed={4000}
-                          style={{
-                            height: "100%",
-                            width: "100%",
-                            flex: 1,
-                            justifyContent: "center",
-                            alignItems: "center",
-                            borderRadius: 10,
-                            margin: 10,
-                          }}
-                        >
-                          <PropertyItemText>
-                            {property.address}
-                          </PropertyItemText>
-                        </CustomLinearGradient>
-                      </PropertyItemTintForeground>
-                    </PropertyItemImage>
-                  </PropertyItemPressable>
-                </PropertyItemView>
-              </View>
-            );
-          })}
-        </Carousel>
+          <CountryHeaderText>
+            {item.rarity === "ultraRare"
+              ? "ultra-rare".toUpperCase()
+              : item.rarity.toUpperCase()}
+          </CountryHeaderText>
+        </CustomLinearGradient>
+        <PropertySectionView>
+          <FlashList
+            estimatedItemSize={300}
+            data={countryProperties}
+            renderItem={renderTheProperties}
+            keyExtractor={(item) => item.id}
+            numColumns={2}
+          />
+        </PropertySectionView>
       </PropertiesView>
     );
   };
 
+  console.log("ORGANIZED LENGTH:", properties.length);
+
   return (
-    <PropertiesView>
-      <FlatList
-        data={organizedProperties}
-        renderItem={renderCountrySection}
-        keyExtractor={(item) => item.id}
-        ItemSeparatorComponent={() => (
-          <View
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              margin: 8,
-            }}
-          >
-            <SeperatorBar />
-          </View>
-        )}
-      />
-    </PropertiesView>
+    <CenterView
+      style={{
+        width: Dimensions.get("screen").width,
+        height: "100%",
+      }}
+    >
+      <View style={{ width: "100%", height: "100%" }}>
+        <FlashList
+          data={organizedProperties}
+          estimatedItemSize={6000}
+          renderItem={renderCountrySection}
+          keyExtractor={(item) => item.id}
+        />
+      </View>
+    </CenterView>
   );
 };
 
