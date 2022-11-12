@@ -55,25 +55,25 @@ const PropertiesFlatlist = ({
   const organizedProperties = organizeProperties(properties);
 
   // bankrupt render property method
-  // const renderPropertySectionBankrupty = ({ item }) => {
-  //   return (
-  //     <PropertyItemView>
-  //       <PropertyItemPressable
-  //         onPress={() => {
-  //           navigation.navigate("View Bankrupt Property", {
-  //             property: item,
-  //           });
-  //         }}
-  //       >
-  //         <PropertyItemImage>
-  //           <PropertyItemTintForeground>
-  //             <PropertyItemText>{item.address}</PropertyItemText>
-  //           </PropertyItemTintForeground>
-  //         </PropertyItemImage>
-  //       </PropertyItemPressable>
-  //     </PropertyItemView>
-  //   );
-  // };
+  const renderPropertySectionBankrupty = ({ item }) => {
+    return (
+      <PropertyItemView>
+        <PropertyItemPressable
+          onPress={() => {
+            navigation.navigate("View Bankrupt Property", {
+              property: item,
+            });
+          }}
+        >
+          <PropertyItemImage>
+            <PropertyItemTintForeground>
+              <PropertyItemText>{item.address}</PropertyItemText>
+            </PropertyItemTintForeground>
+          </PropertyItemImage>
+        </PropertyItemPressable>
+      </PropertyItemView>
+    );
+  };
   // --------- end of bankrupt property render
 
   const renderTheProperties = ({ item }) => {
@@ -158,6 +158,12 @@ const PropertiesFlatlist = ({
               ? "ultra-rare".toUpperCase()
               : item.rarity.toUpperCase()}
           </CountryHeaderText>
+          <Icon
+            size={30}
+            name={"arrow-up-drop-circle-outline"}
+            color={theme.colours.main.white}
+            style={{ position: "absolute", right: 20 }}
+          />
         </CustomLinearGradient>
         <PropertySectionView>
           <FlashList

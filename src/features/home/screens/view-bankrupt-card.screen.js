@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import BackgroundView from "../../../components/BackgroundView";
 import CardSwipeView from "../../../components/CardSwipeView";
 import MoneyCounter from "../../../components/MoneyCounter";
 import SafeAreaAbsoluteView from "../../../components/SafeAreaAbsoluteView";
 import SafeAreaView from "../../../components/SafeAreaView";
 import { BankruptcyContext } from "../../../services/bankruptcy/bankruptcy.context";
+import BackgroundBlackView from "../../../components/BackgroundBlackView";
 
 const ViewBankruptCardScreen = ({ route, navigation }) => {
   const cardSwipeFunc = () => setTimeout(() => navigation.goBack(), 300);
@@ -13,18 +13,19 @@ const ViewBankruptCardScreen = ({ route, navigation }) => {
   // replace with new context
   const { bankruptTrade, setBankruptTrade } = useContext(BankruptcyContext);
 
+  console.log(
+    "rendering ViewBankruptCardScreen with ",
+    bankruptTrade,
+    property
+  );
+
   // replace with bankrupt trade context
-  const isPartOfTrade =
-    bankruptTrade && bankruptTrade.properties
-      ? bankruptTrade.properties.find(
-          (propertyElement) => propertyElement.id === property.id
-        )
-      : false;
+  const isPartOfTrade = bankruptTrade?.properties?.includes(property.id);
 
   // replace with bankrupt trade context
   const addToTrade = () => {
     if (isPartOfTrade) {
-      const removedFromProperties = bankruptTrade.properties.filter(
+      const removedFromProperties = bankruptTrade?.properties?.filter(
         (val) => val.id != property.id
       );
       setBankruptTrade({
@@ -32,16 +33,19 @@ const ViewBankruptCardScreen = ({ route, navigation }) => {
         properties: removedFromProperties,
       });
     } else {
+      console.log("adding to trade", bankruptTrade);
       setBankruptTrade({
         ...bankruptTrade,
-        properties: [...bankruptTrade.properties, property],
+        properties: bankruptTrade.properties
+          ? [...bankruptTrade.properties, property]
+          : [property],
       });
     }
     navigation.goBack();
   };
 
   return (
-    <BackgroundView>
+    <BackgroundBlackView>
       <SafeAreaView>
         <SafeAreaAbsoluteView>
           <MoneyCounter />
@@ -56,7 +60,7 @@ const ViewBankruptCardScreen = ({ route, navigation }) => {
           />
         </SafeAreaAbsoluteView>
       </SafeAreaView>
-    </BackgroundView>
+    </BackgroundBlackView>
   );
 };
 

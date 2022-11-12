@@ -88,7 +88,8 @@ const ReviewManagePropertiesTradeScreen = ({ navigation, route }) => {
 
   // decline view trade button
   const onDecline = () => {
-    navigation.navigate("Home");
+    // navigation.navigate("Home");
+    console.log(bankruptTrade);
   };
 
   // accept view trade button
@@ -104,23 +105,22 @@ const ReviewManagePropertiesTradeScreen = ({ navigation, route }) => {
 
   // rendering properties
   const renderPropertySection = ({ item }) => {
+    console.log("rendered property", item.address);
     return (
-      <PropertyItemView>
-        <PropertyItemPressable
-          onPress={() => {
-            navigation.navigate("View House", {
-              property: item,
-              buttonsDisabled: true,
-            });
-          }}
-        >
-          <PropertyItemImage>
-            <PropertyItemTintForeground>
-              <PropertyItemText>{item.address}</PropertyItemText>
-            </PropertyItemTintForeground>
-          </PropertyItemImage>
-        </PropertyItemPressable>
-      </PropertyItemView>
+      <PropertyItemPressable
+        onPress={() => {
+          navigation.navigate("View House", {
+            property: item,
+            buttonsDisabled: true,
+          });
+        }}
+      >
+        <PropertyItemImage>
+          <PropertyItemTintForeground>
+            <PropertyItemText>{item.address}</PropertyItemText>
+          </PropertyItemTintForeground>
+        </PropertyItemImage>
+      </PropertyItemPressable>
     );
   };
 

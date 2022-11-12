@@ -7,10 +7,7 @@ import PropertiesFlatlist from "../../../components/PropertiesFlatlistView";
 import { UserContext } from "../../../services/user/user.context";
 import { ActivityIndicator } from "react-native-paper";
 import styled from "styled-components/native";
-import { CenterView, IconView } from "../components/home.screen.styles";
-import theme from "../../../infrastructure/theme";
-import { BankruptcyContext } from "../../../services/bankruptcy/bankruptcy.context";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { CenterView } from "../components/home.screen.styles";
 
 const ActivityView = styled.View`
   flex: 1;
@@ -28,7 +25,6 @@ const ErrorText = styled.Text`
 const ViewPropertiesScreen = ({ navigation }) => {
   // getting the properties
   const {
-    getProperties,
     loading,
     error,
     properties: userProperties,
