@@ -59,7 +59,7 @@ const CustomLinearGradient = ({
   staticGrad = false,
 }) => {
   // if its android, just render the gradient
-  if (Platform.OS === "android" || staticGrad) {
+  if (staticGrad || Platform.OS === "android") {
     return (
       <LinearGradient
         colors={customColors}

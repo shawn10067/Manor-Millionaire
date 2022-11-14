@@ -118,7 +118,7 @@ const CustomMapView = ({
       ref={(map) => mapRef && (mapRef.current = map)}
       onPanDrag={() => setOpen && setOpen(false)}
       onRegionChangeComplete={(reg) => {
-        // console.log("region changed with ", reg);
+        console.log("region changed with ", reg);
         return;
       }}
       customMapStyle={Platform.OS === "android" ? customStyle : null}

@@ -208,7 +208,7 @@ const PropertiesFlatlist = ({
               data={countryProperties}
               renderItem={renderTheProperties}
               keyExtractor={(item) => item.id}
-              numColumns={2}
+              numColumns={3}
               extraData={modals}
             />
           </Animated.View>
@@ -226,9 +226,7 @@ const PropertiesFlatlist = ({
     >
       <View style={{ width: "100%", height: "100%" }}>
         <FlashList
-          data={organizedProperties
-            .reverse()
-            .filter((val) => val.properties.length > 0)}
+          data={organizedProperties.filter((val) => val.properties.length > 0)}
           estimatedItemSize={1500}
           renderItem={renderCountrySection}
           keyExtractor={(item) => item.id}
