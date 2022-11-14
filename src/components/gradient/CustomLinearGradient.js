@@ -89,12 +89,19 @@ const CustomLinearGradient = ({
     });
   };
 
+  // restarting the animation when the colors reach the end
+  useEffect(() => {
+    setTimeout(() => {
+      startAnimation();
+    }, customColors.length * speed);
+  }, [color0]);
+
   // starting the animation on mount
   useEffect(() => {
     startAnimation();
 
     return () => {
-      console.log("unmounting");
+      console.log("color gradient unmounting");
       [color0, color1].forEach((color) => (color.value = 0));
     };
   }, []);

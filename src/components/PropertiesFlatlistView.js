@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { uuid } from "react-native-uuid";
 import {
   CountryHeaderText,
@@ -11,7 +11,7 @@ import {
   PropertySectionView,
   SeperatorBar,
 } from "../features/home/components/view-properties.screen.styles";
-import { Dimensions, FlatList, View } from "react-native";
+import { Dimensions, FlatList, Pressable, View } from "react-native";
 import { getCountryProperties } from "../utils/countryDecorations";
 import { organizeProperties } from "../services/property/property.service";
 import { CenterView } from "../features/home/components/home.screen.styles";
@@ -23,8 +23,10 @@ import CustomLinearGradient, {
   presetColors,
 } from "./gradient/CustomLinearGradient";
 import { gradientRartiyMaps } from "../utils/colorRarityMap";
-import { Text } from "react-native-paper";
 import { FlashList } from "@shopify/flash-list";
+import Animated, { Layout, ZoomIn, ZoomOut } from "react-native-reanimated";
+
+const AnimatedPropertiesView = Animated.createAnimatedComponent(PropertiesView);
 
 const PropertiesFlatlist = ({
   navigation,
@@ -54,27 +56,15 @@ const PropertiesFlatlist = ({
 
   const organizedProperties = organizeProperties(properties);
 
-  // bankrupt render property method
-  const renderPropertySectionBankrupty = ({ item }) => {
-    return (
-      <PropertyItemView>
-        <PropertyItemPressable
-          onPress={() => {
-            navigation.navigate("View Bankrupt Property", {
-              property: item,
-            });
-          }}
-        >
-          <PropertyItemImage>
-            <PropertyItemTintForeground>
-              <PropertyItemText>{item.address}</PropertyItemText>
-            </PropertyItemTintForeground>
-          </PropertyItemImage>
-        </PropertyItemPressable>
-      </PropertyItemView>
-    );
-  };
-  // --------- end of bankrupt property render
+  // create state that holds the modal open or closed based on the rarities from organizedProperties
+  const [modals, setModals] = useState(
+    organizedProperties.map((rarityOrg) => {
+      return {
+        rarity: rarityOrg.rarity,
+        open: true,
+      };
+    })
+  );
 
   const renderTheProperties = ({ item }) => {
     const property = item;
@@ -139,46 +129,93 @@ const PropertiesFlatlist = ({
     });
     return (
       <PropertiesView>
-        <CustomLinearGradient
-          customColors={gradientRartiyMaps[item.rarity]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
+        <View
           style={{
             width: "90%",
             height: 64,
             alignSelf: "center",
             borderRadius: 40,
             margin: 20,
-            justifyContent: "center",
-            alignItems: "center",
+
+            overflow: "hidden",
           }}
         >
-          <CountryHeaderText>
-            {item.rarity === "ultraRare"
-              ? "ultra-rare".toUpperCase()
-              : item.rarity.toUpperCase()}
-          </CountryHeaderText>
-          <Icon
-            size={30}
-            name={"arrow-up-drop-circle-outline"}
-            color={theme.colours.main.white}
-            style={{ position: "absolute", right: 20 }}
-          />
-        </CustomLinearGradient>
-        <PropertySectionView>
-          <FlashList
-            estimatedItemSize={300}
-            data={countryProperties}
-            renderItem={renderTheProperties}
-            keyExtractor={(item) => item.id}
-            numColumns={2}
-          />
-        </PropertySectionView>
+          <Pressable
+            style={{
+              width: "100%",
+              height: "100%",
+              alignSelf: "center",
+            }}
+            onPress={() => {
+              setModals(
+                modals.map((val) => {
+                  if (val.rarity === item.rarity) {
+                    return {
+                      ...val,
+                      open: !val.open,
+                    };
+                  } else {
+                    return val;
+                  }
+                })
+              );
+            }}
+          >
+            <CustomLinearGradient
+              customColors={gradientRartiyMaps[item.rarity]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={{
+                width: "100%",
+                height: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CountryHeaderText>
+                {item.rarity === "ultraRare"
+                  ? "ultra-rare".toUpperCase()
+                  : item.rarity.toUpperCase()}
+              </CountryHeaderText>
+              <Icon
+                size={25}
+                name={
+                  modals.find((val) => val.rarity === item.rarity).open
+                    ? "arrow-down-drop-circle-outline"
+                    : "arrow-up-drop-circle-outline"
+                }
+                color={theme.colours.main.white}
+                style={{ position: "absolute", right: 20 }}
+              />
+            </CustomLinearGradient>
+          </Pressable>
+        </View>
+        {modals.find((val) => val.rarity === item.rarity).open ? (
+          <Animated.View
+            style={{
+              width: "92%",
+              padding: 5,
+              backgroundColor: "rgba(255, 255, 255, 0.4)",
+              borderRadius: 16,
+            }}
+            entering={ZoomIn}
+            exiting={ZoomOut}
+          >
+            <FlashList
+              estimatedItemSize={
+                modals.find((val) => val.rarity === item.rarity).open ? 300 : 0
+              }
+              data={countryProperties}
+              renderItem={renderTheProperties}
+              keyExtractor={(item) => item.id}
+              numColumns={2}
+              extraData={modals}
+            />
+          </Animated.View>
+        ) : null}
       </PropertiesView>
     );
   };
-
-  console.log("ORGANIZED LENGTH:", properties.length);
 
   return (
     <CenterView
@@ -189,10 +226,13 @@ const PropertiesFlatlist = ({
     >
       <View style={{ width: "100%", height: "100%" }}>
         <FlashList
-          data={organizedProperties}
-          estimatedItemSize={6000}
+          data={organizedProperties
+            .reverse()
+            .filter((val) => val.properties.length > 0)}
+          estimatedItemSize={1500}
           renderItem={renderCountrySection}
           keyExtractor={(item) => item.id}
+          extraData={modals}
         />
       </View>
     </CenterView>

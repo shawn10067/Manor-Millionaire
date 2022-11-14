@@ -23,7 +23,7 @@ import styled from "styled-components/native";
 import RoundedButtonIcon from "../../../components/RoundedButtonIcon";
 import CustomMapView from "../../../components/CustomMapView";
 import RoundedButton from "../../../components/RoundedButton";
-import { Dimensions, FlatList, Pressable } from "react-native";
+import { Dimensions, FlatList, Platform, Pressable } from "react-native";
 import BlurBlackViewComponent from "../../../components/BlurBlackViewComponent";
 const { height } = Dimensions.get("window");
 const BlurBarHeight = 238;
@@ -36,6 +36,10 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { Button, Divider, Menu, Provider } from "react-native-paper";
 import RoundedButtonContainer from "../../../components/RoundedButtonContainer";
 import { VibrancyView } from "@react-native-community/blur";
+import CustomLinearGradient from "../../../components/gradient/CustomLinearGradient";
+import LinearGradient from "react-native-linear-gradient";
+import { presetColors } from "../../../components/gradient/CustomLinearGradient";
+import Animated, { SlideInDown, SlideOutUp } from "react-native-reanimated";
 
 const SpinButton = styled(RoundedButton).attrs({
   text: "SPIN",
@@ -105,6 +109,9 @@ const BlurBar = styled(BlurBlackViewComponent)`
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
 `;
+
+// TODO: replace this with an animated view that is not blurred, but holds it
+const AnimatedBlurBar = Animated.createAnimatedComponent(BlurBar);
 
 const IconsTray = styled.View`
   flex: 1;
@@ -258,7 +265,7 @@ const HomeScreen = ({ navigation }) => {
             />
           </CountrySelectionFlatListView>
         )}
-        <BlurBar>
+        <AnimatedBlurBar entering={SlideInDown} exiting={SlideOutUp}>
           <AnimationFadeInOut>
             <IconsTray>
               <TradeButtonIcon
@@ -280,16 +287,40 @@ const HomeScreen = ({ navigation }) => {
 
             <SpinButtonView>
               <PlayContainer>
-                <Icon
-                  name="controller-classic"
-                  size={65}
-                  color="white"
-                  style={{ textAlign: "center" }}
-                />
+                {Platform.OS == "ios" ? (
+                  <CustomLinearGradient
+                    style={{
+                      flex: 1,
+                      width: "100%",
+                    }}
+                  >
+                    <Icon
+                      name="controller-classic"
+                      size={65}
+                      color="white"
+                      style={{ textAlign: "center" }}
+                    />
+                  </CustomLinearGradient>
+                ) : (
+                  <LinearGradient
+                    colors={presetColors.instagram}
+                    style={{
+                      flex: 1,
+                      width: "100%",
+                    }}
+                  >
+                    <Icon
+                      name="controller-classic"
+                      size={65}
+                      color="white"
+                      style={{ textAlign: "center" }}
+                    />
+                  </LinearGradient>
+                )}
               </PlayContainer>
             </SpinButtonView>
           </AnimationFadeInOut>
-        </BlurBar>
+        </AnimatedBlurBar>
       </BackgroundView>
     </Provider>
   );
