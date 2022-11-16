@@ -48,6 +48,7 @@ const App = () => {
     const { sound } = await Audio.Sound.createAsync(
       require("./assets/sounds/soundtrack.mp3")
     );
+    console.log("Playing Sound");
     if (!soundtrack) {
       setSoundtrack(sound);
       // await sound.playAsync();

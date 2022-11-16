@@ -74,7 +74,6 @@ const ViewPropertiesScreen = ({ navigation }) => {
             navigation={navigation}
           />
         </CenterView>
-        <BackArrowPressable onPress={() => navigation.goBack()} />
       </SafeAreaView>
     </BackgroundBlackView>
   );

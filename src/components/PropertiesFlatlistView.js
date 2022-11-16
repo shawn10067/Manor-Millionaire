@@ -11,7 +11,7 @@ import {
   PropertySectionView,
   SeperatorBar,
 } from "../features/home/components/view-properties.screen.styles";
-import { Dimensions, FlatList, Pressable, View } from "react-native";
+import { Dimensions, FlatList, Platform, Pressable, View } from "react-native";
 import { getCountryProperties } from "../utils/countryDecorations";
 import { organizeProperties } from "../services/property/property.service";
 import { CenterView } from "../features/home/components/home.screen.styles";
@@ -25,8 +25,14 @@ import CustomLinearGradient, {
 import { gradientRartiyMaps } from "../utils/colorRarityMap";
 import { FlashList } from "@shopify/flash-list";
 import Animated, { Layout, ZoomIn, ZoomOut } from "react-native-reanimated";
+import BlurBlackViewComponent from "./BlurBlackViewComponent";
 
-const AnimatedPropertiesView = Animated.createAnimatedComponent(PropertiesView);
+const BlurNavBar = styled(BlurBlackViewComponent)`
+  width: 100%;
+  flex: 0.23;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+`;
 
 const PropertiesFlatlist = ({
   navigation,
@@ -218,23 +224,28 @@ const PropertiesFlatlist = ({
   };
 
   return (
-    <CenterView
-      style={{
-        width: Dimensions.get("screen").width,
-        height: "100%",
-      }}
-    >
-      <View style={{ width: "100%", height: "100%" }}>
-        <FlashList
+    <>
+      <BlurBlackViewComponent
+        style={{
+          width: "100%",
+          flex: 1,
+          borderRadius: 20,
+          marginBottom: Platform.OS === "ios" ? -35 : 0,
+          padding: 10,
+        }}
+      ></BlurBlackViewComponent>
+      <BlurNavBar />
+    </>
+  );
+};
+/*
+<FlashList
           data={organizedProperties.filter((val) => val.properties.length > 0)}
           estimatedItemSize={1500}
           renderItem={renderCountrySection}
           keyExtractor={(item) => item.id}
           extraData={modals}
         />
-      </View>
-    </CenterView>
-  );
-};
+*/
 
 export default PropertiesFlatlist;

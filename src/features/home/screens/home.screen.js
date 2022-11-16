@@ -110,9 +110,6 @@ const BlurBar = styled(BlurBlackViewComponent)`
   border-top-right-radius: 20px;
 `;
 
-// TODO: replace this with an animated view that is not blurred, but holds it
-const AnimatedBlurBar = Animated.createAnimatedComponent(BlurBar);
-
 const IconsTray = styled.View`
   flex: 1;
   flex-direction: row;
@@ -265,7 +262,7 @@ const HomeScreen = ({ navigation }) => {
             />
           </CountrySelectionFlatListView>
         )}
-        <AnimatedBlurBar entering={SlideInDown} exiting={SlideOutUp}>
+        <BlurBar>
           <AnimationFadeInOut>
             <IconsTray>
               <TradeButtonIcon
@@ -320,7 +317,7 @@ const HomeScreen = ({ navigation }) => {
               </PlayContainer>
             </SpinButtonView>
           </AnimationFadeInOut>
-        </AnimatedBlurBar>
+        </BlurBar>
       </BackgroundView>
     </Provider>
   );

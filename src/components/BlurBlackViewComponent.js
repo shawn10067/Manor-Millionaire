@@ -2,23 +2,19 @@ import React from "react";
 import styled from "styled-components/native";
 import { Platform } from "react-native";
 import { BlurView } from "@react-native-community/blur";
-import Animated from "react-native-reanimated";
+import Animated, { SlideInDown, SlideOutDown } from "react-native-reanimated";
 import CustomLinearGradient from "./gradient/CustomLinearGradient";
 const isAndoid = Platform.OS === "android";
-
-const TintedView = styled.View`
-  background-color: rgba(104, 156, 164, 0.9);
-  justify-content: center;
-`;
-
-const SurroundingBlurView = styled(Animated.View)`
-  overflow: hidden;
-`;
 
 const BlurBlackViewComponent = ({ children, style, ...props }) => {
   if (!isAndoid) {
     return (
-      <SurroundingBlurView style={style} {...props}>
+      <Animated.View
+        style={[{ overflow: "hidden" }, style]}
+        entering={SlideInDown.duration(500)}
+        exiting={SlideOutDown}
+        {...props}
+      >
         <BlurView
           style={{
             flex: 1,
@@ -28,13 +24,24 @@ const BlurBlackViewComponent = ({ children, style, ...props }) => {
         >
           {children}
         </BlurView>
-      </SurroundingBlurView>
+      </Animated.View>
     );
   } else {
     return (
-      <TintedView style={[style]} {...props}>
+      <Animated.View
+        style={[
+          {
+            backgroundColor: "rgba(104, 156, 164, 0.9)",
+            justifyContent: "center",
+          },
+          style,
+        ]}
+        entering={SlideInDown.duration(500)}
+        exiting={SlideOutDown}
+        {...props}
+      >
         {children}
-      </TintedView>
+      </Animated.View>
     );
   }
 };
