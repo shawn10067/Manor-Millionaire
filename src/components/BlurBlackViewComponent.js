@@ -3,10 +3,11 @@ import styled from "styled-components/native";
 import { Platform } from "react-native";
 import { BlurView } from "@react-native-community/blur";
 import Animated from "react-native-reanimated";
+import CustomLinearGradient from "./gradient/CustomLinearGradient";
 const isAndoid = Platform.OS === "android";
 
 const TintedView = styled.View`
-  background-color: rgba(154, 206, 224, 0.6);
+  background-color: rgba(104, 156, 164, 0.9);
   justify-content: center;
 `;
 
@@ -14,14 +15,15 @@ const SurroundingBlurView = styled(Animated.View)`
   overflow: hidden;
 `;
 
-const BlurBlackViewComponent = ({ children, ...props }) => {
+const BlurBlackViewComponent = ({ children, style, ...props }) => {
   if (!isAndoid) {
     return (
-      <SurroundingBlurView {...props}>
+      <SurroundingBlurView style={style} {...props}>
         <BlurView
-          blurAmount={10}
-          style={{ flex: 1 }}
-          blurType={isAndoid ? "light" : "regular"}
+          style={{
+            flex: 1,
+          }}
+          blurType={"regular"}
           reducedTransparencyFallbackColor="white"
         >
           {children}
@@ -29,7 +31,11 @@ const BlurBlackViewComponent = ({ children, ...props }) => {
       </SurroundingBlurView>
     );
   } else {
-    return <TintedView {...props}>{children}</TintedView>;
+    return (
+      <TintedView style={[style]} {...props}>
+        {children}
+      </TintedView>
+    );
   }
 };
 
