@@ -229,7 +229,6 @@ const PropertiesFlatlist = ({
         style={{
           width: "100%",
           flex: 1,
-          borderRadius: 20,
           marginBottom: Platform.OS === "ios" ? -35 : 0,
           padding: 10,
         }}
