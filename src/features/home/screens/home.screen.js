@@ -233,6 +233,8 @@ const HomeScreen = ({ navigation }) => {
     );
   };
 
+  // for some reason, big lottie files slow down the app
+
   // TODO: put an animated linear gradient underneath the play button
 
   return (
