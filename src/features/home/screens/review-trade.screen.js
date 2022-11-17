@@ -52,7 +52,7 @@ const ViewTradeButtonView = styled.View`
 const UserText = styled(Text)`
   font-family: FuturaPTHeavy;
   font-size: 35px;
-  color: ${({ theme }) => theme.colours.main.white};
+  color: "white";
   margin: 5px;
 `;
 

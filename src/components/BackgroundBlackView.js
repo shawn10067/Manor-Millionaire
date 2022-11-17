@@ -1,6 +1,8 @@
 import { BlurView } from "@react-native-community/blur";
-import { Platform } from "react-native";
+import { useContext } from "react";
+import { Image, ImageBackground, Platform } from "react-native";
 import styled from "styled-components/native";
+import { MapContext } from "../services/map/map.context";
 import CustomMapView from "./CustomMapView";
 
 const BackgroundBlackViewTemplate = styled.View`
@@ -14,7 +16,7 @@ const isAndoid = Platform.OS === "android";
 const TintedView = styled.View`
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.7);
   justify-content: center;
   position: absolute;
   top: 0px;
@@ -22,8 +24,7 @@ const TintedView = styled.View`
 `;
 
 const WholeBlur = styled(BlurView).attrs({
-  blurType: "ultraThinMaterialDark",
-  blurAmount: 100,
+  blurType: "thinMaterialDark",
 })`
   height: 100%;
   width: 100%;
@@ -40,12 +41,30 @@ const BlurBlackView = ({ children, ...props }) => {
 };
 
 const BackgroundBlackView = ({ children, ...props }) => {
-  return (
-    <BackgroundBlackViewTemplate>
-      <CustomMapView />
-      <BlurBlackView {...props}>{children}</BlurBlackView>
-    </BackgroundBlackViewTemplate>
-  );
+  const { screenshotLocation } = useContext(MapContext);
+  if (screenshotLocation) {
+    return (
+      <BackgroundBlackViewTemplate>
+        <ImageBackground
+          source={{
+            uri: screenshotLocation,
+          }}
+          style={{
+            flex: 1,
+          }}
+        >
+          <BlurBlackView {...props}>{children}</BlurBlackView>
+        </ImageBackground>
+      </BackgroundBlackViewTemplate>
+    );
+  } else {
+    return (
+      <BackgroundBlackViewTemplate>
+        <CustomMapView />
+        <BlurBlackView {...props}>{children}</BlurBlackView>
+      </BackgroundBlackViewTemplate>
+    );
+  }
 };
 
 export default BackgroundBlackView;

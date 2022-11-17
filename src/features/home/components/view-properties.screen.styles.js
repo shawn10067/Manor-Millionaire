@@ -3,7 +3,7 @@ import { ImageBackground, Platform, Pressable, Text, View } from "react-native";
 import styled from "styled-components/native";
 
 export const PropertiesView = styled.View`
-  flex: 1;
+  height: 100%;
   width: 100%;
   justify-content: center;
   align-items: center;
@@ -21,7 +21,7 @@ export const SeperatorBar = styled.View`
 `;
 
 export const CountryHeaderText = styled(Text)`
-  font-size: 30px;
+  font-size: 24px;
   font-family: FuturaPTHeavy;
   color: ${({ theme }) => theme.colours.main.white};
   margin: 8px;
@@ -36,8 +36,8 @@ export const PropertySectionView = styled.View`
 `;
 
 export const PropertyItemView = styled.View`
+  flex: 1;
   height: 200px;
-  width: 100%;
   padding: 8px;
 `;
 

@@ -67,14 +67,12 @@ const ViewPropertiesScreen = ({ navigation }) => {
   // if we have the properties data
   return (
     <BackgroundBlackView>
-      <SafeAreaView>
-        <CenterView>
-          <PropertiesFlatlist
-            properties={userProperties}
-            navigation={navigation}
-          />
-        </CenterView>
-      </SafeAreaView>
+      <CenterView>
+        <PropertiesFlatlist
+          properties={userProperties}
+          navigation={navigation}
+        />
+      </CenterView>
     </BackgroundBlackView>
   );
 };

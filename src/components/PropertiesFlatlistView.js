@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { uuid } from "react-native-uuid";
 import {
   CountryHeaderText,
   PropertiesView,
@@ -8,10 +7,14 @@ import {
   PropertyItemText,
   PropertyItemTintForeground,
   PropertyItemView,
-  PropertySectionView,
-  SeperatorBar,
 } from "../features/home/components/view-properties.screen.styles";
-import { Dimensions, FlatList, Platform, Pressable, View } from "react-native";
+import {
+  Dimensions,
+  FlatList,
+  Pressable,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import { getCountryProperties } from "../utils/countryDecorations";
 import { organizeProperties } from "../services/property/property.service";
 import { CenterView } from "../features/home/components/home.screen.styles";
@@ -19,19 +22,52 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import theme from "../infrastructure/theme";
 import Carousel from "pinar";
 import styled from "styled-components/native";
-import CustomLinearGradient, {
-  presetColors,
-} from "./gradient/CustomLinearGradient";
+import CustomLinearGradient from "./gradient/CustomLinearGradient";
 import { gradientRartiyMaps } from "../utils/colorRarityMap";
-import { FlashList } from "@shopify/flash-list";
-import Animated, { Layout, ZoomIn, ZoomOut } from "react-native-reanimated";
+import Animated from "react-native-reanimated";
 import BlurBlackViewComponent from "./BlurBlackViewComponent";
+import BackArrowPressable, { FrontArrowPressable } from "./BackArrow";
+import { FlashList } from "@shopify/flash-list";
 
-const BlurNavBar = styled(BlurBlackViewComponent)`
+const BlurNavBar = styled(BlurBlackViewComponent).attrs({
+  animate: true,
+})`
   width: 100%;
-  flex: 0.23;
+  height: 15.5%;
+  position: absolute;
+  bottom: 0px;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
+`;
+
+const MainContentBlur = styled(BlurBlackViewComponent).attrs({
+  animate: false,
+})`
+  width: 100%;
+  flex: 1;
+  border-radius: 20px;
+`;
+
+const MainContentView = styled.View`
+  width: 100%;
+  height: 75%;
+  position: absolute;
+  top: 50px;
+  border-radius: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  overflow: hidden;
+`;
+
+const NavBarRowView = styled.View`
+  width: 100%;
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  padding-bottom: 10px;
+  padding-left: 8px;
+  padding-right: 8px;
 `;
 
 const PropertiesFlatlist = ({
@@ -40,6 +76,8 @@ const PropertiesFlatlist = ({
   addType = "none",
   bankrupt = false,
 }) => {
+  const { width } = Dimensions.get("window");
+
   // if there are no properties, return the no properties view
   if (!properties || properties.length === 0) {
     return (
@@ -52,10 +90,39 @@ const PropertiesFlatlist = ({
           />
           <CountryHeaderText>
             {addType === "none"
-              ? "Find some properties!"
+              ? "You have no properties"
               : "They don't have any properties"}
           </CountryHeaderText>
         </CenterView>
+        <BlurNavBar>
+          <NavBarRowView>
+            <BackArrowPressable
+              onPress={() => navigation.goBack()}
+              style={{
+                height: 70,
+                flex: 0.2,
+              }}
+            />
+            {addType !== "none" && (
+              <FrontArrowPressable
+                style={{
+                  flex: 0.2,
+                  height: 70,
+                }}
+                onPress={() => {
+                  if (addType === "me") {
+                    navigation.navigate("Their Trade Cash");
+                  }
+                  if (addType === "them") {
+                    navigation.navigate("Review Trade", {
+                      type: "send",
+                    });
+                  }
+                }}
+              />
+            )}
+          </NavBarRowView>
+        </BlurNavBar>
       </PropertiesView>
     );
   }
@@ -64,13 +131,22 @@ const PropertiesFlatlist = ({
 
   // create state that holds the modal open or closed based on the rarities from organizedProperties
   const [modals, setModals] = useState(
-    organizedProperties.map((rarityOrg) => {
-      return {
-        rarity: rarityOrg.rarity,
-        open: true,
-      };
+    organizedProperties.map((rarityOrg, index) => {
+      if (index === 0) {
+        return {
+          rarity: rarityOrg.rarity,
+          open: true,
+        };
+      } else {
+        return {
+          rarity: rarityOrg.rarity,
+          open: false,
+        };
+      }
     })
   );
+
+  const [modalOpen, setModalOpen] = useState(false);
 
   const renderTheProperties = ({ item }) => {
     const property = item;
@@ -105,10 +181,39 @@ const PropertiesFlatlist = ({
           }}
         >
           <PropertyItemImage>
-            <PropertyItemTintForeground></PropertyItemTintForeground>
+            <PropertyItemTintForeground>
+              <View
+                style={{
+                  position: "absolute",
+                  top: 5,
+                  left: 5,
+                }}
+              >
+                <BlurBlackViewComponent
+                  style={{
+                    borderRadius: 6,
+                  }}
+                >
+                  <PropertyItemText
+                    style={{
+                      paddingLeft: 2,
+                      paddingRight: 2,
+                    }}
+                  >
+                    {getCountryProperties(property.country).emoji}
+                  </PropertyItemText>
+                </BlurBlackViewComponent>
+              </View>
+            </PropertyItemTintForeground>
           </PropertyItemImage>
         </PropertyItemPressable>
-        <PropertyItemText>{property.address}</PropertyItemText>
+        <View
+          style={{
+            flexShrink: 1,
+          }}
+        >
+          <PropertyItemText>{property.address}</PropertyItemText>
+        </View>
         <CustomLinearGradient
           customColors={gradientRartiyMaps[property.rarity]}
           start={{ x: 0, y: 0 }}
@@ -126,125 +231,126 @@ const PropertiesFlatlist = ({
     );
   };
 
-  const renderCountrySection = ({ item }) => {
-    const countryProperties = item.properties.map((val) => {
+  const newProps = organizedProperties
+    .find((val) => val.rarity === modals.find((val) => val.open).rarity)
+    .properties.map((val) => {
       return {
         ...val,
-        rarity: item.rarity,
+        rarity: modals.find((val) => val.open).rarity,
       };
     });
-    return (
-      <PropertiesView>
-        <View
-          style={{
-            width: "90%",
-            height: 64,
-            alignSelf: "center",
-            borderRadius: 40,
-            margin: 20,
-
-            overflow: "hidden",
-          }}
-        >
-          <Pressable
-            style={{
-              width: "100%",
-              height: "100%",
-              alignSelf: "center",
-            }}
-            onPress={() => {
-              setModals(
-                modals.map((val) => {
-                  if (val.rarity === item.rarity) {
-                    return {
-                      ...val,
-                      open: !val.open,
-                    };
-                  } else {
-                    return val;
-                  }
-                })
-              );
-            }}
-          >
-            <CustomLinearGradient
-              customColors={gradientRartiyMaps[item.rarity]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={{
-                width: "100%",
-                height: "100%",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <CountryHeaderText>
-                {item.rarity === "ultraRare"
-                  ? "ultra-rare".toUpperCase()
-                  : item.rarity.toUpperCase()}
-              </CountryHeaderText>
-              <Icon
-                size={25}
-                name={
-                  modals.find((val) => val.rarity === item.rarity).open
-                    ? "arrow-down-drop-circle-outline"
-                    : "arrow-up-drop-circle-outline"
-                }
-                color={theme.colours.main.white}
-                style={{ position: "absolute", right: 20 }}
-              />
-            </CustomLinearGradient>
-          </Pressable>
-        </View>
-        {modals.find((val) => val.rarity === item.rarity).open ? (
-          <Animated.View
-            style={{
-              width: "92%",
-              padding: 5,
-              backgroundColor: "rgba(255, 255, 255, 0.4)",
-              borderRadius: 16,
-            }}
-            entering={ZoomIn}
-            exiting={ZoomOut}
-          >
-            <FlashList
-              estimatedItemSize={
-                modals.find((val) => val.rarity === item.rarity).open ? 300 : 0
-              }
-              data={countryProperties}
-              renderItem={renderTheProperties}
-              keyExtractor={(item) => item.id}
-              numColumns={3}
-              extraData={modals}
-            />
-          </Animated.View>
-        ) : null}
-      </PropertiesView>
-    );
-  };
 
   return (
     <>
-      <BlurBlackViewComponent
-        style={{
-          width: "100%",
-          flex: 1,
-          marginBottom: Platform.OS === "ios" ? -35 : 0,
-          padding: 10,
-        }}
-      ></BlurBlackViewComponent>
-      <BlurNavBar />
+      <MainContentView>
+        <MainContentBlur
+          style={{
+            flex: 1,
+            width: "100%",
+          }}
+        >
+          <PropertiesView>
+            <View
+              style={{
+                height: "100%",
+                width: "100%",
+              }}
+            >
+              <FlashList
+                data={newProps}
+                renderItem={renderTheProperties}
+                estimatedItemSize={186}
+                keyExtractor={(item) => item.id}
+                numColumns={width > 876 ? 4 : 3}
+                extraData={{ modals, width }}
+              />
+            </View>
+          </PropertiesView>
+        </MainContentBlur>
+      </MainContentView>
+      <BlurNavBar>
+        <NavBarRowView>
+          <BackArrowPressable
+            onPress={() => navigation.goBack()}
+            style={{
+              height: 70,
+              flex: 0.2,
+            }}
+          />
+
+          <CustomLinearGradient
+            style={{
+              flex: addType === "none" ? 0.7 : 0.6,
+              height: 70,
+              borderRadius: 40,
+              margin: 10,
+            }}
+            customColors={
+              gradientRartiyMaps[modals.find((val) => val.open).rarity]
+            }
+          >
+            <Pressable
+              style={{ flex: 1 }}
+              onPress={() => {
+                setModalOpen(!modalOpen);
+                // set the modals to a random one open and the rest closed
+                const randomIndex = Math.floor(Math.random() * modals.length);
+                const newModals = modals.map((val, index) => {
+                  if (index === randomIndex) {
+                    return {
+                      ...val,
+                      open: true,
+                    };
+                  } else {
+                    return {
+                      ...val,
+                      open: false,
+                    };
+                  }
+                });
+                setModals(newModals);
+              }}
+            >
+              <CenterView>
+                <CountryHeaderText>
+                  {modals.find((val) => val.open).rarity.toLocaleUpperCase()}
+                </CountryHeaderText>
+                <Icon
+                  size={25}
+                  name={
+                    modalOpen
+                      ? "arrow-down-drop-circle-outline"
+                      : "arrow-up-drop-circle-outline"
+                  }
+                  color={theme.colours.main.white}
+                  style={{
+                    position: "absolute",
+                    right: 15,
+                  }}
+                />
+              </CenterView>
+            </Pressable>
+          </CustomLinearGradient>
+          {addType !== "none" && (
+            <FrontArrowPressable
+              style={{
+                flex: 0.2,
+                height: 70,
+              }}
+              onPress={() => {
+                if (addType === "me") {
+                  navigation.navigate("Their Trade Cash");
+                }
+                if (addType === "them") {
+                  navigation.navigate("Review Trade");
+                }
+              }}
+            />
+          )}
+        </NavBarRowView>
+      </BlurNavBar>
     </>
   );
 };
-/*
-<FlashList
-          data={organizedProperties.filter((val) => val.properties.length > 0)}
-          estimatedItemSize={1500}
-          renderItem={renderCountrySection}
-          keyExtractor={(item) => item.id}
-          extraData={modals}
-        />
-*/
 
 export default PropertiesFlatlist;

@@ -6,20 +6,26 @@ import Animated, { SlideInDown, SlideOutDown } from "react-native-reanimated";
 import CustomLinearGradient from "./gradient/CustomLinearGradient";
 const isAndoid = Platform.OS === "android";
 
-const BlurBlackViewComponent = ({ children, style, ...props }) => {
+const BlurBlackViewComponent = ({
+  children,
+  style,
+  light = true,
+  animate = true,
+  ...props
+}) => {
   if (!isAndoid) {
     return (
       <Animated.View
-        style={[{ overflow: "hidden" }, style]}
-        entering={SlideInDown.duration(500)}
-        exiting={SlideOutDown}
+        style={[style, { overflow: "hidden" }]}
+        entering={animate && SlideInDown.duration(500)}
+        exiting={animate && SlideOutDown}
         {...props}
       >
         <BlurView
           style={{
             flex: 1,
           }}
-          blurType={"regular"}
+          blurType={light ? "light" : "regular"}
           reducedTransparencyFallbackColor="white"
         >
           {children}
@@ -31,12 +37,12 @@ const BlurBlackViewComponent = ({ children, style, ...props }) => {
       <Animated.View
         style={[
           {
-            backgroundColor: "rgba(104, 156, 164, 0.9)",
+            backgroundColor: "rgba(16, 16, 16, 0.65)",
             justifyContent: "center",
           },
           style,
         ]}
-        entering={SlideInDown.duration(500)}
+        entering={SlideInDown.duration(250)}
         exiting={SlideOutDown}
         {...props}
       >

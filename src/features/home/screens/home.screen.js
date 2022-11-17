@@ -90,18 +90,20 @@ const PlayContainer = styled(RoundedButtonContainer).attrs({
   justify-content: center;
   align-items: center;
   height: 70px;
-  width: 185px;
+  width: 165px;
 `;
 
 const PropertiesButtonIcon = styled(RoundedButtonIcon).attrs({
   name: "home-edit-outline",
   colour: "blue",
 })`
-  height: 60px;
-  width: 60px;
+  height: 20%;
+  width: 80%;
 `;
 
-const BlurBar = styled(BlurBlackViewComponent)`
+const BlurBar = styled(BlurBlackViewComponent).attrs({
+  light: false,
+})`
   width: 100%;
   height: ${BlurBarHeight}px;
   position: absolute;
@@ -117,13 +119,20 @@ const IconsTray = styled.View`
   align-items: center;
 `;
 
+const IconsVerticalTray = styled.View`
+  flex: 1;
+  width: 100%;
+  align-items: center;
+  background-color: blue;
+`;
+
 const SpinButtonView = styled.View`
   flex: 1.5;
   justify-content: flex-start;
   align-items: center;
 `;
 
-const CountrySelectionView = styled(BlurBlackViewComponent)`
+const CountrySelectionView = styled(BlurBlackViewComponent).attrs({})`
   align-self: center;
   position: absolute;
   top: 50px;
@@ -132,7 +141,9 @@ const CountrySelectionView = styled(BlurBlackViewComponent)`
   border-radius: 20px;
 `;
 
-const CountrySelectionFlatListView = styled(BlurBlackViewComponent)`
+const CountrySelectionFlatListView = styled(BlurBlackViewComponent).attrs({
+  animate: false,
+})`
   align-self: center;
   position: absolute;
   top: 120px;
@@ -209,7 +220,7 @@ const HomeScreen = ({ navigation }) => {
   const renderCountrySelection = ({ item }) => {
     const { label, value } = item;
     return (
-      <BlurBlackViewComponent>
+      <BlurBlackViewComponent animate={false} light={false}>
         <CountrySelectionPressable
           onPress={() => {
             setOpen(false);
@@ -234,7 +245,7 @@ const HomeScreen = ({ navigation }) => {
         />
         <SettingsIcon onPress={() => navigation.navigate("Settings")} />
 
-        <CountrySelectionView>
+        <CountrySelectionView animate={false}>
           <Pressable onPress={() => setOpen(!open)} style={{ flex: 1 }}>
             <CountrySelectionPicker>
               <CountryText>{`${countrySelection.toLocaleUpperCase()} ${
@@ -264,58 +275,63 @@ const HomeScreen = ({ navigation }) => {
         )}
         <BlurBar>
           <AnimationFadeInOut>
+            <PropertiesButtonIcon
+              onPress={() => navigation.navigate("View Properties")}
+            />
             <IconsTray>
-              <TradeButtonIcon
-                onPress={() => navigation.navigate("Trade Options")}
-              />
-              <BankruptsyButtonIcon
-                onPress={() => {
-                  setBankruptTrade({});
-                  navigation.navigate("Bankruptcy Properties");
-                }}
-              />
-              <FriendsButtonIcon
-                onPress={() => navigation.navigate("Friends Options")}
-              />
-              <PropertiesButtonIcon
-                onPress={() => navigation.navigate("View Properties")}
-              />
-            </IconsTray>
+              <IconsVerticalTray>
+                <CenterView
+                  style={{
+                    backgroundColor: "red",
+                    flex: 1,
+                  }}
+                >
+                  <TradeButtonIcon
+                    onPress={() => navigation.navigate("Trade Options")}
+                  />
+                </CenterView>
+              </IconsVerticalTray>
+              <SpinButtonView>
+                <PlayContainer>
+                  {Platform.OS == "ios" ? (
+                    <CustomLinearGradient
+                      style={{
+                        flex: 1,
+                        width: "100%",
+                      }}
+                    >
+                      <Icon
+                        name="controller-classic"
+                        size={65}
+                        color="white"
+                        style={{ textAlign: "center" }}
+                      />
+                    </CustomLinearGradient>
+                  ) : (
+                    <LinearGradient
+                      colors={presetColors.instagram}
+                      style={{
+                        flex: 1,
+                        width: "100%",
+                      }}
+                    >
+                      <Icon
+                        name="controller-classic"
+                        size={65}
+                        color="white"
+                        style={{ textAlign: "center" }}
+                      />
+                    </LinearGradient>
+                  )}
+                </PlayContainer>
+              </SpinButtonView>
 
-            <SpinButtonView>
-              <PlayContainer>
-                {Platform.OS == "ios" ? (
-                  <CustomLinearGradient
-                    style={{
-                      flex: 1,
-                      width: "100%",
-                    }}
-                  >
-                    <Icon
-                      name="controller-classic"
-                      size={65}
-                      color="white"
-                      style={{ textAlign: "center" }}
-                    />
-                  </CustomLinearGradient>
-                ) : (
-                  <LinearGradient
-                    colors={presetColors.instagram}
-                    style={{
-                      flex: 1,
-                      width: "100%",
-                    }}
-                  >
-                    <Icon
-                      name="controller-classic"
-                      size={65}
-                      color="white"
-                      style={{ textAlign: "center" }}
-                    />
-                  </LinearGradient>
-                )}
-              </PlayContainer>
-            </SpinButtonView>
+              <IconsVerticalTray>
+                <FriendsButtonIcon
+                  onPress={() => navigation.navigate("Friends Options")}
+                />
+              </IconsVerticalTray>
+            </IconsTray>
           </AnimationFadeInOut>
         </BlurBar>
       </BackgroundView>

@@ -45,9 +45,6 @@ const FriendsOptionsScreen = ({ navigation }) => {
     <BackgroundBlackView>
       <SafeAreaView>
         <FriendsOptionsView>
-          <FriendsLottieContainer>
-            <FriendsLottie />
-          </FriendsLottieContainer>
           <OptionsContainer>
             <OptionButton
               text="View Friends"

@@ -31,6 +31,7 @@ if (getApps().length === 0) {
 import { ApolloProvider } from "@apollo/client";
 import CreateApolloClient from "./src/utils/apolloClientCreator";
 import { BackHandler, Platform } from "react-native";
+import { MapContextProvider } from "./src/services/map/map.context";
 
 const App = () => {
   // client config
@@ -93,12 +94,14 @@ const App = () => {
           <BankruptcyContextProvider>
             <SpinContextProvider>
               <TradeContextProvider>
-                <NavigationContainer>
-                  <ThemeProvider theme={theme}>
-                    <Navigation />
-                    <StatusBar style="light" />
-                  </ThemeProvider>
-                </NavigationContainer>
+                <MapContextProvider>
+                  <NavigationContainer>
+                    <ThemeProvider theme={theme}>
+                      <Navigation />
+                      <StatusBar style="light" />
+                    </ThemeProvider>
+                  </NavigationContainer>
+                </MapContextProvider>
               </TradeContextProvider>
             </SpinContextProvider>
           </BankruptcyContextProvider>

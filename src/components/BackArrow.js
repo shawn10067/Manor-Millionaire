@@ -16,33 +16,20 @@ export const BackArrowView = styled.View`
   border-radius: 15px;
 `;
 
-const BackButtonIcon = styled(RoundedButtonIcon).attrs({
-  name: "backburger",
+const BackArrowPressable = styled(RoundedButtonIcon).attrs({
+  name: "arrow-left",
   colour: "blue",
 })`
-  position: absolute;
   height: 60px;
   width: 90px;
-  bottom: 50px;
-  left: 8px;
 `;
 
-const BackArrowPressable = (props) => {
-  return <BackButtonIcon {...props} />;
-  return (
-    <BackArrowView>
-      <Pressable
-        {...props}
-        style={{
-          width: "100%",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Icon name="arrow-left" color="black" size={50} />
-      </Pressable>
-    </BackArrowView>
-  );
-};
+export const FrontArrowPressable = styled(RoundedButtonIcon).attrs({
+  name: "arrow-right",
+  colour: "blue",
+})`
+  height: 60px;
+  width: 90px;
+`;
 
 export default BackArrowPressable;

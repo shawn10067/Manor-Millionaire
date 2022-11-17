@@ -9,6 +9,7 @@ import lightStyle from "../utils/lightMapStyle.json";
 import { Svg, Image as ImageSvg } from "react-native-svg";
 import styled from "styled-components/native";
 import { VibrancyView } from "@react-native-community/blur";
+import { MapContext } from "../services/map/map.context";
 
 // make a create callout function that takes in a property and returns a callout
 
@@ -106,19 +107,53 @@ const CustomMapView = ({
   // callout ref
   const calloutRef = useRef(null);
 
+  // map context
+  const { setScreenshot } = useContext(MapContext);
+
   return (
     <MapView
       style={{
         flex: 1,
       }}
       userInterfaceStyle="dark"
+      onMapReady={() => {
+        if (Platform.OS === "android") {
+          setTimeout(() => {
+            mapRef?.current
+              ?.takeSnapshot({
+                format: "jpg",
+                quality: 0.1,
+              })
+              .then((uri) => {
+                setScreenshot(uri);
+              });
+          }, 500);
+        } else {
+          mapRef?.current
+            ?.takeSnapshot({
+              format: "jpg",
+              quality: 0.1,
+            })
+            .then((uri) => {
+              setScreenshot(uri);
+            });
+        }
+      }}
       rotateEnabled={false}
       showsPointsOfInterest={false}
       initialRegion={animateRegion}
       ref={(map) => mapRef && (mapRef.current = map)}
       onPanDrag={() => setOpen && setOpen(false)}
       onRegionChangeComplete={(reg) => {
-        console.log("region changed with ", reg);
+        // console.log("region changed with ", reg);
+        // mapRef.current
+        //   .takeSnapshot({
+        //     format: "jpg",
+        //     quality: 0.1,
+        //   })
+        //   .then((uri) => {
+        //     setScreenshot(uri);
+        //   });
         return;
       }}
       customMapStyle={Platform.OS === "android" ? customStyle : null}
