@@ -7,6 +7,7 @@ import SafeAreaView from "../../../components/SafeAreaView";
 import { defaultProperty } from "../../../services/property/property.service";
 import { TradeContext } from "../../../services/trade/trade.context";
 import BackgroundBlackView from "../../../components/BackgroundBlackView";
+import { useTradeStore } from "../../../services/trade/trade.store";
 
 const ViewTradeCardScreen = ({ route, navigation }) => {
   const cardSwipeFunc = () => setTimeout(() => navigation.goBack(), 300);
@@ -21,9 +22,22 @@ const ViewTradeCardScreen = ({ route, navigation }) => {
       (propertyElement) => propertyElement.id === property.id
     );
 
+  const {
+    addMyProperty,
+    removeMyProperty,
+    removeTheirProperty,
+    addTheirProperty,
+  } = useTradeStore((state) => ({
+    addMyProperty: state.addMyProperty,
+    removeMyProperty: state.removeMyProperty,
+    addTheirProperty: state.addTheirProperty,
+    removeTheirProperty: state.removeTheirProperty,
+  }));
+
   const addToTrade = () => {
     if (addType === "me") {
       if (isPartOfTrade) {
+        removeMyProperty(property);
         const removedFromProperties = trade.myProperties.filter(
           (val) => val.id != property.id
         );
@@ -32,6 +46,7 @@ const ViewTradeCardScreen = ({ route, navigation }) => {
           myProperties: removedFromProperties,
         });
       } else {
+        addMyProperty(property);
         setTrade({
           ...trade,
           myProperties: [...trade.myProperties, property],
@@ -39,6 +54,7 @@ const ViewTradeCardScreen = ({ route, navigation }) => {
       }
     } else {
       if (isPartOfTrade) {
+        removeTheirProperty(property);
         const removedFromProperties = trade.theirProperties.filter(
           (val) => val.id != property.id
         );
@@ -47,6 +63,7 @@ const ViewTradeCardScreen = ({ route, navigation }) => {
           theirProperties: removedFromProperties,
         });
       } else {
+        addTheirProperty(property);
         setTrade({
           ...trade,
           theirProperties: [...trade.theirProperties, property],

@@ -8,6 +8,7 @@ import SafeAreaView from "../../../components/SafeAreaView";
 import { TradeContext } from "../../../services/trade/trade.context";
 import SafeAreaAbsoluteView from "../../../components/SafeAreaAbsoluteView";
 import MoneyCounter from "../../../components/MoneyCounter";
+import { useTradeStore } from "../../../services/trade/trade.store";
 
 const MainView = styled.View`
   flex: 1;
@@ -58,10 +59,12 @@ const ContinueButton = styled(RoundedButton)`
 
 const TheirCashTradeScreen = ({ navigation }) => {
   const { trade, setTrade } = useContext(TradeContext);
+  const setTheirCash = useTradeStore((state) => state.setTheirCash);
   const cash = useRef(0);
 
   const submit = () => {
     const theirCash = Number.parseInt(cash.current);
+    setTheirCash(theirCash);
     console.log("sending cash", theirCash);
     setTrade({
       ...trade,

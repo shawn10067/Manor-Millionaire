@@ -60,7 +60,8 @@
     "rn-scratch-card": "^1.0.0",
     "sharp-cli": "^3.0.0",
     "styled-components": "^5.3.5",
-    "yarn": "^1.22.19"
+    "yarn": "^1.22.19",
+    "zustand": "^4.1.4"
   },
   "resolutions": {
     "react-native-gesture-handler": "2.8.0"

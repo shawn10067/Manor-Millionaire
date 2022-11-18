@@ -9,6 +9,7 @@ import BackgroundBlackView from "../../../components/BackgroundBlackView";
 import RoundedButton from "../../../components/RoundedButton";
 import SafeAreaView from "../../../components/SafeAreaView";
 import { TradeContext } from "../../../services/trade/trade.context";
+import { useTradeStore } from "../../../services/trade/trade.store";
 import parseTrade from "../../../utils/parseTrade";
 import mapProperties from "../../../utils/propertiesMapper";
 import propertiesToIDArray from "../../../utils/propertiesToIDArray";
@@ -96,6 +97,7 @@ const ReviewTradeScreen = ({ navigation, route }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const isView = type === "view";
+  const storeTrade = useTradeStore();
 
   const {
     data: getTradeData,
@@ -167,7 +169,28 @@ const ReviewTradeScreen = ({ navigation, route }) => {
 
   // submit function for sending a trade
   const onSubmit = () => {
-    const { myCash, myProperties, theirCash, theirProperties, theirId } = trade;
+    const {
+      myCash,
+      myProperties,
+      theirCash,
+      theirProperties,
+      theirId,
+      theirUsername,
+    } = storeTrade;
+    console.log(
+      "myCash",
+      myCash,
+      "myProperties",
+      myProperties,
+      "theirCash",
+      theirCash,
+      "theirProperties",
+      theirProperties,
+      "theirId",
+      theirId,
+      "theirUsername",
+      theirUsername
+    );
     sendTrade({
       variables: {
         theirUserId: theirId,
@@ -177,6 +200,7 @@ const ReviewTradeScreen = ({ navigation, route }) => {
         cashGiving: myCash,
       },
     });
+    // navigation.navigate("Home");
   };
 
   // rendering properties

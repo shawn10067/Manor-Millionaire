@@ -10,6 +10,7 @@ import SafeAreaView from "../../../components/SafeAreaView";
 import theme from "../../../infrastructure/theme";
 import { defaultProperty } from "../../../services/property/property.service";
 import { TradeContext } from "../../../services/trade/trade.context";
+import { useTradeStore } from "../../../services/trade/trade.store";
 import { UserContext } from "../../../services/user/user.context";
 import { SeperatorBar } from "../components/view-properties.screen.styles";
 
@@ -64,16 +65,24 @@ const SendTradeButton = styled(RoundedButton)`
 const UserTradeScreen = ({ navigation }) => {
   const { friends, getFriends, loading } = useContext(UserContext);
   const { setTrade } = useContext(TradeContext);
+  const setTheirId = useTradeStore((state) => state.setTheirId);
+  const setTheirUsername = useTradeStore((state) => state.setTheirUsername);
+  const reset = useTradeStore((state) => state.reset);
+
+  const myCash = useTradeStore((state) => state.myCash);
 
   // use effect on render
   useEffect(() => {
     getFriends();
+    console.log("mycash is ", myCash);
   }, []);
 
   // initiating trade
   const startTrade = (user) => {
     const { id, username } = user;
-    console.log("starting trade with", id, username);
+    reset();
+    setTheirId(id);
+    setTheirUsername(username);
     setTrade({
       theirUsername: username,
       theirId: id,

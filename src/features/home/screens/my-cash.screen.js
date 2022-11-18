@@ -8,6 +8,7 @@ import RoundedTextInput from "../../../components/RoundedTextInput";
 import SafeAreaAbsoluteView from "../../../components/SafeAreaAbsoluteView";
 import SafeAreaView from "../../../components/SafeAreaView";
 import { TradeContext } from "../../../services/trade/trade.context";
+import { useTradeStore } from "../../../services/trade/trade.store";
 
 const MainView = styled.View`
   flex: 1;
@@ -58,11 +59,13 @@ const ContinueButton = styled(RoundedButton)`
 
 const MyCashTradeScreen = ({ navigation }) => {
   const { trade, setTrade } = useContext(TradeContext);
+  const setMyCash = useTradeStore((state) => state.setMyCash);
   const cash = useRef(0);
 
   const submit = () => {
     const myCash = Number.parseInt(cash.current);
     console.log("sending cash", myCash);
+    setMyCash(cash.current);
     setTrade({
       ...trade,
       myCash,
