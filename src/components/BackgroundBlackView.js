@@ -24,7 +24,7 @@ const TintedView = styled.View`
 `;
 
 const WholeBlur = styled(BlurView).attrs({
-  blurType: "thinMaterialDark",
+  blurType: "dark",
 })`
   height: 100%;
   width: 100%;

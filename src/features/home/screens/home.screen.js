@@ -23,23 +23,23 @@ import styled from "styled-components/native";
 import RoundedButtonIcon from "../../../components/RoundedButtonIcon";
 import CustomMapView from "../../../components/CustomMapView";
 import RoundedButton from "../../../components/RoundedButton";
-import { Dimensions, FlatList, Platform, Pressable } from "react-native";
+import { Dimensions, FlatList, Platform, Pressable, View } from "react-native";
 import BlurBlackViewComponent from "../../../components/BlurBlackViewComponent";
 const { height } = Dimensions.get("window");
-const BlurBarHeight = 238;
+const BlurBarHeight = 250;
 const CountrySelectionPosition = height - BlurBarHeight;
 import {
   getCountryProperties,
   countryProperties,
 } from "../../../utils/countryDecorations";
-import DropDownPicker from "react-native-dropdown-picker";
-import { Button, Divider, Menu, Provider } from "react-native-paper";
+import { Button, Divider, Menu, Provider, Text } from "react-native-paper";
 import RoundedButtonContainer from "../../../components/RoundedButtonContainer";
 import { VibrancyView } from "@react-native-community/blur";
 import CustomLinearGradient from "../../../components/gradient/CustomLinearGradient";
 import LinearGradient from "react-native-linear-gradient";
 import { presetColors } from "../../../components/gradient/CustomLinearGradient";
 import Animated, { SlideInDown, SlideOutUp } from "react-native-reanimated";
+import { CardHeadingText } from "../../../components/styles/card.styles";
 
 const SpinButton = styled(RoundedButton).attrs({
   text: "SPIN",
@@ -53,24 +53,27 @@ const TradeButtonIcon = styled(RoundedButtonIcon).attrs({
   name: "cube-send",
   colour: "purple",
 })`
-  height: 60px;
-  width: 60px;
+  height: 65px;
+  width: 100px;
+  margin: 4px;
 `;
 
-const BankruptsyButtonIcon = styled(RoundedButtonIcon).attrs({
-  name: "bank-transfer",
-  colour: "green",
+const PropertiesButtonIcon = styled(RoundedButtonIcon).attrs({
+  name: "home-edit-outline",
+  colour: "blue",
 })`
-  height: 60px;
-  width: 60px;
+  height: 65px;
+  width: 100px;
+  margin: 4px;
 `;
 
 const FriendsButtonIcon = styled(RoundedButtonIcon).attrs({
   name: "account-group",
   colour: "red",
 })`
-  height: 60px;
-  width: 60px;
+  height: 65px;
+  width: 100px;
+  margin: 4px;
 `;
 
 const SettingsIcon = styled(Icon).attrs({
@@ -93,12 +96,10 @@ const PlayContainer = styled(RoundedButtonContainer).attrs({
   width: 165px;
 `;
 
-const PropertiesButtonIcon = styled(RoundedButtonIcon).attrs({
-  name: "home-edit-outline",
-  colour: "blue",
-})`
-  height: 20%;
-  width: 80%;
+export const MenuHeadingText = styled.Text`
+  color: ${({ theme }) => theme.colours.main.white};
+  font-size: 14px;
+  font-family: FuturaPTHeavy;
 `;
 
 const BlurBar = styled(BlurBlackViewComponent).attrs({
@@ -115,7 +116,7 @@ const BlurBar = styled(BlurBlackViewComponent).attrs({
 const IconsTray = styled.View`
   flex: 1;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
 `;
 
@@ -127,7 +128,7 @@ const IconsVerticalTray = styled.View`
 `;
 
 const SpinButtonView = styled.View`
-  flex: 1.5;
+  flex: 1.2;
   justify-content: flex-start;
   align-items: center;
 `;
@@ -277,92 +278,49 @@ const HomeScreen = ({ navigation }) => {
         )}
         <BlurBar>
           <AnimationFadeInOut>
-            <PropertiesButtonIcon
-              onPress={() => navigation.navigate("View Properties")}
-            />
             <IconsTray>
-              <IconsVerticalTray>
-                <CenterView
-                  style={{
-                    backgroundColor: "red",
-                    flex: 1,
-                  }}
-                >
-                  <TradeButtonIcon
-                    onPress={() => navigation.navigate("Trade Options")}
-                  />
-                </CenterView>
-              </IconsVerticalTray>
-              <SpinButtonView>
-                <PlayContainer>
-                  {Platform.OS == "ios" ? (
-                    <CustomLinearGradient
-                      style={{
-                        flex: 1,
-                        width: "100%",
-                      }}
-                    >
-                      <Icon
-                        name="controller-classic"
-                        size={65}
-                        color="white"
-                        style={{ textAlign: "center" }}
-                      />
-                    </CustomLinearGradient>
-                  ) : (
-                    <LinearGradient
-                      colors={presetColors.instagram}
-                      style={{
-                        flex: 1,
-                        width: "100%",
-                      }}
-                    >
-                      <Icon
-                        name="controller-classic"
-                        size={65}
-                        color="white"
-                        style={{ textAlign: "center" }}
-                      />
-                    </LinearGradient>
-                  )}
-                </PlayContainer>
-              </SpinButtonView>
+              <CenterView>
+                <TradeButtonIcon
+                  onPress={() => navigation.navigate("Trade Options")}
+                />
+                <MenuHeadingText>Trade</MenuHeadingText>
+              </CenterView>
+              <CenterView>
+                <PropertiesButtonIcon
+                  onPress={() => navigation.navigate("View Properties")}
+                />
 
-              <IconsVerticalTray>
+                <MenuHeadingText>Properties</MenuHeadingText>
+              </CenterView>
+              <CenterView>
                 <FriendsButtonIcon
                   onPress={() => navigation.navigate("Friends Options")}
                 />
-              </IconsVerticalTray>
+                <MenuHeadingText>Friends</MenuHeadingText>
+              </CenterView>
             </IconsTray>
+            <SpinButtonView>
+              <PlayContainer>
+                <CustomLinearGradient
+                  style={{
+                    flex: 1,
+                    width: "100%",
+                  }}
+                >
+                  <Icon
+                    name="controller-classic"
+                    size={65}
+                    color="white"
+                    style={{ textAlign: "center" }}
+                  />
+                </CustomLinearGradient>
+              </PlayContainer>
+            </SpinButtonView>
           </AnimationFadeInOut>
         </BlurBar>
       </BackgroundView>
     </Provider>
   );
 };
-
-/* the former menu
-<Icon
-            size={30}
-            name="arrow-down-drop-circle-outline"
-            color={theme.colours.main.white}
-          />
-
-            <AnimationFadeInOut>
-              <CenterView style={{ backgroundColor: "blue" }}>
-                <TradeButton
-                  fontSize={30}
-                />
-                <FriendsButton
-                  fontSize={30}
-                />
-                <PropertiesButton
-                  text="Properties"
-                  colour="red"
-                  fontSize={30}
-                />
-              </CenterView>
-            </AnimationFadeInOut>
-            */
 
 export default HomeScreen;

@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import BackgroundBlackView from "../../../components/BackgroundBlackView";
 import BackgroundView from "../../../components/BackgroundView";
 import RoundedTextInput from "../../../components/RoundedTextInput";
 import SafeAreaView from "../../../components/SafeAreaView";
@@ -31,7 +32,7 @@ const LoginEmailScreen = ({ navigation }) => {
     }
   }, [authError]);
   return (
-    <BackgroundView>
+    <BackgroundBlackView>
       <SafeAreaView>
         <BackButtonView />
         <LogoView>
@@ -56,7 +57,7 @@ const LoginEmailScreen = ({ navigation }) => {
           />
         </FormView>
       </SafeAreaView>
-    </BackgroundView>
+    </BackgroundBlackView>
   );
 };
 

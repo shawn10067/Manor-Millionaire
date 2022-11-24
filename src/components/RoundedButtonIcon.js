@@ -16,6 +16,7 @@ const RoundedButtonIcon = ({
   shadow = true,
   loading = false,
   onPress = null,
+  style,
   ...props
 }) => {
   // getting the pressed background colour based on if its in the pallate or not
@@ -77,13 +78,13 @@ const RoundedButtonIcon = ({
   // passing text in the pressable
   return (
     <Button
-      {...props}
       style={({ pressed }) => [
         pressed && { backgroundColor: pressedBG },
-        props.style,
+        style,
       ]}
       disabled={loading}
       onPress={onButtonPress}
+      {...props}
     >
       <IconView>
         {loading ? <CustomActivityIndicator /> : <SpecificIcon />}

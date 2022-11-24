@@ -193,11 +193,11 @@ const ReviewTradeScreen = ({ navigation, route }) => {
     );
     sendTrade({
       variables: {
-        theirUserId: theirId,
+        theirUserId: parseInt(theirId),
         propertiesYouWant: propertiesToIDArray(theirProperties),
-        cashYouWant: theirCash,
+        cashYouWant: parseInt(theirCash),
         propertiesGiving: propertiesToIDArray(myProperties),
-        cashGiving: myCash,
+        cashGiving: parseInt(myCash),
       },
     });
     // navigation.navigate("Home");

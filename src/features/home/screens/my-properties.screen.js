@@ -18,12 +18,6 @@ const HeadingText = styled(Text)`
   margin: 8px;
 `;
 
-const MainPropertySelectionContainer = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
-
 const ContinueButton = styled(RoundedButton)`
   width: 65%;
   height: 80px;
@@ -77,21 +71,13 @@ const MyPropertiesTradeScreen = ({ navigation }) => {
 
   return (
     <BackgroundBlackView>
-      <SafeAreaView>
-        <MainPropertySelectionContainer>
-          <HeadingText>Sending Properties?</HeadingText>
-          <PropertiesFlatlist
-            addType="me"
-            properties={properties}
-            navigation={navigation}
-          />
-          <ContinueButton
-            colour="blue"
-            text="Continue"
-            onPress={() => navigation.navigate("Their Trade Cash")}
-          />
-        </MainPropertySelectionContainer>
-      </SafeAreaView>
+      <CenterView>
+        <PropertiesFlatlist
+          addType="me"
+          properties={properties}
+          navigation={navigation}
+        />
+      </CenterView>
     </BackgroundBlackView>
   );
 };

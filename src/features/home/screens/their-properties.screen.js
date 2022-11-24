@@ -23,12 +23,6 @@ const HeadingText = styled(Text)`
   padding: 10px;
 `;
 
-const MainPropertySelectionContainer = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
-
 const ContinueButton = styled(RoundedButton)`
   width: 65%;
   height: 80px;
@@ -80,25 +74,23 @@ const TheirPropertiesTradeScreen = ({ navigation }) => {
 
   return (
     <BackgroundBlackView>
-      <SafeAreaView>
-        <MainPropertySelectionContainer>
-          <HeadingText>Requesting Properties?</HeadingText>
-          <PropertiesFlatlist
-            addType="them"
-            properties={mapProperties(data.getUserPropertiesId)}
-            navigation={navigation}
-          />
-          <ContinueButton
-            colour="blue"
-            text="Continue"
-            onPress={() =>
-              navigation.navigate("Review Trade", {
-                type: "send",
-              })
-            }
-          />
-        </MainPropertySelectionContainer>
-      </SafeAreaView>
+      <CenterView>
+        <HeadingText>Requesting Properties?</HeadingText>
+        <PropertiesFlatlist
+          addType="them"
+          properties={mapProperties(data.getUserPropertiesId)}
+          navigation={navigation}
+        />
+        <ContinueButton
+          colour="blue"
+          text="Continue"
+          onPress={() =>
+            navigation.navigate("Review Trade", {
+              type: "send",
+            })
+          }
+        />
+      </CenterView>
     </BackgroundBlackView>
   );
 };

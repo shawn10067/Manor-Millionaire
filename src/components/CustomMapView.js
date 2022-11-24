@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Image, Platform, View } from "react-native";
-import MapView, { Callout, Marker } from "react-native-maps";
+import MapView, { Callout, Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { Text } from "react-native-paper";
 import { AuthenticationContext } from "../services/authentication/authentication.context";
 import { UserContext } from "../services/user/user.context";
@@ -145,15 +145,17 @@ const CustomMapView = ({
       ref={(map) => mapRef && (mapRef.current = map)}
       onPanDrag={() => setOpen && setOpen(false)}
       onRegionChangeComplete={(reg) => {
-        // console.log("region changed with ", reg);
-        // mapRef.current
-        //   .takeSnapshot({
-        //     format: "jpg",
-        //     quality: 0.1,
-        //   })
-        //   .then((uri) => {
-        //     setScreenshot(uri);
-        //   });
+        console.log("region changed with ", reg);
+        // if (Platform.OS === "ios") {
+        //   mapRef.current
+        //     .takeSnapshot({
+        //       format: "png",
+        //       quality: 0.3,
+        //     })
+        //     .then((uri) => {
+        //       setScreenshot(uri);
+        //     });
+        // }
         return;
       }}
       customMapStyle={Platform.OS === "android" ? customStyle : null}

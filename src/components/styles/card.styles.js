@@ -94,6 +94,7 @@ export const ButtonView = styled.View`
   align-items: center;
   width: 100%;
   padding: 10px;
+  margin-bottom: 10px;
 `;
 
 // card information styling
@@ -108,7 +109,7 @@ export const PairContainer = styled.View`
 
 export const ArrowPairContainer = styled(Pressable)`
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   padding-bottom: 10px;
 `;

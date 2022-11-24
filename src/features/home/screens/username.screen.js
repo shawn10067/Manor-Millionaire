@@ -17,6 +17,7 @@ import { useRef } from "react";
 import AnimationFadeInOut from "../../../components/AnimationFadeInOut";
 import styled from "styled-components/native";
 import { BackHandler } from "react-native";
+import BackgroundBlackView from "../../../components/BackgroundBlackView";
 
 const UsernameAnimated = styled(AnimationFadeInOut)`
   height: 100%;
@@ -71,7 +72,7 @@ const UsernameScreen = ({ navigation }) => {
   };
 
   return (
-    <BackgroundView>
+    <BackgroundBlackView>
       <SafeAreaView>
         <UsernameAnimated>
           <UsernameAnimatedView>
@@ -98,7 +99,7 @@ const UsernameScreen = ({ navigation }) => {
           </UsernameAnimatedView>
         </UsernameAnimated>
       </SafeAreaView>
-    </BackgroundView>
+    </BackgroundBlackView>
   );
 };
 

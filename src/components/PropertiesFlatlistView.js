@@ -80,6 +80,14 @@ const PropertiesFlatlist = ({
 
   // if there are no properties, return the no properties view
   if (!properties || properties.length === 0) {
+    if (addType === "me") {
+      navigation.navigate("Their Trade Cash");
+    }
+    if (addType === "them") {
+      navigation.navigate("Review Trade", {
+        type: "send",
+      });
+    }
     return (
       <PropertiesView>
         <CenterView>
