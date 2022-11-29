@@ -33,7 +33,7 @@ const SignUpScreenApple = ({ navigation }) => {
         <LoginButtonApple>
           <AppleImage />
         </LoginButtonApple>
-        <LoginButtonApple onPress={() => navigation.navigate("Email Login")}>
+        <LoginButtonApple onPress={() => navigation.navigate("Email Signup")}>
           <Icon name="email" size={50} color="white" />
         </LoginButtonApple>
       </AccountOptionsView>

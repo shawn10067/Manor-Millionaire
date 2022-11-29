@@ -29,7 +29,7 @@ const CreateApolloClient = (firebaseIdToken) => {
   console.log("creating firebase client with id token of: ", firebaseIdToken);
   if (firebaseIdToken) {
     const httpLink = createHttpLink({
-      uri: ipConfigs.basement,
+      uri: ipConfigs.railway,
     });
     const authLink = setContext((_, { headers }) => {
       console.log("firebaseToken", firebaseIdToken);
@@ -51,7 +51,7 @@ const CreateApolloClient = (firebaseIdToken) => {
     return client;
   } else {
     const link = new HttpLink({
-      uri: ipConfigs.basement,
+      uri: ipConfigs.railway,
     });
     const client = new ApolloClient({
       link,
