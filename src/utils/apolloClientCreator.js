@@ -6,7 +6,7 @@ import cache from "../infrastructure/cache/cache";
 // configs for apollo client depending on the laptop
 const macConfigs = {
   home: "http://10.0.0.243:4000/graphql",
-  basement: "http://192.168.3.104:4000/graphql",
+  basement: "http://192.168.3.106:4000/graphql",
   university: "http://192.168.0.128:4000/graphql",
   siaPlace: "http://192.168.0.24:4000/graphql",
   pearson: "http://10.27.87.111:4000/graphql",
@@ -21,6 +21,7 @@ const linuxConfigs = {
 const ipConfigs = {
   ...macConfigs,
   heroku: "https://manor-millionaire-server.herokuapp.com/graphql",
+  railway: "https://manor-millionaire-backend-production.up.railway.app/graphql",
   localhost: "http://localhost:4000/graphql",
 };
 
@@ -28,7 +29,7 @@ const CreateApolloClient = (firebaseIdToken) => {
   console.log("creating firebase client with id token of: ", firebaseIdToken);
   if (firebaseIdToken) {
     const httpLink = createHttpLink({
-      uri: ipConfigs.heroku,
+      uri: ipConfigs.basement,
     });
     const authLink = setContext((_, { headers }) => {
       console.log("firebaseToken", firebaseIdToken);
@@ -50,7 +51,7 @@ const CreateApolloClient = (firebaseIdToken) => {
     return client;
   } else {
     const link = new HttpLink({
-      uri: ipConfigs.heroku,
+      uri: ipConfigs.basement,
     });
     const client = new ApolloClient({
       link,
