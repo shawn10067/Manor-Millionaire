@@ -14,6 +14,7 @@ SplashScreen.preventAutoHideAsync();
 
 const AccountNavigator = () => {
   const { user, userStateSettled } = useContext(AuthenticationContext);
+  console.log("userStateSettled: ", user);
   if (userStateSettled) {
     SplashScreen.hideAsync();
   }
