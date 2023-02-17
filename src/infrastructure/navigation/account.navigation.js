@@ -10,14 +10,14 @@ import { AuthenticationContext } from "../../services/authentication/authenticat
 
 const AccountStack = createNativeStackNavigator();
 
-SplashScreen.preventAutoHideAsync();
+// SplashScreen.preventAutoHideAsync();
 
 const AccountNavigator = () => {
   const { user, userStateSettled } = useContext(AuthenticationContext);
   console.log("userStateSettled: ", user);
-  if (userStateSettled) {
-    SplashScreen.hideAsync();
-  }
+  // if (userStateSettled) {
+  //   SplashScreen.hideAsync();
+  // }
   return (
     <AccountStack.Navigator
       screenOptions={{

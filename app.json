@@ -1,6 +1,5 @@
 {
   "expo": {
-    "jsEngine": "hermes",
     "name": "Manor Millionaire",
     "slug": "Manor-Millionaire",
     "version": "1.0.0",
